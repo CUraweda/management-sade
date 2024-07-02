@@ -1,15 +1,7 @@
-import { useState } from 'react'
+import RootRoutes from "./router/RoutHome";
 
-function App() {
- 
-  return (
-    <>
-     <div>
-      asdasd
-      
-     </div>
-    </>
-  )
-}
+const App = () => {
+  return <RootRoutes />;
+};
 
-export default App
+export default App;
