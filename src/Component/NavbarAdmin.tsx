@@ -1,7 +1,6 @@
 import { BsList } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 
-import { FaBell } from "react-icons/fa";
 
 const Navbar = () => {
   const navigate = useNavigate();

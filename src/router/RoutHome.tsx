@@ -9,6 +9,12 @@ const DataPetugas = lazy(() => import("../pages/Siswa/DataPetugas"));
 const HomePetugas = lazy(() => import("../pages/Siswa/HomePetugas"));
 
 const Dashboard = lazy(() => import("../pages/Admin/Dashboard"));
+const RekapSampah = lazy(() => import("../pages/Admin/RekapSampah"));
+const DaftarPetugas = lazy(() => import("../pages/Admin/DaftarPetugas"));
+const JenisSampah = lazy(() => import("../pages/Admin/JenisSampah"));
+const PenjualanSampah = lazy(() => import("../pages/Admin/PenjualanSampah"));
+const DataSiswa = lazy(() => import("../pages/Admin/DataSiswa"));
+const ExportQr = lazy(() => import("../pages/Admin/ExportQr"));
 
 
 
@@ -50,6 +56,66 @@ const RoutHome = () => {
             <Suspense fallback={<Loading />}>
               <LayoutAdmin>
                 <Dashboard />
+              </LayoutAdmin>
+            </Suspense>
+          }
+        />
+        <Route
+          path="/admin/rekap-sampah"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LayoutAdmin>
+                <RekapSampah />
+              </LayoutAdmin>
+            </Suspense>
+          }
+        />
+        <Route
+          path="/admin/daftar-petugas"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LayoutAdmin>
+                <DaftarPetugas />
+              </LayoutAdmin>
+            </Suspense>
+          }
+        />
+        <Route
+          path="/admin/jenis-sampah"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LayoutAdmin>
+                <JenisSampah />
+              </LayoutAdmin>
+            </Suspense>
+          }
+        />
+        <Route
+          path="/admin/penjualan"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LayoutAdmin>
+                <PenjualanSampah />
+              </LayoutAdmin>
+            </Suspense>
+          }
+        />
+        <Route
+          path="/admin/data-siswa"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LayoutAdmin>
+                <DataSiswa />
+              </LayoutAdmin>
+            </Suspense>
+          }
+        />
+        <Route
+          path="/admin/export-qr"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LayoutAdmin>
+                <ExportQr />
               </LayoutAdmin>
             </Suspense>
           }

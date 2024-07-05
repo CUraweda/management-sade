@@ -13,6 +13,13 @@
     "url": "/admin/rekap-sampah",
     "subtitle": []
   },
+  {
+    "submenu": false,
+    "title": "Data Siswa",
+    "icon": "<IoPersonSharp />",
+    "url": "/admin/data-siswa",
+    "subtitle": []
+  },
 
   {
     "submenu": false,
@@ -21,7 +28,6 @@
     "url": "/admin/daftar-petugas",
     "subtitle": []
   },
-
   {
     "submenu": false,
     "title": "Jenis Sampah",

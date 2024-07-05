@@ -75,7 +75,7 @@ const Sidebar = () => {
                                   key={`subtitle-` + Index}
                                   className={`my-2 transition duration-200 rounded-md ${
                                     activeMenuItem === Item.url
-                                      ? "bg-blue-100 text-blue-600"
+                                      ? "bg-green-100 text-green-600"
                                       : ""
                                   }`}
                                   onClick={() => handleMenuItemClick(Item.url)}
@@ -93,7 +93,7 @@ const Sidebar = () => {
                       <li
                         className={`my-2 transition duration-200 rounded-md ${
                           activeMenuItem === item.url
-                            ? "bg-blue-100 text-blue-600"
+                            ? "bg-color-2 text-color-4"
                             : ""
                         }`}
                         onClick={() => handleMenuItemClick(item.url)}
