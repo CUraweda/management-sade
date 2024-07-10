@@ -1,9 +1,8 @@
+import React from 'react'
 
 const dassa = () => {
   return (
-    <div>
-        asdnaksjndak
-    </div>
+    <div>dassa</div>
   )
 }
 
