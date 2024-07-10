@@ -21,4 +21,4 @@ jobs:
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         local-dir: ./dist/
-        server-dir: /home/u1563753/public_html/timbangan.curaweda.com # Ganti dengan path direktori di cPanel Anda
+        server-dir: /home/u1563753/public_html/timbangan.curaweda.com/ # Ganti dengan path direktori di cPanel Anda
