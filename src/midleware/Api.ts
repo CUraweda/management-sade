@@ -1,5 +1,5 @@
 import axios, { AxiosPromise } from "axios";
-const instance = axios.create({ baseURL: "https://api-dev.curaweda.com:7000" });
+const instance = axios.create({ baseURL: import.meta.env.VITE_REACT_API_URL });
 import {
   LoginResponse,
   JenisSampah,
