@@ -108,7 +108,6 @@ const login = () => {
                 className="btn btn-ghost bg-green-500 text-white w-5/6"
                 onClick={Login}
               >
-                Login
                 {loading ? (
                   <span className="loading loading-infinity loading-lg"></span>
                 ) : (
