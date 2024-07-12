@@ -1,14 +1,20 @@
 // import React from "react";
 import { FaPlus } from "react-icons/fa";
 import ModalProps from "../../Component/ModalProps";
+import { useNavigate } from "react-router-dom";
 
 const DataPetugas = () => {
+  const navigate = useNavigate();
   const showModal = (props: string) => {
     let modalElement = document.getElementById(props) as HTMLDialogElement;
     if (modalElement) {
       modalElement.showModal();
     }
   };
+
+  const handleNext = () => {
+    navigate('/petugas/home')
+  }
 
   return (
     <>
@@ -61,7 +67,7 @@ const DataPetugas = () => {
           </table>
         </div>
         <div className="w-full flex justify-end">
-          <button className="btn btn-ghost bg-white my-3 hover:bg-slate-300">
+          <button className="btn btn-ghost bg-white my-3 hover:bg-slate-300" onClick={handleNext}>
             Lanjut
           </button>
         </div>
