@@ -1,7 +1,14 @@
-// import React from "react";
 import logo from "../assets/sade.png";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+
+  const logout = () => {
+    sessionStorage.clear();
+    navigate("/");
+  };
+
   return (
     <div>
       <div className="navbar bg-base-100 shadow-md px-5">
@@ -33,7 +40,9 @@ const Navbar = () => {
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
             >
               <li className="">
-                <a className="text-red-500">Logout</a>
+                <a className="text-red-500" onClick={logout}>
+                  Logout
+                </a>
               </li>
             </ul>
           </div>

@@ -1,5 +1,10 @@
 import axios, { AxiosPromise } from "axios";
-const instance = axios.create({ baseURL: "https://api-dev.curaweda.com:7000" });
+// const instance = axios.create({ baseURL: "https://api-dev.curaweda.com:7000" });
+
+const instance = axios.create({
+  baseURL: "https://prod.curaweda.com/stg-server1",
+});
+
 import {
   LoginResponse,
   JenisSampah,
@@ -22,6 +27,21 @@ const Auth = {
       data: {
         email,
         password,
+      },
+    }),
+};
+
+const TimbanganSampah = {
+  GetRekapBankSampah: (
+    token: string | null,
+    page: string,
+    limit: string
+  ): AxiosPromise<JenisSampah> =>
+    instance({
+      method: "GET",
+      url: `/api/waste-type?search_query=&page=${page}&limit=${limit}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
       },
     }),
 };
@@ -164,4 +184,4 @@ const Kelas = {
     }),
 };
 
-export { Auth, BankSampah, ApiSiswa, Kelas };
+export { Auth, BankSampah, ApiSiswa, Kelas, TimbanganSampah };
