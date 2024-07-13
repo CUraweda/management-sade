@@ -1,6 +1,67 @@
 // import React from "react";
-
+import * as XLSX from "xlsx";
 const RekapSampah = () => {
+  const data = [
+    {
+      no: 1,
+      nama: "Cy Ganderton",
+      kelas: "9",
+      jenisSampah: "Botol",
+      tanggalTimbang: "2 Juni 2024",
+      total: 240,
+    },
+    {
+      no: 2,
+      nama: "Alice Johnson",
+      kelas: "10",
+      jenisSampah: "Kertas",
+      tanggalTimbang: "5 Juni 2024",
+      total: 300,
+    },
+    {
+      no: 3,
+      nama: "Bob Smith",
+      kelas: "11",
+      jenisSampah: "Plastik",
+      tanggalTimbang: "8 Juni 2024",
+      total: 150,
+    },
+    {
+      no: 4,
+      nama: "Diana Prince",
+      kelas: "12",
+      jenisSampah: "Logam",
+      tanggalTimbang: "10 Juni 2024",
+      total: 400,
+    },
+    {
+      no: 5,
+      nama: "Bruce Wayne",
+      kelas: "9",
+      jenisSampah: "Kaca",
+      tanggalTimbang: "12 Juni 2024",
+      total: 220,
+    },
+  ];
+
+  const dropdownJenisSampah = [
+    {
+      value: 1,
+      label: "Kuningan",
+    },
+    {
+      value: 2,
+      label: "Hidengan",
+    },
+  ];
+
+  const handleExport = () => {
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Rekap Bank Sampah");
+    XLSX.writeFile(workbook, "rekap_bank_sampah.xlsx");
+  };
+
   return (
     <>
       <div className="p-5 w-full">
@@ -10,17 +71,17 @@ const RekapSampah = () => {
           <label className="form-control w-md">
             <span className="label-text">Jenis Sampah</span>
             <select className="select select-bordered w-md">
-              <option>Semua</option>
-              <option>Han Solo</option>
-              <option>Greedo</option>
+              {dropdownJenisSampah.map((sampah) => (
+                <option value={sampah.value}>{sampah.label}</option>
+              ))}
             </select>
           </label>
           <label className="form-control w-md">
             <span className="label-text">Kelas</span>
             <select className="select select-bordered w-md">
-              <option>Semua</option>
-              <option>Han Solo</option>
-              <option>Greedo</option>
+              {dropdownJenisSampah.map((ihi) => (
+                <option value={ihi.value}>{ihi.label}</option>
+              ))}
             </select>
           </label>
           <label className="form-control w-md">
@@ -40,7 +101,10 @@ const RekapSampah = () => {
             />
           </label>
 
-          <button className="btn btn-ghost bg-blue-500 text-white hover:bg-blue-400">
+          <button
+            className="btn btn-ghost bg-blue-500 text-white hover:bg-blue-400"
+            onClick={handleExport}
+          >
             Eksport Data
           </button>
         </div>
@@ -56,33 +120,30 @@ const RekapSampah = () => {
                   <th>Jenis Sampah</th>
                   <th>Tanggal Timbang</th>
                   <th>Total (gram)</th>
-                  {/* <th>Action</th> */}
                 </tr>
               </thead>
               <tbody>
-                {/* row 1 */}
-                <tr>
-                  <th>1</th>
-                  <td>Cy Ganderton</td>
-                  <td>9</td>
-                  <td>Botol</td>
-                  <td>2 juni 2024</td>
-                  <td>240</td>
-                  {/* <td>240</td> */}
-                </tr>
+                {data.map((item) => (
+                  <tr>
+                    <th>{item.no}</th>
+                    <td>{item.nama}</td>
+                    <td>{item.kelas}</td>
+                    <td>{item.jenisSampah}</td>
+                    <td>{item.tanggalTimbang}</td>
+                    <td>{item.total}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
-            <div className="w-full flex justify-end mt-5">
-              <div className="join grid grid-cols-2 w-1/6 ">
-                <button className="join-item btn btn-sm btn-outline">
-                  Previous page
-                </button>
-                <button className="join-item btn btn-sm btn-outline">
-                  Next
-                </button>
-              </div>
+          <div className="w-full flex justify-end mt-5">
+            <div className="join grid grid-cols-2 w-1/6 ">
+              <button className="join-item btn btn-sm btn-outline">
+                Previous page
+              </button>
+              <button className="join-item btn btn-sm btn-outline">Next</button>
             </div>
+          </div>
         </div>
       </div>
     </>

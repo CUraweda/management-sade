@@ -14,6 +14,7 @@ import {
   CreateRekapSampah,
   GetAllClass,
   CreateJenisSampah,
+  RekapSampah,
 } from "./Utils";
 
 const Auth = {
@@ -32,14 +33,10 @@ const Auth = {
 };
 
 const TimbanganSampah = {
-  GetRekapBankSampah: (
-    token: string | null,
-    page: string,
-    limit: string
-  ): AxiosPromise<JenisSampah> =>
+  GetRekapBankSampah: (token: string | null): AxiosPromise<RekapSampah> =>
     instance({
       method: "GET",
-      url: `/api/waste-type?search_query=&page=${page}&limit=${limit}`,
+      url: `/stg-server1/api/waste-officer/`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
