@@ -1,3 +1,40 @@
+export interface PenjualanSampahData {
+  id: number;
+  name: string;
+  price: number;
+  total_weight: number;
+  total_price: number;
+}
+
+export interface penjualanSampah {
+  status: boolean;
+  code: number;
+  message: string;
+  data: {
+    result: PenjualanSampahData[];
+  };
+  page: number;
+  limit: number;
+  totalRows: number;
+  totalPage: number;
+}
+
+export interface WasteTypeDropdownResponse {
+  status: boolean;
+  code: number;
+  message: string;
+  data: WasteTypeDropdownCollectionData;
+}
+
+export interface WasteTypeDropdownCollectionData {
+  result: WasteTypeData[];
+}
+export interface WasteTypeData {
+  id: number;
+  code: number;
+  name: string;
+}
+
 export interface JenisSampah {
   status: string;
   code: number;
@@ -5,17 +42,17 @@ export interface JenisSampah {
   data: BankSampah;
 }
 
-interface BankSampah {
-  result: ResultSampah[];
-}
-
-export interface ResultSampah {
-  id: string;
+export interface CreateJenisSampah {
   code: string;
   name: string;
 }
 
-export interface CreateJenisSampah {
+interface BankSampah {
+  result: ResultPenjualan[];
+}
+
+export interface ResultPenjualan {
+  id: string;
   code: string;
   name: string;
 }
@@ -33,63 +70,60 @@ export interface LoginResponse {
 }
 
 export interface GetSiswaByNis {
-    status: string;
-    code: number;
-    message: string;
-    data: DataSiswa;
+  status: string;
+  code: number;
+  message: string;
+  data: DataSiswa;
 }
 
 export interface DataSiswa {
-    id: number,
-    nis: string,
-    nisn: string,
-    full_name: string,
+  id: number;
+  nis: string;
+  nisn: string;
+  full_name: string;
 }
 
 export interface GetInclassStudent {
-    status: string;
-    code: number;
-    message: string;
-    data: InclassStudent[];
+  status: string;
+  code: number;
+  message: string;
+  data: InclassStudent[];
 }
 
 export interface InclassStudent {
-    id: number;
-    student_id: number;
-    class_id: number;
-    student: DataSiswa
+  id: number;
+  student_id: number;
+  class_id: number;
+  student: DataSiswa;
 }
 
 export interface GetClass {
-    status: string;
-    code: number;
-    message: string;
-    data: Class;
+  status: string;
+  code: number;
+  message: string;
+  data: Class;
 }
 export interface GetAllClass {
-    status: string;
-    code: number;
-    message: string;
-    data: ResultAllClass;
+  status: string;
+  code: number;
+  message: string;
+  data: ResultAllClass;
 }
 
 export interface ResultAllClass {
-    result: Class[]
+  result: Class[];
 }
 
-
-export interface Class{
-    id: number;
-    level: string;
-    class_name: string;
-    waste_target: string;
-
+export interface Class {
+  id: number;
+  level: string;
+  class_name: string;
+  waste_target: string;
 }
 
 export interface CreateRekapSampah {
-    student_class_id : number | string;
-    collection_date : Date;
-    waste_type_id : number | string;
-    weight: number
-
+  student_class_id: number | string;
+  collection_date: Date;
+  waste_type_id: number | string;
+  weight: number;
 }
