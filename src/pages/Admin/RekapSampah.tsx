@@ -1,117 +1,209 @@
-// import React from "react";
+import { useEffect, useState } from "react";
 import * as XLSX from "xlsx";
-const RekapSampah = () => {
-  const data = [
-    {
-      no: 1,
-      nama: "Cy Ganderton",
-      kelas: "9",
-      jenisSampah: "Botol",
-      tanggalTimbang: "2 Juni 2024",
-      total: 240,
-    },
-    {
-      no: 2,
-      nama: "Alice Johnson",
-      kelas: "10",
-      jenisSampah: "Kertas",
-      tanggalTimbang: "5 Juni 2024",
-      total: 300,
-    },
-    {
-      no: 3,
-      nama: "Bob Smith",
-      kelas: "11",
-      jenisSampah: "Plastik",
-      tanggalTimbang: "8 Juni 2024",
-      total: 150,
-    },
-    {
-      no: 4,
-      nama: "Diana Prince",
-      kelas: "12",
-      jenisSampah: "Logam",
-      tanggalTimbang: "10 Juni 2024",
-      total: 400,
-    },
-    {
-      no: 5,
-      nama: "Bruce Wayne",
-      kelas: "9",
-      jenisSampah: "Kaca",
-      tanggalTimbang: "12 Juni 2024",
-      total: 220,
-    },
-  ];
+import { BankSampah } from "../../midleware/Api";
+import { LoginStore } from "../../store/Store";
+import Swal from "sweetalert2";
+import {
+  ClassData,
+  WasteCollectionItem,
+  WasteTypeData,
+} from "../../midleware/Utils";
 
-  const dropdownJenisSampah = [
-    {
-      value: 1,
-      label: "Kuningan",
-    },
-    {
-      value: 2,
-      label: "Hidengan",
-    },
-  ];
+const RekapSampah = () => {
+  const { token } = LoginStore();
+  const [rekapSampah, setRekapSampah] = useState<WasteCollectionItem[]>([]);
+  const [dataWasteType, setDataWasteType] = useState<WasteTypeData[]>([]);
+  const [dataClass, setDataClass] = useState<ClassData[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10);
+  const [selectedWasteType, setSelectedWasteType] = useState<string>("");
+  const [selectedClassId, setSelectedClassId] = useState<string>("");
+
+  useEffect(() => {
+    fetchData();
+    GetWasteType();
+    GetClass();
+  }, [selectedWasteType, selectedClassId, fromDate, toDate]);
+
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const response = await BankSampah.GetRekapBankSampah(
+        token,
+        selectedWasteType,
+        selectedClassId,
+        fromDate || "",
+        toDate || ""
+      );
+      setRekapSampah(response.data.data.result);
+    } catch (error) {
+      console.error(error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong!",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const GetWasteType = async () => {
+    setLoading(true);
+    try {
+      const response = await BankSampah.GetDataDropdownWasteType(token);
+      setDataWasteType(response.data.data.result);
+    } catch (error) {
+      console.error(error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong!",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const GetClass = async () => {
+    setLoading(true);
+    try {
+      const response = await BankSampah.GetDataDropdownClass(token);
+      setDataClass(response.data.data.result);
+    } catch (error) {
+      console.error(error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong!",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleExport = () => {
-    const worksheet = XLSX.utils.json_to_sheet(data);
+    const worksheetData = rekapSampah.map((item, index) => ({
+      No: index + 1,
+      Nama: item.studentclass.student.full_name,
+      Kelas: item.studentclass.student.class,
+      "Jenis Sampah": item.wastetype?.name,
+      "Tanggal Timbang": new Date(item.collection_date).toLocaleDateString(),
+      "Total (gram)": item.weight,
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(worksheetData);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Rekap Bank Sampah");
+
+    const wscols = [
+      { wch: 5 }, // No
+      { wch: 20 }, // Nama
+      { wch: 15 }, // Kelas
+      { wch: 20 }, // Jenis Sampah
+      { wch: 15 }, // Tanggal Timbang
+      { wch: 10 }, // Total (gram)
+    ];
+    worksheet["!cols"] = wscols;
+
     XLSX.writeFile(workbook, "rekap_bank_sampah.xlsx");
   };
 
-  return (
-    <>
-      <div className="p-5 w-full">
-        <span className="text-3xl font-bold">Rekap Bank Sampah</span>
-        <div className="divider divider-warning"></div>
-        <div className="flex gap-2 justify-end items-end">
-          <label className="form-control w-md">
-            <span className="label-text">Jenis Sampah</span>
-            <select className="select select-bordered w-md">
-              {dropdownJenisSampah.map((sampah) => (
-                <option value={sampah.value}>{sampah.label}</option>
-              ))}
-            </select>
-          </label>
-          <label className="form-control w-md">
-            <span className="label-text">Kelas</span>
-            <select className="select select-bordered w-md">
-              {dropdownJenisSampah.map((ihi) => (
-                <option value={ihi.value}>{ihi.label}</option>
-              ))}
-            </select>
-          </label>
-          <label className="form-control w-md">
-            <span className="label-text">Dari</span>
-            <input
-              type="date"
-              placeholder="Type here"
-              className="input input-bordered w-md"
-            />
-          </label>
-          <label className="form-control w-md">
-            <span className="label-text">Sampai</span>
-            <input
-              type="date"
-              placeholder="Type here"
-              className="input input-bordered w-md"
-            />
-          </label>
+  const handleChangeFromDate = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFromDate(event.target.value);
+  };
 
-          <button
-            className="btn btn-ghost bg-blue-500 text-white hover:bg-blue-400"
-            onClick={handleExport}
+  const handleChangeToDate = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setToDate(event.target.value);
+  };
+
+  const handleChangeWasteType = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    setSelectedWasteType(event.target.value);
+  };
+
+  const handleChangeClass = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedClassId(event.target.value);
+  };
+
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = rekapSampah.slice(indexOfFirstItem, indexOfLastItem);
+
+  return (
+    <div className="p-5 w-full">
+      <span className="text-3xl font-bold">Rekap Bank Sampah</span>
+      <div className="divider divider-warning"></div>
+      <div className="flex gap-2 justify-end items-end">
+        <label className="form-control w-md">
+          <span className="label-text">Dari</span>
+          <input
+            type="date"
+            placeholder="Type here"
+            className="input input-bordered w-md"
+            value={fromDate}
+            onChange={handleChangeFromDate}
+          />
+        </label>
+        <label className="form-control w-md">
+          <span className="label-text">Sampai</span>
+          <input
+            type="date"
+            placeholder="Type here"
+            className="input input-bordered w-md"
+            value={toDate}
+            onChange={handleChangeToDate}
+          />
+        </label>
+        <label className="form-control w-md">
+          <span className="label-text">Jenis Sampah</span>
+          <select
+            className="select select-bordered w-md"
+            onChange={handleChangeWasteType}
+            value={selectedWasteType}
           >
-            Eksport Data
-          </button>
-        </div>
-        <div className="w-full bg-white p-3 rounded-md mt-5">
-          <div className="overflow-x-auto">
-            <table className="table table-zebra">
-              {/* head */}
+            <option value="">Pilih Jenis Sampah</option>
+            {dataWasteType.map((item, index) => (
+              <option value={item.id} key={index}>
+                {item.name}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="form-control w-md">
+          <span className="label-text">Kelas</span>
+          <select
+            className="select select-bordered w-md"
+            onChange={handleChangeClass}
+            value={selectedClassId}
+          >
+            <option value="">Pilih Kelas</option>
+            {dataClass.map((item, index) => (
+              <option value={item.id} key={index}>
+                {item.class_name}
+              </option>
+            ))}
+          </select>
+        </label>
+        <button
+          className="btn btn-ghost bg-blue-500 text-white hover:bg-blue-400"
+          onClick={handleExport}
+        >
+          Eksport Data
+        </button>
+      </div>
+      <div className="w-full bg-white p-3 rounded-md mt-5">
+        <div className="overflow-x-auto">
+          {loading ? (
+            <div className="text-center">Loading...</div>
+          ) : (
+            <table id="rekapTable" className="table table-zebra">
               <thead>
                 <tr className="bg-blue-400">
                   <th>No</th>
@@ -123,30 +215,42 @@ const RekapSampah = () => {
                 </tr>
               </thead>
               <tbody>
-                {data.map((item) => (
-                  <tr>
-                    <th>{item.no}</th>
-                    <td>{item.nama}</td>
-                    <td>{item.kelas}</td>
-                    <td>{item.jenisSampah}</td>
-                    <td>{item.tanggalTimbang}</td>
-                    <td>{item.total}</td>
+                {currentItems.map((item, index) => (
+                  <tr key={index}>
+                    <td>{indexOfFirstItem + index + 1}</td>
+                    <td>{item.studentclass.student.full_name}</td>
+                    <td>{item.studentclass.student.class}</td>
+                    <td>{item.wastetype?.name}</td>
+                    <td>
+                      {new Date(item.collection_date).toLocaleDateString()}
+                    </td>
+                    <td>{item.weight}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
-          </div>
-          <div className="w-full flex justify-end mt-5">
-            <div className="join grid grid-cols-2 w-1/6 ">
-              <button className="join-item btn btn-sm btn-outline">
-                Previous page
-              </button>
-              <button className="join-item btn btn-sm btn-outline">Next</button>
-            </div>
+          )}
+        </div>
+        <div className="w-full flex justify-end mt-5">
+          <div className="join grid grid-cols-2 w-1/6">
+            <button
+              className="join-item btn btn-sm btn-outline"
+              onClick={() => paginate(currentPage - 1)}
+              disabled={currentPage === 1}
+            >
+              Previous page
+            </button>
+            <button
+              className="join-item btn btn-sm btn-outline"
+              onClick={() => paginate(currentPage + 1)}
+              disabled={indexOfLastItem >= rekapSampah.length}
+            >
+              Next
+            </button>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

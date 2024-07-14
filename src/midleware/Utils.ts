@@ -1,34 +1,85 @@
-export interface RekapSampah {
-  status: string;
+export interface WasteCollectionResponse {
+  status: boolean;
   code: number;
   message: string;
-  data: GetRekapSampah;
+  data: WasteCollectionData;
 }
 
-interface GetRekapSampah {
-  result: DataRekapSampah;
+export interface WasteCollectionData {
+  result: WasteCollectionItem[];
   page: number;
   limit: number;
   totalRows: number;
   totalPage: number;
 }
 
-export interface DataRekapSampah {
+export interface WasteCollectionItem {
   id: number;
-  name: string;
-  class_name: string;
-  assignment_date: string | null;
+  student_class_id: number;
+  collection_date: string;
+  day_id: number;
+  waste_type_id: number;
+  weight: number;
   createdAt: string;
   updatedAt: string;
-  class_id: number;
-  employee_id: number;
-  employee: Employee;
-  class: Class;
+  studentclass: StudentClass;
+  wastetype: WasteType;
 }
 
-export interface Employee {
+export interface StudentClass {
   id: number;
+  class_id: number;
+  student: Student;
+}
+
+export interface Student {
+  nis: string;
   full_name: string;
+  class: string;
+}
+
+export interface WasteType {
+  id: number;
+  code: string;
+  name: string;
+}
+
+export interface WasteTypeDropdownResponse {
+  status: boolean;
+  code: number;
+  message: string;
+  data: WasteTypeDropdownCollectionData;
+}
+
+export interface WasteTypeDropdownCollectionData {
+  result: WasteTypeData[];
+}
+
+export interface WasteTypeData {
+  id: number;
+  code: number;
+  name: string;
+}
+
+export interface ClassDropdownResponse {
+  status: boolean;
+  code: number;
+  message: string;
+  data: ClassDropdownCollectionData;
+}
+
+export interface ClassDropdownCollectionData {
+  result: ClassData[];
+}
+
+export interface ClassData {
+  id: number;
+  level: number;
+  class_name: string;
+  book_target: number;
+  waste_target: number;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface JenisSampah {
