@@ -55,7 +55,7 @@ const BankSampah = {
   ): AxiosPromise<WasteTypeDropdownResponse> =>
     instance({
       method: "GET",
-      url: `/api/waste-type?search_query=&page=0&limit=50`,
+      url: `/api/waste-type?limit=5000000000000`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -66,7 +66,7 @@ const BankSampah = {
   ): AxiosPromise<ClassDropdownResponse> =>
     instance({
       method: "GET",
-      url: `/api/classes?search_query=&page=0&limit=20`,
+      url: `/api/classes?limit=50000000000`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
