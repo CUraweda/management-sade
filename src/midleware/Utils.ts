@@ -6,6 +6,16 @@ export interface PenjualanSampahData {
   total_price: number;
 }
 
+interface BankSampah {
+  result: ResultSampah[];
+}
+
+export interface ResultSampah {
+  id: string;
+  code: string;
+  name: string;
+}
+
 export interface penjualanSampah {
   status: boolean;
   code: number;

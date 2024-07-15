@@ -11,7 +11,6 @@ const PenjualanSampah: React.FC = () => {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(5);
   const [jenis, setJenis] = useState("");
-  const [totalRows, setTotalRows] = useState(0);
   const [totalPage, setTotalPage] = useState(0);
   const [sortField, setSortField] = useState<string | null>(null);
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
@@ -41,7 +40,6 @@ const PenjualanSampah: React.FC = () => {
       setData(result.data.result);
       setPage(1);
       setLimit(5);
-      setTotalRows(5);
       setTotalPage(result.totalPage);
 
       console.log(response);
@@ -120,13 +118,6 @@ const PenjualanSampah: React.FC = () => {
   const handlePageChange = (newPage: number) => {
     if (newPage > 0 && newPage <= totalPage) {
       setPage(newPage);
-    }
-  };
-
-  const handleLimitChange = (newLimit: number) => {
-    if (newLimit > 0) {
-      setLimit(newLimit);
-      setPage(1); // Reset to first page when limit changes
     }
   };
 
