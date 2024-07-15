@@ -10,7 +10,6 @@ import {
   GetAllClass,
   CreateJenisSampah,
   penjualanSampah,
-  WasteTypeDropdownResponse,
   WasteCollectionResponse,
   WasteTypeDropdownResponse,
   ClassDropdownResponse,
