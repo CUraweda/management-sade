@@ -1,7 +1,7 @@
 // import React from "react";
 import { FaPencilAlt, FaTrash } from "react-icons/fa";
 import ModalProps from "../../Component/ModalProps";
-import { BankSampah} from "../../midleware/Api";
+import { BankSampah } from "../../midleware/Api";
 import { LoginStore } from "../../store/Store";
 import { ResultSampah } from "../../midleware/Utils";
 import { useEffect, useState } from "react";
@@ -89,7 +89,7 @@ const JenisSampah = () => {
       console.log(error);
     }
   };
-  
+
   const UpdateJenisSampah = async () => {
     try {
       const { code, name } = formik.values;
@@ -146,13 +146,13 @@ const JenisSampah = () => {
   };
 
   const formatRupiah = (value: string) => {
-    const newValue = parseInt(value)
-    return new Intl.NumberFormat('id-ID', {
-      style: 'currency',
-    currency: 'IDR',
-    minimumFractionDigits: 0,
-    }).format(newValue)
-  }
+    const newValue = parseInt(value);
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      minimumFractionDigits: 0,
+    }).format(newValue);
+  };
 
   return (
     <>
