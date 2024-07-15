@@ -1,10 +1,5 @@
 import axios, { AxiosPromise } from "axios";
-// const instance = axios.create({ baseURL: "https://api-dev.curaweda.com:7000" });
-
-const instance = axios.create({
-  baseURL: "https://prod.curaweda.com/stg-server1",
-});
-
+const instance = axios.create({ baseURL: import.meta.env.VITE_REACT_API_URL });
 import {
   LoginResponse,
   JenisSampah,
@@ -209,4 +204,16 @@ const Kelas = {
     }),
 };
 
-export { Auth, BankSampah, ApiSiswa, Kelas };
+const WasteCollection = {
+  GetAllFilter: (
+    token: string | null, 
+    query: string | null    
+  ) : AxiosPromise<any> => instance({
+    method: "GET",
+    url: `api/waste-collection`,
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+}
+export { Auth, BankSampah, ApiSiswa, Kelas, WasteCollection };
