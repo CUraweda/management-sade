@@ -11,7 +11,6 @@ const PenjualanSampah: React.FC = () => {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(5);
   const [jenis, setJenis] = useState("");
-  const [totalPage, setTotalPage] = useState(0);
   const [sortField, setSortField] = useState<string | null>(null);
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [startDate, setStartDate] = useState("");
@@ -40,7 +39,6 @@ const PenjualanSampah: React.FC = () => {
       setData(result.data.result);
       setPage(1);
       setLimit(5);
-      setTotalPage(result.totalPage);
 
       console.log(response);
     } catch (error) {
