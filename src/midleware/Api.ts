@@ -9,6 +9,10 @@ import {
   CreateRekapSampah,
   GetAllClass,
   CreateJenisSampah,
+  penjualanSampah,
+  WasteCollectionResponse,
+  WasteTypeDropdownResponse,
+  ClassDropdownResponse,
 } from "./Utils";
 
 const Auth = {
@@ -27,6 +31,59 @@ const Auth = {
 };
 
 const BankSampah = {
+  GetPenjualanSampah: (
+    token: string | null,
+    page: number,
+    limit: number,
+    sortField: any,
+    jenis: string,
+    sortOrder: any,
+    startDate: string,
+    endDate: string
+  ): AxiosPromise<penjualanSampah> =>
+    instance({
+      method: "GET",
+      url: `/api/waste-sales/?wastetype_id=${jenis}&start_date=${startDate}&end_date=${endDate}&page=${page}&limit=${limit}&sortField=${sortField}&sortOrder=${sortOrder}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+  GetDataDropdownWasteType: (
+    token: string | null
+  ): AxiosPromise<WasteTypeDropdownResponse> =>
+    instance({
+      method: "GET",
+      url: `/api/waste-type`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+  GetRekapBankSampah: (
+    token: string | null,
+    wasteId: string,
+    classId: string,
+    fromDate: string,
+    toDate: string
+  ): AxiosPromise<WasteCollectionResponse> =>
+    instance({
+      method: "GET",
+      url: `/api/waste-collection/get-by-filter?waste_type_id=${wasteId}&class_id=${classId}&start_date=${fromDate}&end_date=${toDate}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+
+  GetDataDropdownClass: (
+    token: string | null
+  ): AxiosPromise<ClassDropdownResponse> =>
+    instance({
+      method: "GET",
+      url: `/api/classes?limit=100`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+
   GetJenisSampah: (
     token: string | null,
     page: string,
