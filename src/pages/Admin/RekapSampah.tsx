@@ -245,7 +245,7 @@ const RekapSampah = () => {
               onClick={() => paginate(currentPage - 1)}
               disabled={currentPage === 1}
             >
-              Previous
+              Kembali
             </button>
             <span>
               Page {currentPage} of{" "}
@@ -256,7 +256,7 @@ const RekapSampah = () => {
               onClick={() => paginate(currentPage + 1)}
               disabled={indexOfLastItem >= rekapSampah.length}
             >
-              Next
+              Lanjut
             </button>
           </div>
         </div>
