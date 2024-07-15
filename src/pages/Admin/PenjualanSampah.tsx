@@ -115,12 +115,6 @@ const PenjualanSampah: React.FC = () => {
     fetchData(page, limit, field, order);
   };
 
-  const handlePageChange = (newPage: number) => {
-    if (newPage > 0 && newPage <= totalPage) {
-      setPage(newPage);
-    }
-  };
-
   useEffect(() => {
     getListJenisSampah();
   }, []);
