@@ -1,7 +1,6 @@
 import { BsList } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 
-
 const Navbar = () => {
   const navigate = useNavigate();
 
@@ -21,7 +20,7 @@ const Navbar = () => {
             <BsList />
           </label>
         </div>
-        
+
         <div className="flex-none gap-5">
           <div className="dropdown dropdown-end">
             <div
@@ -32,7 +31,7 @@ const Navbar = () => {
               <div className="w-10 rounded-full">
                 <img
                   alt=""
-                   src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                  src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
                 />
               </div>
             </div>

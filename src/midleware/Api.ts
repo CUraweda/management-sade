@@ -9,6 +9,9 @@ import {
   CreateRekapSampah,
   GetAllClass,
   CreateJenisSampah,
+  WasteCollectionResponse,
+  WasteTypeDropdownResponse,
+  ClassDropdownResponse,
 } from "./Utils";
 
 const Auth = {
@@ -27,6 +30,43 @@ const Auth = {
 };
 
 const BankSampah = {
+  GetRekapBankSampah: (
+    token: string | null,
+    wasteId: string,
+    classId: string,
+    fromDate: string,
+    toDate: string
+  ): AxiosPromise<WasteCollectionResponse> =>
+    instance({
+      method: "GET",
+      url: `/api/waste-collection/get-by-filter?waste_type_id=${wasteId}&class_id=${classId}&start_date=${fromDate}&end_date=${toDate}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+
+  GetDataDropdownWasteType: (
+    token: string | null
+  ): AxiosPromise<WasteTypeDropdownResponse> =>
+    instance({
+      method: "GET",
+      url: `/api/waste-type?limit=100`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+
+  GetDataDropdownClass: (
+    token: string | null
+  ): AxiosPromise<ClassDropdownResponse> =>
+    instance({
+      method: "GET",
+      url: `/api/classes?limit=100`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+
   GetJenisSampah: (
     token: string | null,
     page: string,
