@@ -5,20 +5,20 @@ import { PenjualanSampahData, WasteTypeData } from "../../midleware/Utils";
 import * as XLSX from "xlsx";
 
 const PenjualanSampah: React.FC = () => {
-  // const today = new Date();
-  // const formattedDate = today.toISOString().split("T")[0];
   const { token } = LoginStore();
   const [data, setData] = useState<PenjualanSampahData[]>([]);
   const [sampah, setJenisSampah] = useState<WasteTypeData[]>([]);
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
-  const [jenis, setJenis] = useState(0);
+  const [limit, setLimit] = useState(5);
+  const [jenis, setJenis] = useState("");
   const [totalRows, setTotalRows] = useState(0);
   const [totalPage, setTotalPage] = useState(0);
   const [sortField, setSortField] = useState<string | null>(null);
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
-  const [startDate, setStartDate] = useState("2024-03-04");
-  const [endDate, setEndDate] = useState("2024-03-04");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(5);
 
   const fetchData = async (
     page: number,
@@ -39,10 +39,12 @@ const PenjualanSampah: React.FC = () => {
       );
       const result: any = response.data;
       setData(result.data.result);
-      setPage(result.page);
-      setLimit(result.limit);
-      setTotalRows(result.totalRows);
+      setPage(1);
+      setLimit(5);
+      setTotalRows(5);
       setTotalPage(result.totalPage);
+
+      console.log(response);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -55,17 +57,25 @@ const PenjualanSampah: React.FC = () => {
       const sortedResult = result.data.result.sort(
         (a: any, b: any) => a.id - b.id
       );
-      const topId = sortedResult[0]?.id;
       setJenisSampah(sortedResult);
-      setJenis(topId);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
 
+  const paginate = (pageNumber: number) => {
+    if (pageNumber > 0 && pageNumber <= Math.ceil(data.length / itemsPerPage)) {
+      setCurrentPage(pageNumber);
+    }
+  };
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+
   const handleExportData = () => {
-    const formattedData = data.map((item) => ({
-      ID: item.id,
+    const formattedData = data.map((item, index) => ({
+      No: index + 1,
       "Jenis Sampah": item.name,
       Harga: item.price,
       "Total Berat (kg)": (item.total_weight / 1000).toFixed(2),
@@ -108,7 +118,7 @@ const PenjualanSampah: React.FC = () => {
   };
 
   const handlePageChange = (newPage: number) => {
-    if (newPage >= 1 && newPage <= totalPage) {
+    if (newPage > 0 && newPage <= totalPage) {
       setPage(newPage);
     }
   };
@@ -116,6 +126,7 @@ const PenjualanSampah: React.FC = () => {
   const handleLimitChange = (newLimit: number) => {
     if (newLimit > 0) {
       setLimit(newLimit);
+      setPage(1); // Reset to first page when limit changes
     }
   };
 
@@ -138,8 +149,9 @@ const PenjualanSampah: React.FC = () => {
             <select
               className="select select-bordered w-md"
               value={jenis}
-              onChange={(e) => setJenis(parseInt(e.target.value))}
+              onChange={(e) => setJenis(e.target.value)}
             >
+              <option value={""}>Semua Jenis</option>
               {sampah.map((item) => (
                 <option key={item.id} value={item.id}>
                   {item.name}
@@ -183,16 +195,15 @@ const PenjualanSampah: React.FC = () => {
                   <th onClick={() => handleSort("name")}>Jenis Sampah</th>
                   <th onClick={() => handleSort("price")}>Harga</th>
                   <th onClick={() => handleSort("total_weight")}>
-                    Total Sampah (kilogram)
+                    Total Sampah (kg)
                   </th>
-
                   <th onClick={() => handleSort("total_price")}>Total Harga</th>
                 </tr>
               </thead>
               <tbody>
-                {data.map((listpenjualan, index) => (
+                {currentItems.map((listpenjualan, index) => (
                   <tr key={index}>
-                    <td>{(page - 1) * limit + index + 1}</td>
+                    <td>{indexOfFirstItem + index + 1}</td>
                     <td>{listpenjualan.name}</td>
                     <td>{formatting(listpenjualan.price)}</td>
                     <td>{formatWeight(listpenjualan.total_weight)}</td>
@@ -203,18 +214,21 @@ const PenjualanSampah: React.FC = () => {
             </table>
           </div>
           <div className="w-full flex justify-end mt-5">
-            <div className="join grid grid-cols-2 w-1/6 ">
+            <div className="gap-1 flex items-center">
               <button
-                className="join-item btn btn-sm btn-outline"
-                onClick={() => handlePageChange(page - 1)}
-                disabled={page === 0}
+                className="btn btn-sm btn-outline"
+                onClick={() => paginate(currentPage - 1)}
+                disabled={currentPage === 1}
               >
-                Previous page
+                Previous
               </button>
+              <span>
+                Page {currentPage} of {Math.ceil(data.length / itemsPerPage)}
+              </span>
               <button
-                className="join-item btn btn-sm btn-outline"
-                onClick={() => handlePageChange(page + 1)}
-                disabled={page === totalPage}
+                className="btn btn-sm btn-outline"
+                onClick={() => paginate(currentPage + 1)}
+                disabled={indexOfLastItem >= data.length}
               >
                 Next
               </button>

@@ -34,14 +34,14 @@ const BankSampah = {
     page: number,
     limit: number,
     sortField: any,
-    jenis: number,
+    jenis: string,
     sortOrder: any,
     startDate: string,
     endDate: string
   ): AxiosPromise<penjualanSampah> =>
     instance({
       method: "GET",
-      url: `/api/waste-sales/?wastetype_id=${jenis}&start_date=${startDate}&end_date=${endDate}&page=${page}&limit=${limit}&sortField=${sortField}&sortOrder=${sortOrder}`,
+      url: `/api/waste-sales/?wastetype_id=${jenis}&start_date=${startDate}&end_date=${endDate}&page=${page}&limit=${limit}&totalRows=${limit}&sortField=${sortField}&sortOrder=${sortOrder}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
