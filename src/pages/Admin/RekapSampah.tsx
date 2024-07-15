@@ -90,7 +90,7 @@ const RekapSampah = () => {
       No: index + 1,
       Nama: item.studentclass.student.full_name,
       Kelas: item.studentclass.student.class,
-      "Jenis Sampah": item.wastetype?.name,
+      "Jenis Sampah": item.wastetype?.name ?? "Tidak ada data",
       "Tanggal Timbang": new Date(item.collection_date).toLocaleDateString(),
       "Total (gram)": item.weight,
     }));
@@ -100,12 +100,12 @@ const RekapSampah = () => {
     XLSX.utils.book_append_sheet(workbook, worksheet, "Rekap Bank Sampah");
 
     const wscols = [
-      { wch: 5 }, // No
-      { wch: 20 }, // Nama
-      { wch: 15 }, // Kelas
-      { wch: 20 }, // Jenis Sampah
-      { wch: 15 }, // Tanggal Timbang
-      { wch: 10 }, // Total (gram)
+      { wch: 5 },
+      { wch: 20 },
+      { wch: 15 },
+      { wch: 20 },
+      { wch: 15 },
+      { wch: 10 },
     ];
     worksheet["!cols"] = wscols;
 
@@ -130,7 +130,14 @@ const RekapSampah = () => {
     setSelectedClassId(event.target.value);
   };
 
-  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+  const paginate = (pageNumber: number) => {
+    if (
+      pageNumber > 0 &&
+      pageNumber <= Math.ceil(rekapSampah.length / itemsPerPage)
+    ) {
+      setCurrentPage(pageNumber);
+    }
+  };
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -220,7 +227,7 @@ const RekapSampah = () => {
                     <td>{indexOfFirstItem + index + 1}</td>
                     <td>{item.studentclass.student.full_name}</td>
                     <td>{item.studentclass.student.class}</td>
-                    <td>{item.wastetype?.name}</td>
+                    <td>{item.wastetype?.name ?? "Tidak ada data"}</td>
                     <td>
                       {new Date(item.collection_date).toLocaleDateString()}
                     </td>
@@ -232,16 +239,20 @@ const RekapSampah = () => {
           )}
         </div>
         <div className="w-full flex justify-end mt-5">
-          <div className="join grid grid-cols-2 w-1/6">
+          <div className="gap-1 flex items-center">
             <button
-              className="join-item btn btn-sm btn-outline"
+              className="btn btn-sm btn-outline"
               onClick={() => paginate(currentPage - 1)}
               disabled={currentPage === 1}
             >
-              Previous page
+              Previous
             </button>
+            <span>
+              Page {currentPage} of{" "}
+              {Math.ceil(rekapSampah.length / itemsPerPage)}
+            </span>
             <button
-              className="join-item btn btn-sm btn-outline"
+              className="btn btn-sm btn-outline"
               onClick={() => paginate(currentPage + 1)}
               disabled={indexOfLastItem >= rekapSampah.length}
             >
