@@ -10,7 +10,6 @@ import {
   GetAllClass,
   CreateJenisSampah,
   penjualanSampah,
-  WasteTypeDropdownResponse,
   WasteCollectionResponse,
   WasteTypeDropdownResponse,
   ClassDropdownResponse,
@@ -69,17 +68,6 @@ const BankSampah = {
     instance({
       method: "GET",
       url: `/api/waste-collection/get-by-filter?waste_type_id=${wasteId}&class_id=${classId}&start_date=${fromDate}&end_date=${toDate}`,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }),
-
-  GetDataDropdownWasteType: (
-    token: string | null
-  ): AxiosPromise<WasteTypeDropdownResponse> =>
-    instance({
-      method: "GET",
-      url: `/api/waste-type?limit=100`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
