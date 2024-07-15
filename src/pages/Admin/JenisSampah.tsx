@@ -89,7 +89,7 @@ const JenisSampah = () => {
       console.log(error);
     }
   };
-  
+
   const UpdateJenisSampah = async () => {
     try {
       const { code, name } = formik.values;

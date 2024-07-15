@@ -82,11 +82,12 @@ export interface ClassData {
   updatedAt: string;
 }
 
-export interface JenisSampah {
-  status: string;
-  code: number;
-  message: string;
-  data: BankSampah;
+export interface PenjualanSampahData {
+  id: number;
+  name: string;
+  price: number;
+  total_weight: number;
+  total_price: number;
 }
 
 interface BankSampah {
@@ -99,7 +100,53 @@ export interface ResultSampah {
   name: string;
 }
 
+export interface penjualanSampah {
+  status: boolean;
+  code: number;
+  message: string;
+  data: {
+    result: PenjualanSampahData[];
+  };
+  page: number;
+  limit: number;
+  totalRows: number;
+  totalPage: number;
+}
+
+export interface WasteTypeDropdownResponse {
+  status: boolean;
+  code: number;
+  message: string;
+  data: WasteTypeDropdownCollectionData;
+}
+
+export interface WasteTypeDropdownCollectionData {
+  result: WasteTypeData[];
+}
+export interface WasteTypeData {
+  id: number;
+  code: number;
+  name: string;
+}
+
+export interface JenisSampah {
+  status: string;
+  code: number;
+  message: string;
+  data: BankSampah;
+}
+
 export interface CreateJenisSampah {
+  code: string;
+  name: string;
+}
+
+interface BankSampah {
+  result: ResultPenjualan[];
+}
+
+export interface ResultPenjualan {
+  id: string;
   code: string;
   name: string;
 }
