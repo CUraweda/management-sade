@@ -143,8 +143,6 @@ const RekapSampah = () => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = rekapSampah.slice(indexOfFirstItem, indexOfLastItem);
 
-  console.log("test");
-
   return (
     <div className="p-5 w-full">
       <span className="text-3xl font-bold">Rekap Bank Sampah</span>
