@@ -10,6 +10,7 @@ const Dashboard = () => {
   const { token } = LoginStore();
   const [totalSampah, setTotalSampah] = useState<any>({});
   const [totalPenjualan, setTotalPenjualan] = useState<number>(0);
+  const [selectedWasteType, setSelectedWasteType] = useState<string>(""); //selectedWasteType valuenya id buat dimasukin di endpoint buat filter sesuai jenis sampah
   const [dataWasteType, setDataWasteType] = useState<WasteTypeData[]>([]);
 
   const currentDate = new Date();
@@ -81,6 +82,12 @@ const Dashboard = () => {
     console.log(setTotalSampah);
   };
 
+  const handleChangeWasteType = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    setSelectedWasteType(event.target.value);
+  };
+
   return (
     <>
       <div className="w-full p-5">
@@ -150,9 +157,8 @@ const Dashboard = () => {
         <div className="w-full flex justify-end gap-3 p-3 flex-wrap">
           <select
             className="select select-bordered bg-white w-40"
-            // onChange={(e) =>
-            //   formik.setFieldValue("semester", e.target.value)
-            // }
+            onChange={handleChangeWasteType}
+            value={selectedWasteType}
           >
             <option value="">Pilih Jenis Sampah</option>
             {dataWasteType.map((item, index) => (
