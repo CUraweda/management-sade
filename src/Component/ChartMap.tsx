@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 import { ApexOptions } from 'apexcharts';
 import { WasteCollection } from '../midleware/Api';
@@ -36,29 +36,14 @@ const monthDataSeries1: MonthDataSeries = {
 };
 
 
-const ChartMap: React.FC<ChartMapProps> = ({ start_date, end_date, waste_type_id}) => {
+const ChartMap: React.FC<ChartMapProps> = ({ start_date, end_date, waste_type_id }) => {
   const { token } = LoginStore()
-  const currentDate = new Date()
-  const defaultPropData = () => {
-    start_date = start_date ? start_date : new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).toISOString();
-    end_date = end_date ? end_date : currentDate.toISOString()
-  }
-  
-  const getWasteCollection = async () => {
-    const response = await WasteCollection.GetAllFilter(token)
-  }
-  const generateRawArray = (length: number) => {
-    return Array.from({ length }, () => 0);
-  }
-  const [series] = useState<SeriesType[]>([
+  const [series, setSeries] = useState<SeriesType[]>([
     {
       name: "Plastik (gram)",
       data: monthDataSeries1.prices
     }
   ]);
-
-
-
   const [options] = useState<ApexOptions>({
     chart: {
       type: 'area',
@@ -89,10 +74,40 @@ const ChartMap: React.FC<ChartMapProps> = ({ start_date, end_date, waste_type_id
       horizontalAlign: 'right'
     }
   });
+  const currentDate = new Date()
 
-  // const getWasteType(){
+  useEffect(() => {
+    defaultPropData();
+    getWasteCollection();
+  }, [])
 
-  // }
+  const defaultPropData = () => {
+    start_date = start_date ? start_date : new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).toISOString();
+    end_date = end_date ? end_date : currentDate.toISOString()
+  }
+
+  const generateRawArray = (length: number) => {
+    return Array.from({ length }, () => 0);
+  }
+
+  const formatWaste = async (datas: any[]) => {
+    let wasteData: any = {}
+    const defaultData
+    for (let data of datas) {
+      const wasteCode = data.wastetype.code
+      if (!wasteData[wasteCode]){
+        wasteData[wasteCode] = 
+      }
+    }
+  }
+
+  const getWasteCollection = async () => {
+    let query = `?start_date=${start_date}&end_date=${end_date}`
+    if (waste_type_id) query += `&waste_type_id=${waste_type_id}`
+    const response = await WasteCollection.GetAllFilter(token, query)
+
+  }
+
 
   return (
     <div>

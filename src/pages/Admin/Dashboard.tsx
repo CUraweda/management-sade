@@ -49,7 +49,6 @@ const Dashboard = () => {
       if (!end_date) end_date = lastDay
     }
     query += `&start_date=${start_date}&end_date=${end_date}`
-
     const response = await WasteCollection.GetAllFilter(token, query)
     setTotalSampah(countTotalSampah(response.data.data.result))
   }
@@ -69,7 +68,7 @@ const Dashboard = () => {
                     Total Sampah Bulan Ini
                   </span>
                   <div className="flex items-end">
-                    <span className="text-[90px] font-bold">300</span>
+                    <span className="text-[90px] font-bold">{totalSampah?.bulan?.total}</span>
                     <span className="font-semibold">Gram</span>
                   </div>
                 </div>
@@ -146,9 +145,9 @@ const Dashboard = () => {
         <div className="w-full p-3 ">
           <div className="w-full bg-white p-3 rounded-md">
             <ChartMap
-              startDate={formik.values.start_date}
-              endDate={formik.values.end_date}
-              wasteTypeId={formik.values.waste_type_id}
+              start_date={formik.values.start_date}
+              end_date={formik.values.end_date}
+              waste_type_id={formik.values.waste_type_id}
             />
           </div>
         </div>
