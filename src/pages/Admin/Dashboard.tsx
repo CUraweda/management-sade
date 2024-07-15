@@ -10,6 +10,8 @@ const Dashboard = () => {
   const { token } = LoginStore();
   const [totalSampah, setTotalSampah] = useState<any>({});
   const [totalPenjualan, setTotalPenjualan] = useState<number>(0);
+  const [fromDate, setFromDate] = useState(""); // fromDate valuenya tanggal buat dimasukin di endpoint juga
+  const [toDate, setToDate] = useState(""); // toDate valuenya tanggal buat dimasukin di endpoint juga
   const [selectedWasteType, setSelectedWasteType] = useState<string>(""); //selectedWasteType valuenya id buat dimasukin di endpoint buat filter sesuai jenis sampah
   const [dataWasteType, setDataWasteType] = useState<WasteTypeData[]>([]);
 
@@ -88,6 +90,14 @@ const Dashboard = () => {
     setSelectedWasteType(event.target.value);
   };
 
+  const handleChangeFromDate = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFromDate(event.target.value);
+  };
+
+  const handleChangeToDate = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setToDate(event.target.value);
+  };
+
   return (
     <>
       <div className="w-full p-5">
@@ -103,7 +113,7 @@ const Dashboard = () => {
                     Total Sampah Bulan Ini
                   </span>
                   <div className="flex items-end">
-                    <span className="text-[90px] font-bold">
+                    <span className="text-[90px] font-bold ">
                       {totalSampah?.bulan?.total}
                     </span>{" "}
                     <span className="font-semibold">Gram</span>
@@ -160,7 +170,7 @@ const Dashboard = () => {
             onChange={handleChangeWasteType}
             value={selectedWasteType}
           >
-            <option value="">Pilih Jenis Sampah</option>
+            <option value="">Pilih Sampah</option>
             {dataWasteType.map((item, index) => (
               <option value={item.id} key={index}>
                 {item.name}
@@ -173,12 +183,16 @@ const Dashboard = () => {
               type="date"
               placeholder="Type here"
               className="input w-full"
+              value={fromDate}
+              onChange={handleChangeFromDate}
             />
             -
             <input
               type="date"
               placeholder="Type here"
               className="input w-full"
+              value={toDate}
+              onChange={handleChangeToDate}
             />
           </div>
         </div>
