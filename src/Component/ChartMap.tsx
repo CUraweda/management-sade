@@ -75,6 +75,7 @@ const ChartMap: React.FC<ChartMapProps> = ({ start_date, end_date, waste_type_id
     }
   });
   const currentDate = new Date()
+  const [dateRange, setDateRange] = useState<number>(0)
 
   useEffect(() => {
     defaultPropData();
@@ -84,20 +85,35 @@ const ChartMap: React.FC<ChartMapProps> = ({ start_date, end_date, waste_type_id
   const defaultPropData = () => {
     start_date = start_date ? start_date : new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).toISOString();
     end_date = end_date ? end_date : currentDate.toISOString()
+    getDaysBetween(start_date, end_date)
   }
 
   const generateRawArray = (length: number) => {
     return Array.from({ length }, () => 0);
   }
 
+  const getDayFromIso = (isoString) => {
+    const datePart = isoString.split('T')[0];
+    const day = +datePart.split('-')[2];
+    return day;
+  }
+
+  const getDaysBetween = (startIso: string, endIso: string) => {
+    let startDate: any = new Date(startIso);
+    let endDate: any = new Date(endIso);
+    let timeDifference = endDate - startDate;
+    let daysDifference = timeDifference / (1000 * 60 * 60 * 24);
+    return daysDifference;
+  }
+
   const formatWaste = async (datas: any[]) => {
     let wasteData: any = {}
-    const defaultData
+    const defaultData = generateRawArray(dateRange)
     for (let data of datas) {
-      const wasteCode = data.wastetype.code
-      if (!wasteData[wasteCode]){
-        wasteData[wasteCode] = 
-      }
+      const wasteCode: string = data.wastetype.code
+      const index: number = getDayFromIso(data.collection_date)
+      if (!wasteData[wasteCode]) wasteData[wasteCode] = defaultData
+      wasteData[wasteCode][index] += data.weight
     }
   }
 
