@@ -149,26 +149,6 @@ const RekapSampah = () => {
       <div className="divider divider-warning"></div>
       <div className="flex gap-2 justify-end items-end">
         <label className="form-control w-md">
-          <span className="label-text">Dari</span>
-          <input
-            type="date"
-            placeholder="Type here"
-            className="input input-bordered w-md"
-            value={fromDate}
-            onChange={handleChangeFromDate}
-          />
-        </label>
-        <label className="form-control w-md">
-          <span className="label-text">Sampai</span>
-          <input
-            type="date"
-            placeholder="Type here"
-            className="input input-bordered w-md"
-            value={toDate}
-            onChange={handleChangeToDate}
-          />
-        </label>
-        <label className="form-control w-md">
           <span className="label-text">Jenis Sampah</span>
           <select
             className="select select-bordered w-md"
@@ -197,6 +177,26 @@ const RekapSampah = () => {
               </option>
             ))}
           </select>
+        </label>
+        <label className="form-control w-md">
+          <span className="label-text">Dari</span>
+          <input
+            type="date"
+            placeholder="Type here"
+            className="input input-bordered w-md"
+            value={fromDate}
+            onChange={handleChangeFromDate}
+          />
+        </label>
+        <label className="form-control w-md">
+          <span className="label-text">Sampai</span>
+          <input
+            type="date"
+            placeholder="Type here"
+            className="input input-bordered w-md"
+            value={toDate}
+            onChange={handleChangeToDate}
+          />
         </label>
         <button
           className="btn btn-ghost bg-blue-500 text-white hover:bg-blue-400"
