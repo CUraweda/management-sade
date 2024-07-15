@@ -83,7 +83,6 @@ export interface Class{
     level: string;
     class_name: string;
     waste_target: string;
-
 }
 
 export interface CreateRekapSampah {
@@ -91,5 +90,4 @@ export interface CreateRekapSampah {
     collection_date : Date;
     waste_type_id : number | string;
     weight: number
-
 }

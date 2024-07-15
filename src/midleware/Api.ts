@@ -164,4 +164,16 @@ const Kelas = {
     }),
 };
 
-export { Auth, BankSampah, ApiSiswa, Kelas };
+const WasteCollection = {
+  GetAllFilter: (
+    token: string | null, 
+    query: string | null    
+  ) : AxiosPromise<any> => instance({
+    method: "GET",
+    url: `api/waste-collection`,
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+}
+export { Auth, BankSampah, ApiSiswa, Kelas, WasteCollection };

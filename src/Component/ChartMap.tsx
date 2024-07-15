@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 import { ApexOptions } from 'apexcharts';
+import { WasteCollection } from '../midleware/Api';
+import { LoginStore } from '../store/Store';
 
 interface MonthDataSeries {
   prices: number[];
@@ -10,6 +12,12 @@ interface MonthDataSeries {
 interface SeriesType {
   name: string;
   data: number[];
+}
+
+interface ChartMapProps {
+  start_date: string | null,
+  end_date: string | null,
+  waste_type_id: number | null
 }
 
 const monthDataSeries1: MonthDataSeries = {
@@ -27,13 +35,29 @@ const monthDataSeries1: MonthDataSeries = {
   ]
 };
 
-const ChartMap: React.FC = () => {
+
+const ChartMap: React.FC<ChartMapProps> = ({ start_date, end_date, waste_type_id}) => {
+  const { token } = LoginStore()
+  const currentDate = new Date()
+  const defaultPropData = () => {
+    start_date = start_date ? start_date : new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).toISOString();
+    end_date = end_date ? end_date : currentDate.toISOString()
+  }
+  
+  const getWasteCollection = async () => {
+    const response = await WasteCollection.GetAllFilter(token)
+  }
+  const generateRawArray = (length: number) => {
+    return Array.from({ length }, () => 0);
+  }
   const [series] = useState<SeriesType[]>([
     {
       name: "Plastik (gram)",
       data: monthDataSeries1.prices
     }
   ]);
+
+
 
   const [options] = useState<ApexOptions>({
     chart: {
@@ -53,7 +77,7 @@ const ChartMap: React.FC = () => {
       text: 'Perolehan Sampah Plastik',
       align: 'left'
     },
-   
+
     labels: monthDataSeries1.dates,
     xaxis: {
       type: 'datetime',
@@ -65,6 +89,10 @@ const ChartMap: React.FC = () => {
       horizontalAlign: 'right'
     }
   });
+
+  // const getWasteType(){
+
+  // }
 
   return (
     <div>

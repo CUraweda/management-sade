@@ -1,7 +1,59 @@
 // import React from "react";
+import { useEffect, useState } from "react";
 import ChartMap from "../../Component/ChartMap";
+import { LoginStore } from "../../store/Store";
+import { WasteCollection } from "../../midleware/Api";
+import { useFormik } from "formik";
 
 const Dashboard = () => {
+  const { token } = LoginStore();
+  const [totalSampah, setTotalSampah] = useState<any>({});
+  const [totalPenjualan, setTotalPenjualan] = useState<number>(0);
+  const [jenisSampahList, setJenisSampah] = useState<any>([])
+  const currentDate = new Date()
+  useEffect(() => {
+    getTotalSampah()
+  }, [])
+
+  const formik = useFormik({
+    initialValues: {
+      start_date: "",
+      end_date: "",
+      waste_type_id: 0
+    },
+    onSubmit: (val) => { console.log(val) }
+  })
+
+  const getLastEndDay = () => {
+    const firstDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).toISOString();
+    const lastDay = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).toISOString();
+    return { firstDay, lastDay }
+  }
+
+  const countTotalSampah = (datas: any[]) => {
+    let raw = { bulan: { unit: "Gram", total: 0 }, hari: { unit: "Gram", total: 0 } }
+    const currentDateToSearch = currentDate.toISOString().split('T')[0]
+    datas.forEach((data: any) => {
+      raw.bulan.total += data.weight
+      const collectDate = data.collection_date.split("T")[0]
+      if(collectDate == currentDateToSearch) raw.hari.total += data.weight
+    });
+    return raw
+  }
+
+  const getTotalSampah = async () => {
+    let { start_date, end_date } = formik.values, query = "?limit=1000"
+    if (!start_date && !end_date) {
+      const { firstDay, lastDay } = getLastEndDay()
+      if (!start_date) start_date = firstDay
+      if (!end_date) end_date = lastDay
+    }
+    query += `&start_date=${start_date}&end_date=${end_date}`
+
+    const response = await WasteCollection.GetAllFilter(token, query)
+    setTotalSampah(countTotalSampah(response.data.data.result))
+  }
+
   return (
     <>
       <div className="w-full p-5">
@@ -67,9 +119,9 @@ const Dashboard = () => {
         <div className="w-full flex justify-end gap-3 p-3 flex-wrap">
           <select
             className="select select-bordered bg-white w-40"
-            // onChange={(e) =>
-            //   formik.setFieldValue("semester", e.target.value)
-            // }
+          // onChange={(e) =>
+          //   formik.setFieldValue("semester", e.target.value)
+          // }
           >
             <option>Jenis Sampah</option>
             <option value={1}>1</option>
@@ -93,7 +145,11 @@ const Dashboard = () => {
 
         <div className="w-full p-3 ">
           <div className="w-full bg-white p-3 rounded-md">
-            <ChartMap />
+            <ChartMap
+              startDate={formik.values.start_date}
+              endDate={formik.values.end_date}
+              wasteTypeId={formik.values.waste_type_id}
+            />
           </div>
         </div>
       </div>
