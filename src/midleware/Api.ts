@@ -73,17 +73,6 @@ const BankSampah = {
       },
     }),
 
-  GetDataDropdownWasteType: (
-    token: string | null
-  ): AxiosPromise<WasteTypeDropdownResponse> =>
-    instance({
-      method: "GET",
-      url: `/api/waste-type?limit=100`,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }),
-
   GetDataDropdownClass: (
     token: string | null
   ): AxiosPromise<ClassDropdownResponse> =>
