@@ -66,8 +66,6 @@ const Dashboard = () => {
     return raw;
   };
 
-  console.log(countTotalSampah);
-
   const getTotalSampah = async () => {
     let { start_date, end_date } = formik.values,
       query = "?limit=1000";
