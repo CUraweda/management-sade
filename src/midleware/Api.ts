@@ -293,4 +293,15 @@ const Kelas = {
     }),
 };
 
-export { Auth, BankSampah, ApiSiswa, Kelas, DaftarDataPetugas };
+const DashboardAdmin = {
+  getCards: (token: string | null): AxiosPromise<any> =>
+    instance({
+      method: "GET",
+      url: `api/dashboard/admin-timbangan`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+};
+
+export { Auth, BankSampah, ApiSiswa, Kelas, DaftarDataPetugas, DashboardAdmin };
