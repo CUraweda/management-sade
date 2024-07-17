@@ -1,3 +1,114 @@
+export interface DataPetugasResponse {
+  status: boolean;
+  code: number;
+  message: string;
+  data: GetDataPetugas;
+}
+
+export interface GetDataPetugas {
+  result: ItemDataPetugas[];
+}
+
+export interface ItemDataPetugas {
+  id: number;
+  name: string;
+  class_name: string;
+  assignment_date: string;
+  createdAt: string;
+  updatedAt: string;
+  class_id: number;
+  student_id: number;
+  student: ItemStudent;
+  class: ItemClass;
+}
+
+export interface ItemStudent {
+  id: number;
+  nis: string;
+  full_name: string;
+}
+
+export interface ItemClass {
+  id: number;
+  level: string;
+  class_name: string;
+}
+
+export interface DataPetugasDropdownResponse {
+  status: boolean;
+  code: number;
+  message: string;
+  data: GetDataPetugasDropdown;
+}
+
+export interface GetDataPetugasDropdown {
+  result: ItemDataPetugasDropdown[];
+}
+
+export interface ItemDataPetugasDropdown {
+  id: number;
+  nis: string;
+  nisn: string;
+  full_name: string;
+  nickname: string;
+  gender: string;
+  pob: string;
+  dob: string;
+  nationality: string;
+  religion: string;
+  address: string;
+  level: string;
+  class: string;
+  is_active: string;
+  is_transfer: string;
+  category: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface DataGuruDropdownResponse {
+  status: boolean;
+  code: number;
+  message: string;
+  data: CollectionDataGuru;
+}
+
+export interface CollectionDataGuru {
+  result: DataGuru[];
+}
+
+export interface DataGuru {
+  id: number;
+  employee_no: number;
+  full_name: string;
+  gender: string;
+  pob: string;
+  dob: string;
+  religion: string;
+  marital_status: string;
+  last_education: string;
+  certificate_year: string;
+  is_education: string;
+  major: string;
+  employee_status: string;
+  work_start_date: string;
+  occupation: string;
+  is_teacher: string;
+  duty: number;
+  job_desc: number;
+  grade: number;
+  createdAt: string;
+  updatedAr: string;
+}
+
+export interface CreateDataPetugas {
+  employee: number;
+  class_id: number;
+  name: string;
+  class_name: string;
+  assigment_date: string;
+}
+
 export interface WasteCollectionResponse {
   status: boolean;
   code: number;
