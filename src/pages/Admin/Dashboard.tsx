@@ -8,6 +8,8 @@ import { FaScaleBalanced } from "react-icons/fa6";
 import ReactApexChart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
 
+type TchartShow = "trash" | "income";
+
 const Dashboard = () => {
   const { token } = LoginStore();
 
@@ -38,7 +40,8 @@ const Dashboard = () => {
 
   const [chartWasteTypeId, setChartWasteTypeId] = useState(""),
     [chartStartDate, setChartStartDate] = useState(""),
-    [chartEndDate, setChartEndDate] = useState("");
+    [chartEndDate, setChartEndDate] = useState(""),
+    [chartShow, setChartShow] = useState<TchartShow>("trash");
 
   const getWasteTypes = async () => {
     try {
@@ -87,8 +90,10 @@ const Dashboard = () => {
   >([]);
 
   const getCharts = async () => {
-    let chartTitle: string = "Perolehan Sampah",
-      seriesTitle: string = "Sampah (gram)",
+    let chartTitle: string =
+        chartShow == "trash" ? "Perolehan Sampah" : "Perolehan Pendapatan",
+      seriesTitle: string =
+        chartShow == "trash" ? "Sampah (gram)" : "Pendapatan (Rp)",
       dates: any[] = [],
       values: any[] = [];
 
@@ -101,7 +106,10 @@ const Dashboard = () => {
           chartEndDate
         );
         dates = res.data?.map((d: any) => d.date) ?? [];
-        values = res.data?.map((d: any) => d.weight) ?? [];
+        values =
+          res.data?.map((d: any) =>
+            chartShow == "trash" ? d.weight : d.price
+          ) ?? [];
       } else {
         const res = await DashboardAdmin.getChart(
           token,
@@ -109,7 +117,10 @@ const Dashboard = () => {
           chartEndDate
         );
         dates = res.data?.map((d: any) => d.date) ?? [];
-        values = res.data?.map((d: any) => d.total_weight) ?? [];
+        values =
+          res.data?.map((d: any) =>
+            chartShow == "trash" ? d.total_weight : d.total_price
+          ) ?? [];
       }
       setChartOptions({
         ...chartOptions,
@@ -125,7 +136,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     getCharts();
-  }, [chartWasteTypeId, chartStartDate, chartEndDate]);
+  }, [chartShow, chartWasteTypeId, chartStartDate, chartEndDate]);
 
   // helper
   const convertWeight = (val: number) => {
@@ -148,7 +159,7 @@ const Dashboard = () => {
   return (
     <>
       <div className="w-full p-5">
-        <div className="w-full grid grid-cols-2 lg:grid-cols-3 gap-3 mt-3">
+        <div className="w-full grid grid-cols-2 xl:grid-cols-3 gap-3 mt-3">
           <div className="stat bg-base-100 rounded-lg">
             <div className="stat-figure text-primary">
               <FaTrashAlt size={28} />
@@ -184,6 +195,14 @@ const Dashboard = () => {
           <div className="col-span-2">
             <div className="w-full flex items-center justify-end gap-3 flex-wrap mb-3">
               <select
+                value={chartShow}
+                onChange={(e) => setChartShow(e.target.value as TchartShow)}
+                className="select select-bordered"
+              >
+                <option value="trash">Perolehan sampah</option>
+                <option value="income">Perolehan pendapatan</option>
+              </select>
+              <select
                 value={chartWasteTypeId}
                 onChange={(e) => setChartWasteTypeId(e.target.value)}
                 className="select select-bordered"
@@ -195,19 +214,21 @@ const Dashboard = () => {
                   </option>
                 ))}
               </select>
-              <input
-                type="date"
-                value={chartStartDate}
-                onChange={(e) => setChartStartDate(e.target.value)}
-                className="input input-bordered"
-              />
-              <FaLongArrowAltRight className="text-gray-500" />
-              <input
-                type="date"
-                value={chartEndDate}
-                onChange={(e) => setChartEndDate(e.target.value)}
-                className="input input-bordered"
-              />
+              <div className="flex items-center gap-3">
+                <input
+                  type="date"
+                  value={chartStartDate}
+                  onChange={(e) => setChartStartDate(e.target.value)}
+                  className="input input-bordered"
+                />
+                <FaLongArrowAltRight className="text-gray-500" />
+                <input
+                  type="date"
+                  value={chartEndDate}
+                  onChange={(e) => setChartEndDate(e.target.value)}
+                  className="input input-bordered"
+                />
+              </div>
             </div>
 
             <div className="w-full bg-white p-3 rounded-md">
