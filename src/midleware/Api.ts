@@ -1,4 +1,4 @@
-import axios, { Axios, AxiosPromise } from "axios";
+import axios, { AxiosPromise } from "axios";
 const instance = axios.create({ baseURL: import.meta.env.VITE_REACT_API_URL });
 import {
   LoginResponse,
@@ -16,7 +16,6 @@ import {
   DataPetugasResponse,
   DataPetugasDropdownResponse,
   DataGuruDropdownResponse,
-  CreateDataPetugas,
 } from "./Utils";
 
 const Auth = {
