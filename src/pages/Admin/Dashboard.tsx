@@ -1,11 +1,12 @@
 // import React from "react";
-import { FaMoneyBill, FaTrashAlt } from "react-icons/fa";
-import ChartMap from "../../Component/ChartMap";
+import { FaLongArrowAltRight, FaMoneyBill, FaTrashAlt } from "react-icons/fa";
 import { useEffect, useState } from "react";
-import { DashboardAdmin } from "../../midleware/Api";
+import { BankSampah, DashboardAdmin } from "../../midleware/Api";
 import { LoginStore } from "../../store/Store";
 import { formatMoney } from "../../utils";
 import { FaScaleBalanced } from "react-icons/fa6";
+import ReactApexChart from "react-apexcharts";
+import { ApexOptions } from "apexcharts";
 
 const Dashboard = () => {
   const { token } = LoginStore();
@@ -31,6 +32,100 @@ const Dashboard = () => {
   useEffect(() => {
     getCards();
   }, []);
+
+  // charts
+  const [wasteTypes, setWasteTypes] = useState<any[]>([]);
+
+  const [chartWasteTypeId, setChartWasteTypeId] = useState(""),
+    [chartStartDate, setChartStartDate] = useState(""),
+    [chartEndDate, setChartEndDate] = useState("");
+
+  const getWasteTypes = async () => {
+    try {
+      const res = await BankSampah.GetJenisSampah(token, "0", "100000");
+      setWasteTypes(res.data?.data?.result ?? []);
+    } catch {}
+  };
+
+  useEffect(() => {
+    getWasteTypes();
+  }, []);
+
+  const [chartOptions, setChartOptions] = useState<ApexOptions>({
+    chart: {
+      type: "area",
+      height: 400,
+      zoom: {
+        enabled: true,
+      },
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      curve: "straight",
+    },
+    title: {
+      text: "Perolehan Sampah",
+      align: "left",
+    },
+
+    // labels: monthDataSeries1.dates,
+    xaxis: {
+      type: "datetime",
+    },
+    yaxis: {
+      opposite: false,
+    },
+    legend: {
+      horizontalAlign: "right",
+    },
+  });
+
+  const [chartSeries, setChartSeries] = useState<
+    { name: string; data: number[] }[]
+  >([]);
+
+  const getCharts = async () => {
+    let chartTitle: string = "Perolehan Sampah",
+      seriesTitle: string = "Sampah (gram)",
+      dates: any[] = [],
+      values: any[] = [];
+
+    try {
+      if (chartWasteTypeId) {
+        const res = await DashboardAdmin.getChartByWaste(
+          token,
+          chartWasteTypeId,
+          chartStartDate,
+          chartEndDate
+        );
+        dates = res.data?.map((d: any) => d.date) ?? [];
+        values = res.data?.map((d: any) => d.weight) ?? [];
+      } else {
+        const res = await DashboardAdmin.getChart(
+          token,
+          chartStartDate,
+          chartEndDate
+        );
+        dates = res.data?.map((d: any) => d.date) ?? [];
+        values = res.data?.map((d: any) => d.total_weight) ?? [];
+      }
+      setChartOptions({
+        ...chartOptions,
+        title: {
+          ...chartOptions.title,
+          text: chartTitle,
+        },
+        labels: dates,
+      });
+      setChartSeries([{ name: seriesTitle, data: values }]);
+    } catch {}
+  };
+
+  useEffect(() => {
+    getCharts();
+  }, [chartWasteTypeId, chartStartDate, chartEndDate]);
 
   // helper
   const convertWeight = (val: number) => {
@@ -87,19 +182,41 @@ const Dashboard = () => {
 
         <div className="grid grid-cols-1 gap-3 lg:grid-cols-3">
           <div className="col-span-2">
-            <div className="w-full flex justify-end gap-3 flex-wrap mb-3">
-              <select className="select select-bordered">
-                <option>Jenis Sampah</option>
-                <option value={1}>1</option>
-                <option value={2}>2</option>
+            <div className="w-full flex items-center justify-end gap-3 flex-wrap mb-3">
+              <select
+                value={chartWasteTypeId}
+                onChange={(e) => setChartWasteTypeId(e.target.value)}
+                className="select select-bordered"
+              >
+                <option value="">Jenis sampah</option>
+                {wasteTypes.map((dat, i) => (
+                  <option value={dat.id} key={i}>
+                    {dat.code ?? ""} - {dat.name ?? ""}
+                  </option>
+                ))}
               </select>
-              <input type="date" placeholder="Type here" className="input" />
-              -
-              <input type="date" placeholder="Type here" className="input" />
+              <input
+                type="date"
+                value={chartStartDate}
+                onChange={(e) => setChartStartDate(e.target.value)}
+                className="input input-bordered"
+              />
+              <FaLongArrowAltRight className="text-gray-500" />
+              <input
+                type="date"
+                value={chartEndDate}
+                onChange={(e) => setChartEndDate(e.target.value)}
+                className="input input-bordered"
+              />
             </div>
 
             <div className="w-full bg-white p-3 rounded-md">
-              <ChartMap />
+              <ReactApexChart
+                options={chartOptions}
+                series={chartSeries}
+                type="area"
+                height={450}
+              />
             </div>
           </div>
 
@@ -108,7 +225,7 @@ const Dashboard = () => {
               <h4 className="text-lg font-bold mb-6">Ringkasan penjualan</h4>
 
               {salesItems.map((item, i) => (
-                <div className="p-3" key={i}>
+                <div className="px-3" key={i}>
                   <div className="flex items-center mb-1 justify-between gap-1">
                     <h4 className="text-xl font-bold">{item.name ?? "-"} </h4>
                     <div className="text-sm">
@@ -119,7 +236,7 @@ const Dashboard = () => {
                   <div className="flex flex-wrap gap-3">
                     <div className="badge badge-primary py-3 px-4 text-xl font-medium gap-2">
                       <FaScaleBalanced />
-                      {item.total_weight} kg
+                      {convertWeight(item.total_weight)}
                     </div>
                     <div className="badge badge-success py-3  px-4 text-xl text-white font-medium gap-2">
                       <FaMoneyBill />
