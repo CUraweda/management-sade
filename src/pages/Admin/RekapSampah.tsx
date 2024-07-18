@@ -114,20 +114,24 @@ const RekapSampah = () => {
 
   const handleChangeFromDate = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFromDate(event.target.value);
+    setCurrentPage(1);
   };
 
   const handleChangeToDate = (event: React.ChangeEvent<HTMLInputElement>) => {
     setToDate(event.target.value);
+    setCurrentPage(1);
   };
 
   const handleChangeWasteType = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     setSelectedWasteType(event.target.value);
+    setCurrentPage(1);
   };
 
   const handleChangeClass = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedClassId(event.target.value);
+    setCurrentPage(1);
   };
 
   const paginate = (pageNumber: number) => {
