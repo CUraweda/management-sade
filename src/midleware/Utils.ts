@@ -208,6 +208,7 @@ interface BankSampah {
 export interface ResultSampah {
   id: string;
   code: string;
+  price: string;
   name: string;
 }
 
@@ -250,10 +251,6 @@ export interface JenisSampah {
 export interface CreateJenisSampah {
   code: string;
   name: string;
-}
-
-interface BankSampah {
-  result: ResultPenjualan[];
 }
 
 export interface ResultPenjualan {
