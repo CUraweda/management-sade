@@ -12,6 +12,7 @@ import {
 import Swal from "sweetalert2";
 
 const DataPetugas = () => {
+  
   const { token } = LoginStore();
   const [dataPetugas, setdataPetugas] = useState<ItemDataPetugas[]>([]);
   const [dataPetugasDropdown, setdataPetugasDropdown] = useState<
@@ -28,7 +29,7 @@ const DataPetugas = () => {
   const currentDate = new Date();
   const formattedDate = currentDate.toISOString().split("T")[0];
   const [date, setDate] = useState(formattedDate);
-  const [taskDate, setTaskDate] = useState("");
+  const [taskDate, setTaskDate] = useState(formattedDate);
   const [isEditMode, setIsEditMode] = useState(false);
 
   const navigate = useNavigate();
@@ -56,7 +57,7 @@ const DataPetugas = () => {
       );
       setdataPetugas(response.data.data.result);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     } finally {
       setLoading(false);
     }
@@ -90,27 +91,13 @@ const DataPetugas = () => {
     setDate(event.target.value);
   };
 
-  const handleTaskDate = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTaskDate(event.target.value);
-  };
-
   const handleChoosePetugas = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedId = Number(event.target.value);
-    setSelectedPetugasId(selectedId);
-
-    const selectedPetugas = dataPetugasDropdown.find(
-      (item) => item.id === selectedId
-    );
-    if (selectedPetugas) {
-      const selectedClass = dataClass.find((item) =>
-        item.class_name.includes(selectedPetugas.class)
-      );
-      setSelectedClassId(selectedClass ? selectedClass.id : null);
-    }
+    setSelectedPetugasId(Number(event.target.value));
   };
 
   const handleChooseClass = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedClassId(Number(event.target.value));
+    setSelectedPetugasId(null);
   };
 
   const handleNext = () => {
@@ -193,7 +180,6 @@ const DataPetugas = () => {
   const clearModalInputs = () => {
     setSelectedPetugasId(null);
     setSelectedClassId(null);
-    setTaskDate("");
   };
 
   const handleModalClose = useCallback((event: Event) => {
@@ -214,6 +200,16 @@ const DataPetugas = () => {
       }
     };
   }, [handleModalClose]);
+
+  const filteredPetugasDropdown = selectedClassId
+    ? dataPetugasDropdown.filter(
+        (petugas) =>
+          petugas.class ===
+          dataClass
+            .find((cls) => cls.id === selectedClassId)
+            ?.class_name.split(" ")[1]
+      )
+    : dataPetugasDropdown;
 
   return (
     <>
@@ -293,6 +289,7 @@ const DataPetugas = () => {
           <button
             className="btn btn-ghost bg-white my-3 hover:bg-slate-300"
             onClick={handleNext}
+            disabled={dataPetugas.length === 0}
           >
             Lanjut
           </button>
@@ -305,26 +302,11 @@ const DataPetugas = () => {
             {isEditMode ? "Edit Data Petugas" : "Input Data Petugas"}
           </span>
           <div className="w-full flex flex-col gap-2 py-3">
-            <label>Pilih Petugas</label>
-            <select
-              className="select select-bordered"
-              value={selectedPetugasId || ""}
-              onChange={handleChoosePetugas}
-            >
-              <option value="">Pilih petugas</option>
-              {dataPetugasDropdown.map((petugas) => (
-                <option key={petugas.id} value={petugas.id}>
-                  {petugas.full_name}
-                </option>
-              ))}
-            </select>
-
             <label>Pilih Kelas</label>
             <select
               className="select select-bordered"
               value={selectedClassId || ""}
               onChange={handleChooseClass}
-              disabled
             >
               <option value="">Pilih kelas</option>
               {dataClass.map((kelas) => (
@@ -334,13 +316,26 @@ const DataPetugas = () => {
               ))}
             </select>
 
-            <label>Tanggal Tugas</label>
-            <input
-              type="date"
-              value={taskDate}
-              onChange={handleTaskDate}
-              className="input input-bordered w-full"
-            />
+            <label>Pilih Petugas</label>
+            <select
+              className="select select-bordered"
+              value={selectedPetugasId || ""}
+              onChange={handleChoosePetugas}
+              disabled={!selectedClassId}
+            >
+              <option value="">Pilih petugas</option>
+              {filteredPetugasDropdown.length > 0 ? (
+                filteredPetugasDropdown.map((petugas) => (
+                  <option key={petugas.id} value={petugas.id}>
+                    {petugas.full_name}
+                  </option>
+                ))
+              ) : (
+                <option value="" disabled>
+                  Tidak ada petugas pada kelas tersebut
+                </option>
+              )}
+            </select>
           </div>
           <div className="w-full flex justify-end ">
             <button className="btn btn-primary" onClick={handleSubmit}>

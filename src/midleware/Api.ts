@@ -15,7 +15,6 @@ import {
   ClassDropdownResponse,
   DataPetugasResponse,
   DataPetugasDropdownResponse,
-  DataGuruDropdownResponse,
 } from "./Utils";
 
 const Auth = {
@@ -41,6 +40,17 @@ const DaftarDataPetugas = {
     instance({
       method: "GET",
       url: `/api/waste-officer/get-by-date/date=${date}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+
+  GetAllDataPetugas: (
+    token: string | null
+  ): AxiosPromise<DataPetugasResponse> =>
+    instance({
+      method: "GET",
+      url: `/api/waste-officer`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -85,17 +95,6 @@ const DaftarDataPetugas = {
     instance({
       method: "GET",
       url: `/api/student?limit=100000`,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }),
-
-  GetDataGuruDropdown: (
-    token: string | null
-  ): AxiosPromise<DataGuruDropdownResponse> =>
-    instance({
-      method: "GET",
-      url: `/api/employee?limit=100000`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
