@@ -15,7 +15,6 @@ import {
   ClassDropdownResponse,
   DataPetugasResponse,
   DataPetugasDropdownResponse,
-  DataGuruDropdownResponse,
 } from "./Utils";
 
 const Auth = {
