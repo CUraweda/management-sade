@@ -151,7 +151,7 @@ const RekapSampah = () => {
     <div className="p-5 w-full">
       <span className="text-3xl font-bold">Rekap Bank Sampah</span>
       <div className="divider divider-warning"></div>
-      <div className="flex gap-2 justify-end items-end">
+      <div className="flex gap-2 justify-end items-end flex-wrap">
         <label className="form-control w-md">
           <span className="label-text">Jenis Sampah</span>
           <select

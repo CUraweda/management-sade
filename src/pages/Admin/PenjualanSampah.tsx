@@ -126,13 +126,16 @@ const PenjualanSampah: React.FC = () => {
       <div className="p-5 w-full">
         <span className="text-3xl font-bold">Rekap Penjualan Bank Sampah</span>
         <div className="divider divider-warning"></div>
-        <div className="flex gap-2 justify-end items-end">
+        <div className="flex gap-2 justify-end items-end flex-wrap">
           <label className="form-control w-md">
             <span className="label-text">Jenis Sampah</span>
             <select
               className="select select-bordered w-md"
               value={jenis}
-              onChange={(e) => setJenis(e.target.value)}
+              onChange={(e) => {
+                setJenis(e.target.value);
+                setCurrentPage(1);
+              }}
             >
               <option value={""}>Semua Jenis</option>
               {sampah.map((item) => (
@@ -148,7 +151,10 @@ const PenjualanSampah: React.FC = () => {
             <input
               type="date"
               value={startDate}
-              onChange={(e) => setStartDate(e.target.value)}
+              onChange={(e) => {
+                setStartDate(e.target.value);
+                setCurrentPage(1);
+              }}
               className="input input-bordered w-md"
             />
           </label>
@@ -157,7 +163,10 @@ const PenjualanSampah: React.FC = () => {
             <input
               type="date"
               value={endDate}
-              onChange={(e) => setEndDate(e.target.value)}
+              onChange={(e) => {
+                setEndDate(e.target.value);
+                setCurrentPage(1);
+              }}
               className="input input-bordered w-md"
             />
           </label>
@@ -203,7 +212,7 @@ const PenjualanSampah: React.FC = () => {
                 onClick={() => paginate(currentPage - 1)}
                 disabled={currentPage === 1}
               >
-                Previous
+                Kembali
               </button>
               <span>
                 Page {currentPage} of {Math.ceil(data.length / itemsPerPage)}
@@ -213,7 +222,7 @@ const PenjualanSampah: React.FC = () => {
                 onClick={() => paginate(currentPage + 1)}
                 disabled={indexOfLastItem >= data.length}
               >
-                Next
+                Lanjut
               </button>
             </div>
           </div>

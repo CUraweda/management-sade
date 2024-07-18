@@ -71,6 +71,7 @@ const JenisSampah = () => {
       const { code, name } = formik.values;
       const data = {
         code: code.toString(),
+        price: code.toString(),
         name,
       };
       await BankSampah.createJenisSampah(token, data);
@@ -95,6 +96,7 @@ const JenisSampah = () => {
       const { code, name } = formik.values;
       const data = {
         code: code.toString(),
+        price: code.toString(),
         name,
       };
       await BankSampah.updateJenisSampah(token, idJenisSampah, data);
@@ -184,7 +186,7 @@ const JenisSampah = () => {
                   <tr key={index}>
                     <th>{index + 1}</th>
                     <td>{item?.name}</td>
-                    <td>{formatRupiah(item?.code)}</td>
+                    <td>{formatRupiah(item?.price)}</td>
                     <td>
                       <div className="w-full flex justify-start gap-2">
                         <button

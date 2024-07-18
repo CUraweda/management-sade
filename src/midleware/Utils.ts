@@ -208,6 +208,7 @@ interface BankSampah {
 export interface ResultSampah {
   id: string;
   code: string;
+  price: string;
   name: string;
 }
 
