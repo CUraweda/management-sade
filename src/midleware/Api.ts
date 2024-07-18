@@ -282,4 +282,40 @@ const Kelas = {
     }),
 };
 
-export { Auth, BankSampah, ApiSiswa, Kelas, DaftarDataPetugas };
+const DashboardAdmin = {
+  getCards: (token: string | null): AxiosPromise<any> =>
+    instance({
+      method: "GET",
+      url: `api/dashboard/admin-timbangan`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+  getChart: (
+    token: string | null,
+    startDate: string | null,
+    endDate: string | null
+  ): AxiosPromise<any> =>
+    instance({
+      method: "GET",
+      url: `api/dashboard/chart?start_date=${startDate}&end_date=${endDate}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+  getChartByWaste: (
+    token: string | null,
+    wasteTypeId: string | null,
+    startDate: string | null,
+    endDate: string | null
+  ): AxiosPromise<any> =>
+    instance({
+      method: "GET",
+      url: `api/dashboard/detail-chart?waste_type_id=${wasteTypeId}&start_date=${startDate}&end_date=${endDate}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+};
+
+export { Auth, BankSampah, ApiSiswa, Kelas, DaftarDataPetugas, DashboardAdmin };
