@@ -89,17 +89,6 @@ const DaftarDataPetugas = {
         Authorization: `Bearer ${token}`,
       },
     }),
-
-  GetDataGuruDropdown: (
-    token: string | null
-  ): AxiosPromise<DataGuruDropdownResponse> =>
-    instance({
-      method: "GET",
-      url: `/api/employee?limit=100000`,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }),
 };
 
 const BankSampah = {
