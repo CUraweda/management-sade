@@ -253,10 +253,6 @@ export interface CreateJenisSampah {
   name: string;
 }
 
-interface BankSampah {
-  result: ResultPenjualan[];
-}
-
 export interface ResultPenjualan {
   id: string;
   code: string;
