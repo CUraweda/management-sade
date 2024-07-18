@@ -88,6 +88,17 @@ const DaftarDataPetugas = {
         Authorization: `Bearer ${token}`,
       },
     }),
+
+  GetAllDataPetugas: (
+    token: string | null
+  ): AxiosPromise<DataPetugasResponse> =>
+    instance({
+      method: "GET",
+      url: `/api/waste-officer`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
 };
 
 const BankSampah = {
