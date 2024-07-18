@@ -13,6 +13,9 @@ import {
   WasteCollectionResponse,
   WasteTypeDropdownResponse,
   ClassDropdownResponse,
+  DataPetugasResponse,
+  DataPetugasDropdownResponse,
+  DataGuruDropdownResponse,
 } from "./Utils";
 
 const Auth = {
@@ -26,6 +29,75 @@ const Auth = {
       data: {
         email,
         password,
+      },
+    }),
+};
+
+const DaftarDataPetugas = {
+  GetDataPetugas: (
+    token: string | null,
+    date: string
+  ): AxiosPromise<DataPetugasResponse> =>
+    instance({
+      method: "GET",
+      url: `/api/waste-officer/get-by-date/date=${date}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+
+  PosDataPetugas: (token: string | null, data: any): AxiosPromise<any> =>
+    instance({
+      method: "POST",
+      url: `/api/waste-officer/create`,
+      data,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+
+  UpdateDataPetugas: (
+    token: string | null,
+    id: number,
+    data: any
+  ): AxiosPromise<any> =>
+    instance({
+      method: "PUT",
+      url: `/api/waste-officer/update/${id}`,
+      data,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+
+  DeleteDataPetugas: (token: string | null, id: number): AxiosPromise<any> =>
+    instance({
+      method: "DELETE",
+      url: `/api/waste-officer/delete/${id}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+
+  GetDataPetugasDropdown: (
+    token: string | null
+  ): AxiosPromise<DataPetugasDropdownResponse> =>
+    instance({
+      method: "GET",
+      url: `/api/student?limit=100000`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+
+  GetDataGuruDropdown: (
+    token: string | null
+  ): AxiosPromise<DataGuruDropdownResponse> =>
+    instance({
+      method: "GET",
+      url: `/api/employee?limit=100000`,
+      headers: {
+        Authorization: `Bearer ${token}`,
       },
     }),
 };
@@ -221,4 +293,40 @@ const Kelas = {
     }),
 };
 
-export { Auth, BankSampah, ApiSiswa, Kelas };
+const DashboardAdmin = {
+  getCards: (token: string | null): AxiosPromise<any> =>
+    instance({
+      method: "GET",
+      url: `api/dashboard/admin-timbangan`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+  getChart: (
+    token: string | null,
+    startDate: string | null,
+    endDate: string | null
+  ): AxiosPromise<any> =>
+    instance({
+      method: "GET",
+      url: `api/dashboard/chart?start_date=${startDate}&end_date=${endDate}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+  getChartByWaste: (
+    token: string | null,
+    wasteTypeId: string | null,
+    startDate: string | null,
+    endDate: string | null
+  ): AxiosPromise<any> =>
+    instance({
+      method: "GET",
+      url: `api/dashboard/detail-chart?waste_type_id=${wasteTypeId}&start_date=${startDate}&end_date=${endDate}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+};
+
+export { Auth, BankSampah, ApiSiswa, Kelas, DaftarDataPetugas, DashboardAdmin };
