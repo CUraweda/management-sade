@@ -45,6 +45,17 @@ const DaftarDataPetugas = {
       },
     }),
 
+  GetAllDataPetugas: (
+    token: string | null
+  ): AxiosPromise<DataPetugasResponse> =>
+    instance({
+      method: "GET",
+      url: `/api/waste-officer`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+
   PosDataPetugas: (token: string | null, data: any): AxiosPromise<any> =>
     instance({
       method: "POST",
