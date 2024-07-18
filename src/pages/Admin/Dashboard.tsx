@@ -108,7 +108,9 @@ const Dashboard = () => {
         dates = res.data?.map((d: any) => d.date) ?? [];
         values =
           res.data?.map((d: any) =>
-            chartShow == "trash" ? d.weight : d.price
+            chartShow == "trash"
+              ? parseFloat(d.weight?.toFixed(2) ?? 0)
+              : d.price
           ) ?? [];
       } else {
         const res = await DashboardAdmin.getChart(
@@ -119,7 +121,9 @@ const Dashboard = () => {
         dates = res.data?.map((d: any) => d.date) ?? [];
         values =
           res.data?.map((d: any) =>
-            chartShow == "trash" ? d.total_weight : d.total_price
+            chartShow == "trash"
+              ? parseFloat(d.total_weight?.toFixed(2) ?? 0)
+              : d.total_price
           ) ?? [];
       }
       setChartOptions({
@@ -140,7 +144,7 @@ const Dashboard = () => {
 
   // helper
   const convertWeight = (val: number) => {
-    let res = val.toString(),
+    let res = val.toFixed(2),
       unit = "gram";
 
     if (val > 1000) {
