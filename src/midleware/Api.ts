@@ -45,17 +45,6 @@ const DaftarDataPetugas = {
       },
     }),
 
-  GetAllDataPetugas: (
-    token: string | null
-  ): AxiosPromise<DataPetugasResponse> =>
-    instance({
-      method: "GET",
-      url: `/api/waste-officer`,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }),
-
   PosDataPetugas: (token: string | null, data: any): AxiosPromise<any> =>
     instance({
       method: "POST",
@@ -138,7 +127,7 @@ const BankSampah = {
   ): AxiosPromise<WasteCollectionResponse> =>
     instance({
       method: "GET",
-      url: `/api/waste-collection/get-by-filter?waste_type_id=${wasteId}&class_id=${classId}&start_date=${fromDate}&end_date=${toDate}`,
+      url: `/api/waste-collection/get-by-filter?waste_type_id=${wasteId}&class_id=${classId}&start_date=${fromDate}&end_date=${toDate}&limit=100000000`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
