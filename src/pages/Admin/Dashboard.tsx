@@ -163,8 +163,8 @@ const Dashboard = () => {
   return (
     <>
       <div className="w-full p-5">
-        <div className="w-full grid grid-cols-2 xl:grid-cols-3 gap-3 mt-3">
-          <div className="stat bg-base-100 rounded-lg">
+        <div className="w-full flex flex-wrap gap-3 mt-3">
+          <div className="stat w-fit grow bg-base-100 rounded-lg">
             <div className="stat-figure text-primary">
               <FaTrashAlt size={28} />
             </div>
@@ -173,7 +173,7 @@ const Dashboard = () => {
               {convertWeight(trashMonth)}
             </div>
           </div>
-          <div className="stat bg-base-100 rounded-lg">
+          <div className="stat w-fit grow bg-base-100 rounded-lg">
             <div className="stat-figure text-primary">
               <FaTrashAlt size={28} />
             </div>
@@ -182,7 +182,7 @@ const Dashboard = () => {
               {convertWeight(trashDay)}
             </div>
           </div>
-          <div className="stat bg-base-100 rounded-lg">
+          <div className="stat w-fit grow bg-base-100 rounded-lg">
             <div className="stat-figure text-success">
               <FaMoneyBill size={28} />
             </div>
