@@ -114,20 +114,24 @@ const RekapSampah = () => {
 
   const handleChangeFromDate = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFromDate(event.target.value);
+    setCurrentPage(1);
   };
 
   const handleChangeToDate = (event: React.ChangeEvent<HTMLInputElement>) => {
     setToDate(event.target.value);
+    setCurrentPage(1);
   };
 
   const handleChangeWasteType = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     setSelectedWasteType(event.target.value);
+    setCurrentPage(1);
   };
 
   const handleChangeClass = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedClassId(event.target.value);
+    setCurrentPage(1);
   };
 
   const paginate = (pageNumber: number) => {
@@ -147,7 +151,7 @@ const RekapSampah = () => {
     <div className="p-5 w-full">
       <span className="text-3xl font-bold">Rekap Bank Sampah</span>
       <div className="divider divider-warning"></div>
-      <div className="flex gap-2 justify-end items-end">
+      <div className="flex gap-2 justify-end items-end flex-wrap">
         <label className="form-control w-md">
           <span className="label-text">Jenis Sampah</span>
           <select
