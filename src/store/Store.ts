@@ -27,14 +27,12 @@ const LoginStore = create<LoginProps>((set: SetState<LoginProps>) => ({
   },
 }));
 
-
 const useProps = create<StoreProps>((set) => ({
-  idKelas: '',
+  idKelas: "",
   setIdKelas: (idKelas: string) => set({ idKelas }),
 
-  tahun: '',
-  setTahun: (tahun : string) => set({tahun})
-
+  tahun: "",
+  setTahun: (tahun: string) => set({ tahun }),
 }));
 
-export { LoginStore , useProps};
+export { LoginStore, useProps };

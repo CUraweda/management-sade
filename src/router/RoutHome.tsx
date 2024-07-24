@@ -1,8 +1,9 @@
-import { lazy, Suspense } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { lazy, Suspense, ReactNode } from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Loading from "../Component/Loading";
 import Layout from "../Component/LayoutPetugas";
 import LayoutAdmin from "../Component/LayoutAdmin";
+import { LoginStore } from "../store/Store";
 
 const Login = lazy(() => import("../pages/login"));
 const DataPetugas = lazy(() => import("../pages/Siswa/DataPetugas"));
@@ -16,7 +17,34 @@ const PenjualanSampah = lazy(() => import("../pages/Admin/PenjualanSampah"));
 const DataSiswa = lazy(() => import("../pages/Admin/DataSiswa"));
 const ExportQr = lazy(() => import("../pages/Admin/ExportQr"));
 
+interface ProtectedRouteProps {
+  children: ReactNode;
+  allowedRoles: number[]; // Assuming role IDs are numbers
+}
 
+// Protected Route Component
+const ProtectedRoute = ({ children, allowedRoles }: ProtectedRouteProps) => {
+  const { token, role } = LoginStore();
+
+  if (!token) {
+    return <Navigate to="/" />;
+  }
+
+  const roleId = Number(role);
+
+  if (!allowedRoles.includes(roleId)) {
+    // Redirect based on the role
+    if (roleId === 1) {
+      return <Navigate to="/admin/home" />;
+    } else if (roleId === 10) {
+      return <Navigate to="/petugas/data" />;
+    } else {
+      return <Navigate to="/" />;
+    }
+  }
+
+  return <>{children}</>;
+};
 
 const RoutHome = () => {
   return (
@@ -33,91 +61,109 @@ const RoutHome = () => {
         <Route
           path="/petugas/data"
           element={
-            <Suspense fallback={<Loading />}>
-              <Layout>
-                <DataPetugas />
-              </Layout>
-            </Suspense>
+            <ProtectedRoute allowedRoles={[10]}>
+              <Suspense fallback={<Loading />}>
+                <Layout>
+                  <DataPetugas />
+                </Layout>
+              </Suspense>
+            </ProtectedRoute>
           }
         />
         <Route
           path="/petugas/home"
           element={
-            <Suspense fallback={<Loading />}>
-              <Layout>
-                <HomePetugas />
-              </Layout>
-            </Suspense>
+            <ProtectedRoute allowedRoles={[10]}>
+              <Suspense fallback={<Loading />}>
+                <Layout>
+                  <HomePetugas />
+                </Layout>
+              </Suspense>
+            </ProtectedRoute>
           }
         />
         <Route
           path="/admin/home"
           element={
-            <Suspense fallback={<Loading />}>
-              <LayoutAdmin>
-                <Dashboard />
-              </LayoutAdmin>
-            </Suspense>
+            <ProtectedRoute allowedRoles={[1]}>
+              <Suspense fallback={<Loading />}>
+                <LayoutAdmin>
+                  <Dashboard />
+                </LayoutAdmin>
+              </Suspense>
+            </ProtectedRoute>
           }
         />
         <Route
           path="/admin/rekap-sampah"
           element={
-            <Suspense fallback={<Loading />}>
-              <LayoutAdmin>
-                <RekapSampah />
-              </LayoutAdmin>
-            </Suspense>
+            <ProtectedRoute allowedRoles={[1]}>
+              <Suspense fallback={<Loading />}>
+                <LayoutAdmin>
+                  <RekapSampah />
+                </LayoutAdmin>
+              </Suspense>
+            </ProtectedRoute>
           }
         />
         <Route
           path="/admin/daftar-petugas"
           element={
-            <Suspense fallback={<Loading />}>
-              <LayoutAdmin>
-                <DaftarPetugas />
-              </LayoutAdmin>
-            </Suspense>
+            <ProtectedRoute allowedRoles={[1]}>
+              <Suspense fallback={<Loading />}>
+                <LayoutAdmin>
+                  <DaftarPetugas />
+                </LayoutAdmin>
+              </Suspense>
+            </ProtectedRoute>
           }
         />
         <Route
           path="/admin/jenis-sampah"
           element={
-            <Suspense fallback={<Loading />}>
-              <LayoutAdmin>
-                <JenisSampah />
-              </LayoutAdmin>
-            </Suspense>
+            <ProtectedRoute allowedRoles={[1]}>
+              <Suspense fallback={<Loading />}>
+                <LayoutAdmin>
+                  <JenisSampah />
+                </LayoutAdmin>
+              </Suspense>
+            </ProtectedRoute>
           }
         />
         <Route
           path="/admin/penjualan"
           element={
-            <Suspense fallback={<Loading />}>
-              <LayoutAdmin>
-                <PenjualanSampah />
-              </LayoutAdmin>
-            </Suspense>
+            <ProtectedRoute allowedRoles={[1]}>
+              <Suspense fallback={<Loading />}>
+                <LayoutAdmin>
+                  <PenjualanSampah />
+                </LayoutAdmin>
+              </Suspense>
+            </ProtectedRoute>
           }
         />
         <Route
           path="/admin/data-siswa"
           element={
-            <Suspense fallback={<Loading />}>
-              <LayoutAdmin>
-                <DataSiswa />
-              </LayoutAdmin>
-            </Suspense>
+            <ProtectedRoute allowedRoles={[1]}>
+              <Suspense fallback={<Loading />}>
+                <LayoutAdmin>
+                  <DataSiswa />
+                </LayoutAdmin>
+              </Suspense>
+            </ProtectedRoute>
           }
         />
         <Route
           path="/admin/export-qr"
           element={
-            <Suspense fallback={<Loading />}>
-              <LayoutAdmin>
-                <ExportQr />
-              </LayoutAdmin>
-            </Suspense>
+            <ProtectedRoute allowedRoles={[1]}>
+              <Suspense fallback={<Loading />}>
+                <LayoutAdmin>
+                  <ExportQr />
+                </LayoutAdmin>
+              </Suspense>
+            </ProtectedRoute>
           }
         />
       </Routes>
