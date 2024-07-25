@@ -19,10 +19,9 @@ const ExportQr = lazy(() => import("../pages/Admin/ExportQr"));
 
 interface ProtectedRouteProps {
   children: ReactNode;
-  allowedRoles: number[]; // Assuming role IDs are numbers
+  allowedRoles: number[]; 
 }
 
-// Protected Route Component
 const ProtectedRoute = ({ children, allowedRoles }: ProtectedRouteProps) => {
   const { token, role } = LoginStore();
 
@@ -30,13 +29,10 @@ const ProtectedRoute = ({ children, allowedRoles }: ProtectedRouteProps) => {
     return <Navigate to="/" />;
   }
 
-  const roleId = Number(role);
-
-  if (!allowedRoles.includes(roleId)) {
-    // Redirect based on the role
-    if (roleId === 1) {
+  if (!allowedRoles.includes(role)) {
+    if (roleId === 10) {
       return <Navigate to="/admin/home" />;
-    } else if (roleId === 10) {
+    } else if (roleId === 9) {
       return <Navigate to="/petugas/data" />;
     } else {
       return <Navigate to="/" />;
@@ -61,7 +57,7 @@ const RoutHome = () => {
         <Route
           path="/petugas/data"
           element={
-            <ProtectedRoute allowedRoles={[10]}>
+            <ProtectedRoute allowedRoles={[9]}>
               <Suspense fallback={<Loading />}>
                 <Layout>
                   <DataPetugas />
@@ -73,7 +69,7 @@ const RoutHome = () => {
         <Route
           path="/petugas/home"
           element={
-            <ProtectedRoute allowedRoles={[10]}>
+            <ProtectedRoute allowedRoles={[9]}>
               <Suspense fallback={<Loading />}>
                 <Layout>
                   <HomePetugas />
@@ -85,7 +81,7 @@ const RoutHome = () => {
         <Route
           path="/admin/home"
           element={
-            <ProtectedRoute allowedRoles={[1]}>
+            <ProtectedRoute allowedRoles={[10]}>
               <Suspense fallback={<Loading />}>
                 <LayoutAdmin>
                   <Dashboard />
@@ -97,7 +93,7 @@ const RoutHome = () => {
         <Route
           path="/admin/rekap-sampah"
           element={
-            <ProtectedRoute allowedRoles={[1]}>
+            <ProtectedRoute allowedRoles={[10]}>
               <Suspense fallback={<Loading />}>
                 <LayoutAdmin>
                   <RekapSampah />
@@ -109,7 +105,7 @@ const RoutHome = () => {
         <Route
           path="/admin/daftar-petugas"
           element={
-            <ProtectedRoute allowedRoles={[1]}>
+            <ProtectedRoute allowedRoles={[10]}>
               <Suspense fallback={<Loading />}>
                 <LayoutAdmin>
                   <DaftarPetugas />
@@ -121,7 +117,7 @@ const RoutHome = () => {
         <Route
           path="/admin/jenis-sampah"
           element={
-            <ProtectedRoute allowedRoles={[1]}>
+            <ProtectedRoute allowedRoles={[10]}>
               <Suspense fallback={<Loading />}>
                 <LayoutAdmin>
                   <JenisSampah />
@@ -133,7 +129,7 @@ const RoutHome = () => {
         <Route
           path="/admin/penjualan"
           element={
-            <ProtectedRoute allowedRoles={[1]}>
+            <ProtectedRoute allowedRoles={[10]}>
               <Suspense fallback={<Loading />}>
                 <LayoutAdmin>
                   <PenjualanSampah />
@@ -145,7 +141,7 @@ const RoutHome = () => {
         <Route
           path="/admin/data-siswa"
           element={
-            <ProtectedRoute allowedRoles={[1]}>
+            <ProtectedRoute allowedRoles={[10]}>
               <Suspense fallback={<Loading />}>
                 <LayoutAdmin>
                   <DataSiswa />
@@ -157,7 +153,7 @@ const RoutHome = () => {
         <Route
           path="/admin/export-qr"
           element={
-            <ProtectedRoute allowedRoles={[1]}>
+            <ProtectedRoute allowedRoles={[10]}>
               <Suspense fallback={<Loading />}>
                 <LayoutAdmin>
                   <ExportQr />
