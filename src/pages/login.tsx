@@ -33,8 +33,11 @@ const Login = () => {
 
         if (role) {
           setToken(response.data.tokens.access.token);
-          if (role == 10) navigate('/admin/home')
-          else navigate("/petugas/data");
+          if (role == 1) {
+            navigate("/admin/home");
+          } else {
+            navigate("/petugas/data");
+          }
         } else {
           Swal.fire({
             icon: "error",
