@@ -33,7 +33,7 @@ const Login = () => {
 
         if (role) {
           setToken(response.data.tokens.access.token);
-          if (role == 1) {
+          if (role == 10) {
             navigate("/admin/home");
           } else {
             navigate("/petugas/data");

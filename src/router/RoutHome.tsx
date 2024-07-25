@@ -32,7 +32,7 @@ const ProtectedRoute = ({ children, allowedRoles }: ProtectedRouteProps) => {
   const roleId = Number(role);
 
   if (!allowedRoles.includes(roleId)) {
-    if (roleId === 1) {
+    if (roleId === 10) {
       return <Navigate to="/admin/home" />;
     } else if (roleId === 9) {
       return <Navigate to="/petugas/data" />;
