@@ -33,7 +33,6 @@ const ProtectedRoute = ({ children, allowedRoles }: ProtectedRouteProps) => {
   const roleId = Number(role);
 
   if (!allowedRoles.includes(roleId)) {
-    // Redirect based on the role
     if (roleId === 1) {
       return <Navigate to="/admin/home" />;
     } else if (roleId === 10) {
