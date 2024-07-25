@@ -19,7 +19,7 @@ const ExportQr = lazy(() => import("../pages/Admin/ExportQr"));
 
 interface ProtectedRouteProps {
   children: ReactNode;
-  allowedRoles: number[]; 
+  allowedRoles: number[];
 }
 
 const ProtectedRoute = ({ children, allowedRoles }: ProtectedRouteProps) => {
@@ -29,8 +29,10 @@ const ProtectedRoute = ({ children, allowedRoles }: ProtectedRouteProps) => {
     return <Navigate to="/" />;
   }
 
-  if (!allowedRoles.includes(role)) {
-    if (roleId === 10) {
+  const roleId = Number(role);
+
+  if (!allowedRoles.includes(roleId)) {
+    if (roleId === 1) {
       return <Navigate to="/admin/home" />;
     } else if (roleId === 9) {
       return <Navigate to="/petugas/data" />;
