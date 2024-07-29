@@ -36,9 +36,11 @@ const Dashboard = () => {
   }, []);
 
   // charts
-  const [wasteTypes, setWasteTypes] = useState<any[]>([]);
+  const [wasteTypes, setWasteTypes] = useState<any[]>([]),
+    [classes, setClasses] = useState<any[]>([]);
 
   const [chartWasteTypeId, setChartWasteTypeId] = useState(""),
+    [chartClassId, setChartClassId] = useState(""),
     [chartStartDate, setChartStartDate] = useState(""),
     [chartEndDate, setChartEndDate] = useState(""),
     [chartShow, setChartShow] = useState<TchartShow>("trash");
@@ -50,8 +52,16 @@ const Dashboard = () => {
     } catch {}
   };
 
+  const getClasses = async () => {
+    try {
+      const response = await BankSampah.GetDataDropdownClass(token);
+      setClasses(response.data.data.result);
+    } catch {}
+  };
+
   useEffect(() => {
     getWasteTypes();
+    getClasses();
   }, []);
 
   const [chartOptions, setChartOptions] = useState<ApexOptions>({
@@ -117,7 +127,8 @@ const Dashboard = () => {
           token,
           chartWasteTypeId,
           chartStartDate,
-          chartEndDate
+          chartEndDate,
+          chartClassId
         );
         dates = enumerateDaysBetweenDates(chartEndDate, chartEndDate);
         values =
@@ -130,7 +141,8 @@ const Dashboard = () => {
         const res = await DashboardAdmin.getChart(
           token,
           chartStartDate,
-          chartEndDate
+          chartEndDate,
+          chartClassId
         );
         dates = res.data?.map((d: any) => d.date) ?? [];
         values =
@@ -183,8 +195,10 @@ const Dashboard = () => {
               <FaTrashAlt size={28} />
             </div>
             <div className="stat-title">Total sampah bulan ini</div>
-            <div className="stat-value text-primary">
-              {convertWeight(trashMonth)}
+            <div className="stat-value text-primary overflow-x-auto overflow-y-hidden">
+              {/* {convertWeight(trashMonth)} */}
+              {trashMonth}
+              <span className="text-base font-normal">gram</span>
             </div>
           </div>
           <div className="stat w-fit grow bg-base-100 rounded-lg">
@@ -192,8 +206,10 @@ const Dashboard = () => {
               <FaTrashAlt size={28} />
             </div>
             <div className="stat-title">Total sampah hari ini</div>
-            <div className="stat-value text-primary">
-              {convertWeight(trashDay)}
+            <div className="stat-value text-primary overflow-x-auto overflow-y-hidden">
+              {/* {convertWeight(trashDay)} */}
+              {trashDay}
+              <span className="text-base font-normal">gram</span>
             </div>
           </div>
           <div className="stat w-fit grow bg-base-100 rounded-lg">
@@ -201,7 +217,7 @@ const Dashboard = () => {
               <FaMoneyBill size={28} />
             </div>
             <div className="stat-title">Total penjualan bulan ini</div>
-            <div className="stat-value text-success">
+            <div className="stat-value text-success overflow-x-auto overflow-y-hidden">
               {formatMoney(salesMonth)}
             </div>
           </div>
@@ -212,6 +228,20 @@ const Dashboard = () => {
         <div className="grid grid-cols-1 gap-3 lg:grid-cols-3">
           <div className="col-span-2">
             <div className="w-full flex items-center justify-end gap-3 flex-wrap mb-3">
+              <select
+                value={chartClassId}
+                onChange={(e) => setChartClassId(e.target.value)}
+                className="select select-bordered"
+              >
+                <option value="" selected>
+                  Kelas
+                </option>
+                {classes.map((dat, i) => (
+                  <option key={i} value={dat.id}>
+                    {dat.level} {dat.class_name}
+                  </option>
+                ))}
+              </select>
               <select
                 value={chartShow}
                 onChange={(e) => setChartShow(e.target.value as TchartShow)}
@@ -250,12 +280,15 @@ const Dashboard = () => {
             </div>
 
             <div className="w-full bg-white p-3 rounded-md">
-              <ReactApexChart
-                options={chartOptions}
-                series={chartSeries}
-                type="area"
-                height={450}
-              />
+              <div id="chart" className="">
+                <ReactApexChart
+                  options={chartOptions}
+                  series={chartSeries}
+                  type="area"
+                  height={450}
+                />
+              </div>
+              <div id="html-dist"></div>
             </div>
           </div>
 
