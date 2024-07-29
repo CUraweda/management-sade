@@ -99,6 +99,20 @@ const Dashboard = () => {
     { name: string; data: number[] }[]
   >([]);
 
+  const enumerateDaysBetweenDates = (from: any, to: any) => {
+    let dates = [];
+
+    from = from.add(1, "days");
+
+    while (from.format("M/D/YYYY") !== to.format("M/D/YYYY")) {
+      console.log(from.toDate());
+      dates.push(from.toDate());
+      from = from.add(1, "days");
+    }
+
+    return dates;
+  };
+
   const getCharts = async () => {
     let chartTitle: string =
         chartShow == "trash" ? "Perolehan Sampah" : "Perolehan Pendapatan",
@@ -116,7 +130,7 @@ const Dashboard = () => {
           chartEndDate,
           chartClassId
         );
-        dates = res.data?.map((d: any) => d.date) ?? [];
+        dates = enumerateDaysBetweenDates(chartEndDate, chartEndDate);
         values =
           res.data?.map((d: any) =>
             chartShow == "trash"
