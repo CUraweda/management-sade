@@ -316,16 +316,17 @@ export interface ResultAllClass {
   result: Class[];
 }
 
-export interface Class {
-  id: number;
-  level: string;
-  class_name: string;
-  waste_target: string;
+
+export interface Class{
+    id: number;
+    level: string;
+    class_name: string;
+    waste_target: string;
 }
 
 export interface CreateRekapSampah {
-  student_class_id: number | string;
-  collection_date: Date;
-  waste_type_id: number | string;
-  weight: number;
+    student_class_id : number | string;
+    collection_date : Date;
+    waste_type_id : number | string;
+    weight: number
 }

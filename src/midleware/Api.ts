@@ -149,7 +149,7 @@ const BankSampah = {
   ): AxiosPromise<ClassDropdownResponse> =>
     instance({
       method: "GET",
-      url: `/api/classes?limit=100`,
+      url: `/api/classes?limit=100&is_active=Y`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -249,7 +249,7 @@ const ApiSiswa = {
   ): AxiosPromise<GetInclassStudent> =>
     instance({
       method: "GET",
-      url: `/api/student-class/show/${id}`,
+      url: `/api/student-class/show-by-student/${id}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -261,7 +261,7 @@ const ApiSiswa = {
   ): AxiosPromise<GetClass> =>
     instance({
       method: "GET",
-      url: `api/classes/show/${id}`,
+      url: `api/classes/show/${id}?is_active=Y`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -285,7 +285,7 @@ const Kelas = {
   GetAllKelas: (token: string | null): AxiosPromise<GetAllClass> =>
     instance({
       method: "GET",
-      url: `api/classes?search_query=&page=0&limit=20`,
+      url: `api/classes?search_query=&page=0&limit=1000`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -304,11 +304,12 @@ const DashboardAdmin = {
   getChart: (
     token: string | null,
     startDate: string | null,
-    endDate: string | null
+    endDate: string | null,
+    classId: string | null
   ): AxiosPromise<any> =>
     instance({
       method: "GET",
-      url: `api/dashboard/chart?start_date=${startDate}&end_date=${endDate}`,
+      url: `api/dashboard/chart?start_date=${startDate}&end_date=${endDate}&class_id=${classId}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -317,11 +318,12 @@ const DashboardAdmin = {
     token: string | null,
     wasteTypeId: string | null,
     startDate: string | null,
-    endDate: string | null
+    endDate: string | null,
+    classId: string | null
   ): AxiosPromise<any> =>
     instance({
       method: "GET",
-      url: `api/dashboard/detail-chart?waste_type_id=${wasteTypeId}&start_date=${startDate}&end_date=${endDate}`,
+      url: `api/dashboard/detail-chart?waste_type_id=${wasteTypeId}&start_date=${startDate}&end_date=${endDate}&class_id=${classId}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
