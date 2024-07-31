@@ -197,7 +197,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     getCharts();
-  }, [chartShow, chartWasteTypeId, chartStartDate, chartEndDate]);
+  }, [chartShow, chartWasteTypeId, chartStartDate, chartEndDate, chartClassId]);
 
   // helper
   const convertWeight = (val: number) => {
