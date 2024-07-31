@@ -7,6 +7,7 @@ import { formatMoney } from "../../utils";
 import { FaScaleBalanced } from "react-icons/fa6";
 import ReactApexChart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
+import moment from "moment";
 
 type TchartShow = "trash" | "income";
 
@@ -99,15 +100,15 @@ const Dashboard = () => {
     { name: string; data: number[] }[]
   >([]);
 
-  const enumerateDaysBetweenDates = (from: any, to: any) => {
-    let dates = [];
+  const enumerateDaysBetweenDates = (from: string, to: string) => {
+    let dates: string[] = [];
 
-    from = from.add(1, "days");
+    let currentDate = moment(from).startOf("day");
+    let endDate = moment(to).startOf("day");
 
-    while (from.format("M/D/YYYY") !== to.format("M/D/YYYY")) {
-      console.log(from.toDate());
-      dates.push(from.toDate());
-      from = from.add(1, "days");
+    while (currentDate.isSameOrBefore(endDate)) {
+      currentDate = currentDate.add(1, "days");
+      dates.push(currentDate.format("YYYY-MM-DD"));
     }
 
     return dates;
@@ -130,13 +131,30 @@ const Dashboard = () => {
           chartEndDate,
           chartClassId
         );
-        dates = enumerateDaysBetweenDates(chartEndDate, chartEndDate);
+
         values =
           res.data?.map((d: any) =>
             chartShow == "trash"
               ? parseFloat(d.weight?.toFixed(2) ?? 0)
               : d.price
           ) ?? [];
+
+        if (chartStartDate && chartEndDate) {
+          const tempDates =
+            res.data?.map((d: any) =>
+              d.date ? moment(d.date).format("YYYY-MM-DD") : ""
+            ) ?? [];
+          dates = enumerateDaysBetweenDates(chartStartDate, chartEndDate);
+
+          const tempVal = [...dates].reduce((acc: any[], cur: any) => {
+            if (tempDates.includes(cur))
+              acc.push(values[tempDates.indexOf(cur)]);
+            else acc.push(0);
+            return acc;
+          }, []);
+
+          values = tempVal;
+        } else dates = res.data?.map((d: any) => d.date) ?? [];
       } else {
         const res = await DashboardAdmin.getChart(
           token,
@@ -144,13 +162,26 @@ const Dashboard = () => {
           chartEndDate,
           chartClassId
         );
-        dates = res.data?.map((d: any) => d.date) ?? [];
+
         values =
           res.data?.map((d: any) =>
             chartShow == "trash"
               ? parseFloat(d.total_weight?.toFixed(2) ?? 0)
               : d.total_price
           ) ?? [];
+
+        if (chartStartDate && chartEndDate) {
+          const tempDates = res.data?.map((d: any) => d.date) ?? [];
+          dates = enumerateDaysBetweenDates(chartStartDate, chartEndDate);
+
+          const tempVal = [...dates].reduce((acc: any[], cur: any) => {
+            if (tempDates.includes(cur))
+              acc.push(values[tempDates.indexOf(cur)]);
+            else acc.push(0);
+            return acc;
+          }, []);
+          values = tempVal;
+        } else dates = res.data?.map((d: any) => d.date) ?? [];
       }
       setChartOptions({
         ...chartOptions,
