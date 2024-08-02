@@ -4,20 +4,13 @@ import { useNavigate } from "react-router-dom";
 import { DaftarDataPetugas, BankSampah } from "../../midleware/Api";
 import { LoginStore } from "../../store/Store";
 import { useState, useEffect, useCallback } from "react";
-import {
-  ClassData,
-  ItemDataPetugas,
-  ItemDataPetugasDropdown,
-} from "../../midleware/Utils";
+import { ClassData, ItemDataPetugas } from "../../midleware/Utils";
 import Swal from "sweetalert2";
 
 const DataPetugas = () => {
-  
   const { token } = LoginStore();
   const [dataPetugas, setdataPetugas] = useState<ItemDataPetugas[]>([]);
-  const [dataPetugasDropdown, setdataPetugasDropdown] = useState<
-    ItemDataPetugasDropdown[]
-  >([]);
+  const [dataPetugasDropdown, setdataPetugasDropdown] = useState<any[]>([]);
   const [dataClass, setDataClass] = useState<ClassData[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedClassId, setSelectedClassId] = useState<number | null>(null);
@@ -204,7 +197,7 @@ const DataPetugas = () => {
   const filteredPetugasDropdown = selectedClassId
     ? dataPetugasDropdown.filter(
         (petugas) =>
-          petugas.class ===
+          petugas.student.class ==
           dataClass
             .find((cls) => cls.id === selectedClassId)
             ?.class_name.split(" ")[1]
@@ -327,7 +320,7 @@ const DataPetugas = () => {
               {filteredPetugasDropdown.length > 0 ? (
                 filteredPetugasDropdown.map((petugas) => (
                   <option key={petugas.id} value={petugas.id}>
-                    {petugas.full_name}
+                    {petugas.student.full_name}
                   </option>
                 ))
               ) : (
