@@ -14,7 +14,7 @@ import {
   WasteTypeDropdownResponse,
   ClassDropdownResponse,
   DataPetugasResponse,
-  DataPetugasDropdownResponse,
+  // DataPetugasDropdownResponse,
 } from "./Utils";
 
 const Auth = {
@@ -78,12 +78,10 @@ const DaftarDataPetugas = {
       },
     }),
 
-  GetDataPetugasDropdown: (
-    token: string | null
-  ): AxiosPromise<DataPetugasDropdownResponse> =>
+  GetDataPetugasDropdown: (token: string | null): AxiosPromise<any> =>
     instance({
       method: "GET",
-      url: `/api/student?limit=100000`,
+      url: `/api/student-class?limit=100000`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
