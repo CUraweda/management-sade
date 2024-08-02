@@ -34,37 +34,37 @@ export interface ItemClass {
   class_name: string;
 }
 
-export interface DataPetugasDropdownResponse {
-  status: boolean;
-  code: number;
-  message: string;
-  data: GetDataPetugasDropdown;
-}
+// export interface DataPetugasDropdownResponse {
+//   status: boolean;
+//   code: number;
+//   message: string;
+//   data: GetDataPetugasDropdown;
+// }
 
-export interface GetDataPetugasDropdown {
-  result: ItemDataPetugasDropdown[];
-}
+// export interface GetDataPetugasDropdown {
+//   result: ItemDataPetugasDropdown[];
+// }
 
-export interface ItemDataPetugasDropdown {
-  id: number;
-  nis: string;
-  nisn: string;
-  full_name: string;
-  nickname: string;
-  gender: string;
-  pob: string;
-  dob: string;
-  nationality: string;
-  religion: string;
-  address: string;
-  level: string;
-  class: string;
-  is_active: string;
-  is_transfer: string;
-  category: string;
-  createdAt: string;
-  updatedAt: string;
-}
+// export interface ItemDataPetugasDropdown {
+//   id: number;
+//   nis: string;
+//   nisn: string;
+//   full_name: string;
+//   nickname: string;
+//   gender: string;
+//   pob: string;
+//   dob: string;
+//   nationality: string;
+//   religion: string;
+//   address: string;
+//   level: string;
+//   class: string;
+//   is_active: string;
+//   is_transfer: string;
+//   category: string;
+//   createdAt: string;
+//   updatedAt: string;
+// }
 
 export interface DataGuruDropdownResponse {
   status: boolean;
@@ -316,17 +316,16 @@ export interface ResultAllClass {
   result: Class[];
 }
 
-
-export interface Class{
-    id: number;
-    level: string;
-    class_name: string;
-    waste_target: string;
+export interface Class {
+  id: number;
+  level: string;
+  class_name: string;
+  waste_target: string;
 }
 
 export interface CreateRekapSampah {
-    student_class_id : number | string;
-    collection_date : Date;
-    waste_type_id : number | string;
-    weight: number
+  student_class_id: number | string;
+  collection_date: Date;
+  waste_type_id: number | string;
+  weight: number;
 }
