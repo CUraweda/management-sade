@@ -14,7 +14,7 @@ import {
   WasteTypeDropdownResponse,
   ClassDropdownResponse,
   DataPetugasResponse,
-  DataPetugasDropdownResponse,
+  // DataPetugasDropdownResponse,
 } from "./Utils";
 
 const Auth = {
