@@ -9,36 +9,31 @@ import Swal from "sweetalert2";
 
 const DataPetugas = () => {
   const { token } = LoginStore();
-  const [dataPetugas, setdataPetugas] = useState<ItemDataPetugas[]>([]);
-  const [dataPetugasDropdown, setdataPetugasDropdown] = useState<any[]>([]);
+  const [dataPetugas, setDataPetugas] = useState<ItemDataPetugas[]>([]);
+  const [dataPetugasDropdown, setDataPetugasDropdown] = useState<any[]>([]);
   const [dataClass, setDataClass] = useState<ClassData[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedClassId, setSelectedClassId] = useState<number | null>(null);
+  const [selectedClassId, setSelectedClassId] = useState<number>(1);
   const [selectedPetugasId, setSelectedPetugasId] = useState<number | null>(
     null
   );
   const [selectedDataPetugas, setSelectedDataPetugas] =
     useState<ItemDataPetugas | null>(null);
-  const currentDate = new Date();
-  const formattedDate = currentDate.toISOString().split("T")[0];
-  const [date, setDate] = useState(formattedDate);
-  const [taskDate, setTaskDate] = useState(formattedDate);
+  const [taskDate, setTaskDate] = useState(
+    new Date().toISOString().split("T")[0]
+  );
   const [isEditMode, setIsEditMode] = useState(false);
 
   const navigate = useNavigate();
 
-  const showModal = (props: string) => {
-    let modalElement = document.getElementById(props) as HTMLDialogElement;
-    if (modalElement) {
-      modalElement.showModal();
-    }
+  const showModal = (id: string) => {
+    const modalElement = document.getElementById(id) as HTMLDialogElement;
+    modalElement?.showModal();
   };
 
-  const closeModal = (props: string) => {
-    let modalElement = document.getElementById(props) as HTMLDialogElement;
-    if (modalElement) {
-      modalElement.close();
-    }
+  const closeModal = (id: string) => {
+    const modalElement = document.getElementById(id) as HTMLDialogElement;
+    modalElement?.close();
   };
 
   const fetchData = async () => {
@@ -46,9 +41,9 @@ const DataPetugas = () => {
     try {
       const response = await DaftarDataPetugas.GetDataPetugas(
         token,
-        date || ""
+        taskDate || ""
       );
-      setdataPetugas(response.data.data.result);
+      setDataPetugas(response.data.data.result);
     } catch (error) {
       console.error(error);
     } finally {
@@ -56,19 +51,14 @@ const DataPetugas = () => {
     }
   };
 
-  const GetDataPetugasDropdown = async () => {
+  const fetchDataDropdowns = async () => {
     try {
-      const response = await DaftarDataPetugas.GetDataPetugasDropdown(token);
-      setdataPetugasDropdown(response.data.data.result);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const GetClass = async () => {
-    try {
-      const response = await BankSampah.GetDataDropdownClass(token);
-      setDataClass(response.data.data.result);
+      const [classResponse, petugasResponse] = await Promise.all([
+        BankSampah.GetDataDropdownClass(token),
+        DaftarDataPetugas.GetDataPetugasDropdown(token, selectedClassId),
+      ]);
+      setDataClass(classResponse.data.data.result);
+      setDataPetugasDropdown(petugasResponse.data.data);
     } catch (error) {
       console.error(error);
     }
@@ -76,16 +66,11 @@ const DataPetugas = () => {
 
   useEffect(() => {
     fetchData();
-    GetDataPetugasDropdown();
-    GetClass();
-  }, [date]);
+    fetchDataDropdowns();
+  }, [taskDate, selectedClassId]);
 
   const handleChangeDate = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setDate(event.target.value);
-  };
-
-  const handleChoosePetugas = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedPetugasId(Number(event.target.value));
+    setTaskDate(event.target.value);
   };
 
   const handleChooseClass = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -93,22 +78,24 @@ const DataPetugas = () => {
     setSelectedPetugasId(null);
   };
 
-  const handleNext = () => {
-    navigate("/petugas/home");
+  const handleChoosePetugas = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedPetugasId(Number(event.target.value));
   };
 
   const handleSubmit = async () => {
     try {
       const selectedClass = dataClass.find(
-        (item) => item.id === selectedClassId
+        (item) => item.id == selectedClassId
       );
+
+      const selectedPetugas = dataPetugasDropdown.find(
+        (petugas) => petugas.student.id == selectedPetugasId
+      );
+
       const data = {
         student_id: selectedPetugasId,
         class_id: selectedClassId,
-        name: selectedPetugasId
-          ? dataPetugasDropdown.find((item) => item.id === selectedPetugasId)
-              ?.full_name
-          : "",
+        name: selectedPetugas ? selectedPetugas.student.full_name : "",
         class_name: selectedClass?.class_name,
         assignment_date: taskDate,
       };
@@ -122,6 +109,7 @@ const DataPetugas = () => {
       } else {
         await DaftarDataPetugas.PosDataPetugas(token, data);
       }
+
       Swal.fire({
         position: "center",
         icon: "success",
@@ -129,6 +117,7 @@ const DataPetugas = () => {
         showConfirmButton: false,
         timer: 1500,
       });
+
       fetchData();
       closeModal("add-petugas");
     } catch (error) {
@@ -136,7 +125,7 @@ const DataPetugas = () => {
     }
   };
 
-  const handleEdit = (item: ItemDataPetugas) => {
+  const handleEdit = (item: any) => {
     setIsEditMode(true);
     setSelectedDataPetugas(item);
     setSelectedPetugasId(item.student_id);
@@ -145,7 +134,16 @@ const DataPetugas = () => {
     showModal("add-petugas");
   };
 
-  const trigerDelete = (id: number) => {
+  const handleDelete = async (id: number) => {
+    try {
+      await DaftarDataPetugas.DeleteDataPetugas(token, id);
+      fetchData();
+    } catch (error) {
+      console.error("Error during deletion:", error);
+    }
+  };
+
+  const triggerDelete = (id: number) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -161,132 +159,97 @@ const DataPetugas = () => {
     });
   };
 
-  const handleDelete = async (id: number) => {
-    try {
-      await DaftarDataPetugas.DeleteDataPetugas(token, id);
-      fetchData();
-    } catch (error) {
-      console.error("Error during deletion:", error);
-    }
-  };
-
   const clearModalInputs = () => {
     setSelectedPetugasId(null);
-    setSelectedClassId(null);
+    setSelectedClassId(1);
   };
 
   const handleModalClose = useCallback((event: Event) => {
-    const modal = event.target as HTMLDialogElement;
-    if (!modal.open) {
+    if (!(event.target as HTMLDialogElement).open) {
       clearModalInputs();
     }
   }, []);
 
   useEffect(() => {
     const modal = document.getElementById("add-petugas") as HTMLDialogElement;
-    if (modal) {
-      modal.addEventListener("close", handleModalClose);
-    }
+    modal?.addEventListener("close", handleModalClose);
     return () => {
-      if (modal) {
-        modal.removeEventListener("close", handleModalClose);
-      }
+      modal?.removeEventListener("close", handleModalClose);
     };
   }, [handleModalClose]);
 
-  const filteredPetugasDropdown = selectedClassId
-    ? dataPetugasDropdown.filter(
-        (petugas) =>
-          petugas.student.class ==
-          dataClass
-            .find((cls) => cls.id === selectedClassId)
-            ?.class_name.split(" ")[1]
-      )
-    : dataPetugasDropdown;
-
   return (
-    <>
-      <div className="w-full min-h-screen pt-10">
-        <div className="w-full flex justify-end items-center gap-1">
-          <label className="form-control w-md">
-            <input
-              type="date"
-              placeholder="Type here"
-              className="input input-bordered w-md"
-              value={date}
-              onChange={handleChangeDate}
-            />
-          </label>
-          <button
-            className="btn btn-ghost bg-white my-3 hover:bg-slate-300"
-            onClick={() => {
-              setIsEditMode(false);
-              setSelectedDataPetugas(null);
-              showModal("add-petugas");
-            }}
-          >
-            <span>
-              <FaPlus />
-            </span>
-            Tambah
-          </button>
-        </div>
-        <div className="overflow-x-auto bg-white p-3 rounded-md min-h-96">
-          {loading ? (
-            <div className="text-center">Loading...</div>
-          ) : dataPetugas.length > 0 ? (
-            <table className="table table-zebra">
-              <thead>
-                <tr>
-                  <th className="font-bold text-black">No</th>
-                  <th className="font-bold text-black">Name</th>
-                  <th className="font-bold text-black">Kelas</th>
-                  <th className="font-bold text-black">Tanggal Tugas</th>
-                  <th className="font-bold text-black flex items-center justify-center">
-                    Actions
-                  </th>
+    <div className="w-full min-h-screen pt-10">
+      <div className="w-full flex justify-end items-center gap-1">
+        <input
+          type="date"
+          className="input input-bordered w-md"
+          value={taskDate}
+          onChange={handleChangeDate}
+        />
+        <button
+          className="btn btn-ghost bg-white my-3 hover:bg-slate-300"
+          onClick={() => {
+            setIsEditMode(false);
+            setSelectedDataPetugas(null);
+            showModal("add-petugas");
+          }}
+        >
+          <FaPlus />
+          Tambah
+        </button>
+      </div>
+      <div className="overflow-x-auto bg-white p-3 rounded-md min-h-96">
+        {loading ? (
+          <div className="text-center">Loading...</div>
+        ) : dataPetugas.length > 0 ? (
+          <table className="table table-zebra">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Name</th>
+                <th>Kelas</th>
+                <th>Tanggal Tugas</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {dataPetugas.map((item, index) => (
+                <tr key={index}>
+                  <th>{index + 1}</th>
+                  <td>{item?.name}</td>
+                  <td>{item?.class?.class_name}</td>
+                  <td>{item?.assignment_date}</td>
+                  <td className="flex items-center justify-center gap-3">
+                    <button
+                      className="btn btn-ghost bg-orange-500 text-white btn-sm"
+                      onClick={() => handleEdit(item)}
+                    >
+                      <FaPencilAlt />
+                    </button>
+                    <button
+                      className="btn btn-ghost bg-red-500 text-white btn-sm"
+                      onClick={() => triggerDelete(item.id)}
+                    >
+                      <FaTrash />
+                    </button>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {dataPetugas.map((item, index) => (
-                  <tr key={index}>
-                    <th>{index + 1}</th>
-                    <td>{item?.name}</td>
-                    <td>{item?.class?.class_name}</td>
-                    <td>{item?.assignment_date}</td>
-                    <td className="flex items-center justify-center gap-3">
-                      <button
-                        className="btn btn-ghost join-item bg-orange-500 text-white btn-sm"
-                        onClick={() => handleEdit(item)}
-                      >
-                        <FaPencilAlt />
-                      </button>
-                      <button
-                        className="btn btn-ghost join-item bg-red-500 text-white btn-sm"
-                        onClick={() => trigerDelete(item.id)}
-                      >
-                        <FaTrash />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          ) : (
-            <div className="text-center">
-              Tidak ada yang jadwal pada hari ini
-            </div>
-          )}
-        </div>
-        <div className="w-full flex justify-end">
-          <button
-            className="btn btn-ghost bg-white my-3 hover:bg-slate-300"
-            onClick={handleNext}
-            disabled={dataPetugas.length === 0}
-          >
-            Lanjut
-          </button>
-        </div>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <div className="text-center">Tidak ada jadwal pada hari ini</div>
+        )}
+      </div>
+      <div className="w-full flex justify-end">
+        <button
+          className="btn btn-ghost bg-white my-3 hover:bg-slate-300"
+          onClick={() => navigate("/petugas/home")}
+          disabled={dataPetugas.length === 0}
+        >
+          Lanjut
+        </button>
       </div>
 
       <ModalProps id="add-petugas">
@@ -317,27 +280,21 @@ const DataPetugas = () => {
               disabled={!selectedClassId}
             >
               <option value="">Pilih petugas</option>
-              {filteredPetugasDropdown.length > 0 ? (
-                filteredPetugasDropdown.map((petugas) => (
-                  <option key={petugas.id} value={petugas.id}>
-                    {petugas.student.full_name}
-                  </option>
-                ))
-              ) : (
-                <option value="" disabled>
-                  Tidak ada petugas pada kelas tersebut
+              {dataPetugasDropdown.map((petugas) => (
+                <option key={petugas.id} value={petugas.student.id}>
+                  {petugas.student.full_name}
                 </option>
-              )}
+              ))}
             </select>
           </div>
-          <div className="w-full flex justify-end ">
+          <div className="w-full flex justify-end">
             <button className="btn btn-primary" onClick={handleSubmit}>
               Simpan
             </button>
           </div>
         </div>
       </ModalProps>
-    </>
+    </div>
   );
 };
 
