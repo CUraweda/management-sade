@@ -6,6 +6,7 @@ import * as Yup from "yup";
 import { LoginStore } from "../store/Store";
 import Swal from "sweetalert2";
 import logo from "../assets/sade.png";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const schema = Yup.object({
   email: Yup.string().required("Email required").email("Invalid email format"),
@@ -15,6 +16,7 @@ const schema = Yup.object({
 const Login = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const { setToken, setRole } = LoginStore();
 
   const formik = useFormik({
@@ -33,7 +35,7 @@ const Login = () => {
 
         if (role) {
           setToken(response.data.tokens.access.token);
-          if (role == 10) {
+          if (role === 10) {
             navigate("/admin/home");
           } else {
             navigate("/petugas/data");
@@ -56,6 +58,8 @@ const Login = () => {
       }
     },
   });
+
+  const toggleShowPassword = () => setShowPassword(!showPassword);
 
   return (
     <div className="w-full bg-color-4 flex justify-center items-center min-h-screen">
@@ -84,18 +88,29 @@ const Login = () => {
               <div className="w-5/6 text-red-500">{formik.errors.email}</div>
             ) : null}
           </div>
-          <div className="w-full flex justify-center flex-col items-center">
+          <div className="w-full flex justify-center flex-col items-center relative">
             <label htmlFor="password" className="w-5/6 font-bold text-black">
               Password
             </label>
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               name="password"
               placeholder="Type here"
               onChange={formik.handleChange}
               value={formik.values.password}
-              className="input input-bordered w-5/6 glass shadow-md text-black"
+              className="input input-bordered w-5/6 glass shadow-md text-black pr-10" // Added padding for icon
             />
+            <button
+              type="button"
+              className="absolute right-10 top-[3rem] transform -translate-y-1/2"
+              onClick={toggleShowPassword}
+            >
+              {showPassword ? (
+                <FaEyeSlash size="1.5rem" />
+              ) : (
+                <FaEye size="1.5rem" />
+              )}{" "}
+            </button>
             {formik.errors.password && formik.touched.password ? (
               <div className="w-5/6 text-red-500">{formik.errors.password}</div>
             ) : null}
