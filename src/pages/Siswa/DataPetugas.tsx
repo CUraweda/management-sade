@@ -24,6 +24,7 @@ const DataPetugas = () => {
   );
   const [isEditMode, setIsEditMode] = useState(false);
 
+  const todayDate = new Date().toISOString().split("T")[0];
   const navigate = useNavigate();
 
   const showModal = (id: string) => {
@@ -246,7 +247,7 @@ const DataPetugas = () => {
         <button
           className="btn btn-ghost bg-white my-3 hover:bg-slate-300"
           onClick={() => navigate("/petugas/home")}
-          disabled={dataPetugas.length === 0}
+          disabled={taskDate !== todayDate || dataPetugas.length === 0}
         >
           Lanjut
         </button>
