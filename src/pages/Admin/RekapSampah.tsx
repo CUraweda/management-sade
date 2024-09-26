@@ -8,6 +8,7 @@ import {
   WasteCollectionItem,
   WasteTypeData,
 } from "../../midleware/Utils";
+import { FaArrowDownShortWide } from "react-icons/fa6";
 
 const RekapSampah = () => {
   const { token } = LoginStore();
@@ -21,6 +22,9 @@ const RekapSampah = () => {
   const [itemsPerPage] = useState(10);
   const [selectedWasteType, setSelectedWasteType] = useState<string>("");
   const [selectedClassId, setSelectedClassId] = useState<string>("");
+  const [sorting, setSorting] = useState<boolean>(false);
+  const [trigerSorting, setTrigerSorting] = useState<boolean>(false);
+  const [listWaste, setListWaste] = useState<WasteCollectionItem[]>([]);
 
   useEffect(() => {
     fetchData();
@@ -38,7 +42,9 @@ const RekapSampah = () => {
         fromDate || "",
         toDate || ""
       );
-      setRekapSampah(response.data.data.result);
+      const rekap = response.data.data.result
+      setRekapSampah(rekap);
+
     } catch (error) {
       console.error(error);
       Swal.fire({
@@ -145,7 +151,26 @@ const RekapSampah = () => {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = rekapSampah.slice(indexOfFirstItem, indexOfLastItem);
+
+  useEffect(() => {
+    // rekapSampah.sort((a, b) => b.weight - a.weight)
+    const currentItems = rekapSampah.slice(indexOfFirstItem, indexOfLastItem);
+    console.log(sorting);
+    sorting
+    ? currentItems.sort((a, b) => a.weight - b.weight)
+    : currentItems.sort((a, b) => b.weight - a.weight); 
+    setListWaste(currentItems)
+    // setSorting(!sorting);
+    
+   
+  }, [trigerSorting, rekapSampah, indexOfFirstItem, indexOfLastItem]);
+
+  const HandleSorting = () => {
+    setSorting(!sorting);
+    setTrigerSorting(!trigerSorting)
+  };
+
+
 
   return (
     <div className="p-5 w-full">
@@ -222,11 +247,21 @@ const RekapSampah = () => {
                   <th>Kelas</th>
                   <th>Jenis Sampah</th>
                   <th>Tanggal Timbang</th>
-                  <th>Total (gram)</th>
+                  <th>
+                    <div className="flex gap-2 w-full justify-start items-center">
+                      <span>Total (gram) </span>
+                      <button
+                        className="btn btn-sm btn-ghost"
+                        onClick={HandleSorting}
+                      >
+                        <FaArrowDownShortWide />
+                      </button>
+                    </div>
+                  </th>
                 </tr>
               </thead>
               <tbody>
-                {currentItems.map((item, index) => (
+                {listWaste.map((item, index) => (
                   <tr key={index}>
                     <td>{indexOfFirstItem + index + 1}</td>
                     <td>{item.studentclass.student.full_name}</td>
