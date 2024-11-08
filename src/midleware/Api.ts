@@ -24,7 +24,7 @@ const Auth = {
   ): AxiosPromise<LoginResponse> =>
     instance({
       method: "POST",
-      url: "/api/auth/login",
+      url: "/auth/login",
       data: {
         email,
         password,
@@ -39,7 +39,7 @@ const DaftarDataPetugas = {
   ): AxiosPromise<DataPetugasResponse> =>
     instance({
       method: "GET",
-      url: `/api/waste-officer/get-by-date/date=${date}`,
+      url: `/waste-officer/get-by-date/date=${date}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -48,7 +48,7 @@ const DaftarDataPetugas = {
   PosDataPetugas: (token: string | null, data: any): AxiosPromise<any> =>
     instance({
       method: "POST",
-      url: `/api/waste-officer/create`,
+      url: `/waste-officer/create`,
       data,
       headers: {
         Authorization: `Bearer ${token}`,
@@ -62,7 +62,7 @@ const DaftarDataPetugas = {
   ): AxiosPromise<any> =>
     instance({
       method: "PUT",
-      url: `/api/waste-officer/update/${id}`,
+      url: `/waste-officer/update/${id}`,
       data,
       headers: {
         Authorization: `Bearer ${token}`,
@@ -72,7 +72,7 @@ const DaftarDataPetugas = {
   DeleteDataPetugas: (token: string | null, id: number): AxiosPromise<any> =>
     instance({
       method: "DELETE",
-      url: `/api/waste-officer/delete/${id}`,
+      url: `/waste-officer/delete/${id}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -83,7 +83,7 @@ const DaftarDataPetugas = {
   // ): AxiosPromise<DataPetugasDropdownResponse> =>
   //   instance({
   //     method: "GET",
-  //     url: `/api/student?limit=100000`,
+  //     url: `/student?limit=100000`,
   //     headers: {
   //       Authorization: `Bearer ${token}`,
   //     },
@@ -92,7 +92,7 @@ const DaftarDataPetugas = {
   GetDataPetugasDropdown: (token: string | null, id: any): AxiosPromise<any> =>
     instance({
       method: "GET",
-      url: `/api/student-class/show-by-class/${id}`,
+      url: `/student-class/show-by-class/${id}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -103,7 +103,7 @@ const DaftarDataPetugas = {
   ): AxiosPromise<DataPetugasResponse> =>
     instance({
       method: "GET",
-      url: `/api/waste-officer`,
+      url: `/waste-officer`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -123,7 +123,7 @@ const BankSampah = {
   ): AxiosPromise<penjualanSampah> =>
     instance({
       method: "GET",
-      url: `/api/waste-sales/?wastetype_id=${jenis}&start_date=${startDate}&end_date=${endDate}&page=${page}&limit=${limit}&sortField=${sortField}&sortOrder=${sortOrder}`,
+      url: `/waste-sales/?wastetype_id=${jenis}&start_date=${startDate}&end_date=${endDate}&page=${page}&limit=${limit}&sortField=${sortField}&sortOrder=${sortOrder}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -133,7 +133,7 @@ const BankSampah = {
   ): AxiosPromise<WasteTypeDropdownResponse> =>
     instance({
       method: "GET",
-      url: `/api/waste-type`,
+      url: `/waste-type`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -147,7 +147,7 @@ const BankSampah = {
   ): AxiosPromise<WasteCollectionResponse> =>
     instance({
       method: "GET",
-      url: `/api/waste-collection/get-by-filter?waste_type_id=${wasteId}&class_id=${classId}&start_date=${fromDate}&end_date=${toDate}&limit=100000000`,
+      url: `/waste-collection/get-by-filter?waste_type_id=${wasteId}&class_id=${classId}&start_date=${fromDate}&end_date=${toDate}&limit=100000000`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -158,7 +158,7 @@ const BankSampah = {
   ): AxiosPromise<ClassDropdownResponse> =>
     instance({
       method: "GET",
-      url: `/api/classes?limit=100&is_active=Y`,
+      url: `/classes?limit=100&is_active=Y`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -171,7 +171,7 @@ const BankSampah = {
   ): AxiosPromise<JenisSampah> =>
     instance({
       method: "GET",
-      url: `/api/waste-type?search_query=&page=${page}&limit=${limit}`,
+      url: `/waste-type?search_query=&page=${page}&limit=${limit}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -183,7 +183,7 @@ const BankSampah = {
   ): AxiosPromise<any> =>
     instance({
       method: "POST",
-      url: `/api/waste-collection/create`,
+      url: `/waste-collection/create`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -196,7 +196,7 @@ const BankSampah = {
   ): AxiosPromise<any> =>
     instance({
       method: "POST",
-      url: `/api/waste-type/create`,
+      url: `/waste-type/create`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -209,7 +209,7 @@ const BankSampah = {
   ): AxiosPromise<any> =>
     instance({
       method: "PUT",
-      url: `/api/waste-type/update/${id}`,
+      url: `/waste-type/update/${id}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -221,7 +221,7 @@ const BankSampah = {
   ): AxiosPromise<any> =>
     instance({
       method: "GET",
-      url: `/api/waste-type/show/${id}`,
+      url: `/waste-type/show/${id}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -232,7 +232,7 @@ const BankSampah = {
   ): AxiosPromise<any> =>
     instance({
       method: "DELETE",
-      url: `/api/waste-type/delete/${id}`,
+      url: `/waste-type/delete/${id}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -246,7 +246,7 @@ const ApiSiswa = {
   ): AxiosPromise<GetSiswaByNis> =>
     instance({
       method: "GET",
-      url: `/api/student/show-nis/${nis}`,
+      url: `/student/show-nis/${nis}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -258,7 +258,7 @@ const ApiSiswa = {
   ): AxiosPromise<GetInclassStudent> =>
     instance({
       method: "GET",
-      url: `/api/student-class/show-by-student/${id}`,
+      url: `/student-class/show-by-student/${id}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -283,7 +283,7 @@ const ApiSiswa = {
   ): AxiosPromise<GetInclassStudent> =>
     instance({
       method: "GET",
-      url: `/api/student-class/show-by-class/${kelas}?academic=${akademik}`,
+      url: `/student-class/show-by-class/${kelas}?academic=${akademik}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
