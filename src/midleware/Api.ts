@@ -270,7 +270,7 @@ const ApiSiswa = {
   ): AxiosPromise<GetClass> =>
     instance({
       method: "GET",
-      url: `api/classes/show/${id}?is_active=Y`,
+      url: `/classes/show/${id}?is_active=Y`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -294,7 +294,7 @@ const Kelas = {
   GetAllKelas: (token: string | null): AxiosPromise<GetAllClass> =>
     instance({
       method: "GET",
-      url: `api/classes?search_query=&page=0&limit=1000`,
+      url: `/classes?search_query=&page=0&limit=1000`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -305,7 +305,7 @@ const DashboardAdmin = {
   getCards: (token: string | null): AxiosPromise<any> =>
     instance({
       method: "GET",
-      url: `api/dashboard/admin-timbangan`,
+      url: `/dashboard/admin-timbangan`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -318,7 +318,7 @@ const DashboardAdmin = {
   ): AxiosPromise<any> =>
     instance({
       method: "GET",
-      url: `api/dashboard/chart?start_date=${startDate}&end_date=${endDate}&class_id=${classId}`,
+      url: `/dashboard/chart?start_date=${startDate}&end_date=${endDate}&class_id=${classId}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -332,7 +332,7 @@ const DashboardAdmin = {
   ): AxiosPromise<any> =>
     instance({
       method: "GET",
-      url: `api/dashboard/detail-chart?waste_type_id=${wasteTypeId}&start_date=${startDate}&end_date=${endDate}&class_id=${classId}`,
+      url: `/dashboard/detail-chart?waste_type_id=${wasteTypeId}&start_date=${startDate}&end_date=${endDate}&class_id=${classId}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
