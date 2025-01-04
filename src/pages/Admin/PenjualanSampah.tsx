@@ -49,11 +49,11 @@ const PenjualanSampah: React.FC = () => {
   const getListJenisSampah = async () => {
     try {
       const response = await BankSampah.GetDataDropdownWasteType(token);
-      const result: any = response.data;
-      const sortedResult = result.data.result.sort(
-        (a: any, b: any) => a.id - b.id
-      );
-      setJenisSampah(sortedResult);
+      // const result: any = response.data;
+      // const sortedResult = result.data.result.sort(
+      //   (a: any, b: any) => a.id - b.id
+      // );
+      setJenisSampah(response.data.data.result);
     } catch (error) {
       console.error("Error fetching data:", error);
     }

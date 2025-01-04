@@ -1,29 +1,32 @@
 import { DaftarDataPetugas } from "../../midleware/Api";
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import { LoginStore } from "../../store/Store";
 import { ItemDataPetugas } from "../../midleware/Utils";
 import * as XLSX from "xlsx";
-
 
 const DaftarPetugas = () => {
   const { token } = LoginStore();
   const [dataPetugas, setdataPetugas] = useState<ItemDataPetugas[]>([]);
 
-  const currentDate = new Date();
-  const formattedDate = currentDate.toISOString().split("T")[0];
-  const [date, setDate] = useState(formattedDate);
-
+  // const currentDate = new Date();
+  // const formattedDate = currentDate.toISOString().split("T")[0];
+  const [date, setDate] = useState("");
+  const [filterType, setFilterType] = useState("");
   useEffect(() => {
     fetchData();
-  }, [date]);
+  }, [date, filterType]);
 
   const fetchData = async () => {
     // setLoading(true);
     try {
-      const response = await DaftarDataPetugas.GetAllDataPetugas(token);
-      const data = response.data.data.result
-      const dataFilter = data.filter(value => value.assignment_date == date)
-      setdataPetugas(date ? dataFilter : data);
+      const response = await DaftarDataPetugas.GetAllDataPetugas(
+        token,
+        date,
+        filterType
+      );
+      // const data = response.data.data.result;
+      // const dataFilter = data.filter((value) => value.assignment_date == date);
+      setdataPetugas(response.data.data.result);
     } catch (error) {
       console.log(error);
     } finally {
@@ -34,10 +37,9 @@ const DaftarPetugas = () => {
   const handleExportData = () => {
     const formattedData = dataPetugas.map((item, index) => ({
       No: index + 1,
-      "Nama": item.name,
+      Nama: item.name,
       Kelas: item.class.class_name,
       "Tanggal Tugas": item.assignment_date,
-    
     }));
 
     const worksheet = XLSX.utils.json_to_sheet(formattedData);
@@ -67,13 +69,29 @@ const DaftarPetugas = () => {
             <input
               type="date"
               placeholder="Type here"
-              value={date}
               className="input input-bordered w-md"
               onChange={(e) => setDate(e.target.value)}
             />
           </label>
 
-          <button className="btn btn-ghost bg-blue-500 text-white hover:bg-blue-400" onClick={handleExportData}>
+          <label className="form-control w-md">
+            <span className="label-text">Filter</span>
+            <select
+              className="select select-bordered w-md"
+              onChange={(e) => setFilterType(e.target.value)}
+            >
+              <option value="">Filter</option>
+              <option value="day">Perhari</option>
+              <option value="week">Perminggu</option>
+              <option value="month">Perbulan</option>
+              <option value="year">Pertahun</option>
+            </select>
+          </label>
+
+          <button
+            className="btn btn-ghost bg-blue-500 text-white hover:bg-blue-400"
+            onClick={handleExportData}
+          >
             Eksport Data
           </button>
         </div>
