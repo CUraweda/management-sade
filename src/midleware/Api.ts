@@ -99,11 +99,13 @@ const DaftarDataPetugas = {
     }),
 
   GetAllDataPetugas: (
-    token: string | null
+    token: string | null,
+    date: string | null,
+    iteration: string | null
   ): AxiosPromise<DataPetugasResponse> =>
     instance({
       method: "GET",
-      url: `/waste-officer`,
+      url: `/waste-officer?date=${date}&iteration=${iteration}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -133,7 +135,7 @@ const BankSampah = {
   ): AxiosPromise<WasteTypeDropdownResponse> =>
     instance({
       method: "GET",
-      url: `/waste-type`,
+      url: `/waste-type?limit=10000`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
