@@ -1,0 +1,130 @@
+[
+  {
+    "submenu": true,
+    "title": "Guru",
+    "icon": "<IoPersonOutline />",
+    "url": "",
+    "subtitle": [
+      {
+        "name": "Leson Plan",
+        "url": "guru/leson-plan"
+      },
+      {
+        "name": "Pengumuman",
+        "url": "guru/pengumuman"
+      },
+      {
+        "name": "ODFYC",
+        "url": "guru/odfyc"
+      },
+      {
+        "name": "Prestasi",
+        "url": "guru/prestasi"
+      },
+      {
+        "name": "Presensi",
+        "url": "guru/presensi"
+      }
+    ]
+  },
+  {
+    "submenu": true,
+    "title": "Bank Sampah",
+    "icon": "<IoTrashOutline />",
+    "url": "",
+    "subtitle": [
+      {
+        "name": "Jenis Sampah",
+        "url": "bank-sampah/jenis-sampah"
+      },
+      {
+        "name": "Laporan",
+        "url": "bank-sampah/laporan"
+      }
+    ]
+  },
+  {
+    "submenu": true,
+    "title": "Keuangan",
+    "icon": "<FaMoneyBillTransfer />",
+    "url": "",
+    "subtitle": [
+      {
+        "name": "Pemasukan",
+        "url": "keuangan/pemasukan"
+      },
+      {
+        "name": "Laporan",
+        "url": "keuangan/laporan"
+      }
+    ]
+  },
+  {
+    "submenu": true,
+    "title": "HRD",
+    "icon": "<IoPeopleOutline />",
+    "url": "/admin/rekap-sampah",
+    "subtitle": [
+      {
+        "name": "Lowongan",
+        "url": "hrd/lowongan"
+      },
+      {
+        "name": "Magang",
+        "url": "hrd/magang"
+      },
+      {
+        "name": "Presensi",
+        "url": "hrd/presensi"
+      },
+      {
+        "name": "Training",
+        "url": "hrd/training"
+      },
+      {
+        "name": "Karyawan",
+        "url": "hrd/karyawan"
+      },
+      {
+        "name": "Penilaian",
+        "url": "hrd/penilaian"
+      },
+      {
+        "name": "Gaji",
+        "url": "hrd/gaji"
+      }
+    ]
+  },
+  {
+    "submenu": true,
+    "title": "Ticketing",
+    "icon": "<PiTicket />",
+    "url": "",
+    "subtitle": [
+      {
+        "name": "Layanan",
+        "url": "ticketing/layanan"
+      },
+      {
+        "name": "Pendapatan Layanan",
+        "url": "ticketing/pendapatan-layanan"
+      }
+    ]
+  },
+  {
+    "submenu": true,
+    "title": "PMB",
+    "icon": "<LuBook />",
+    "url": "",
+    "subtitle": [
+      {
+        "name": "Hasil Pendaftaran",
+        "url": "pmb/hasil-pendaftaran"
+      },
+      {
+        "name": "Proses Daftar",
+        "url": "pmb/proses-daftar"
+      }
+    ]
+  }
+]

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { BsListNested } from "react-icons/bs";
-import { iconMapping } from "./IconMapping";
+import { iconMapping } from "../component/IconMapping";
 import logo from "../assets/sade.png";
 import { Link } from "react-router-dom";
-import data from "../data/SidebarAdmin.json";
+import data from "../data/Sidebar.json";
 
 // import karywan from "../data/karyawan.json"
 
@@ -21,13 +21,13 @@ type subtitle = {
 };
 
 const Sidebar = () => {
-  const Side = sessionStorage.getItem('side') || '/';
-  
+  const Side = sessionStorage.getItem("side") || "/";
+
   const [activeMenuItem, setActiveMenuItem] = useState<string>(Side);
 
   const handleMenuItemClick = (name: string) => {
     setActiveMenuItem(name);
-    sessionStorage.setItem('side', name);
+    sessionStorage.setItem("side", name);
   };
 
   return (
@@ -43,8 +43,8 @@ const Sidebar = () => {
           <ul className="menu p-4 w-80 bg-base-100 min-h-screen">
             <div className="w-full flex justify-between mb-10 items-center  pb-6">
               <div className="flex justify-center items-center gap-1">
-                <img src={logo} alt="logo" className="w-20" />
-                <p className="sm:text-xl text-xl font-bold">
+                <img src={logo} alt="logo" className="w-16" />
+                <p className="sm:text-lg text-lg font-semibold">
                   Sekolah Alam Depok
                 </p>
               </div>
@@ -55,7 +55,7 @@ const Sidebar = () => {
                 <BsListNested />
               </label>
             </div>
-            <ul className="menu font-bold rounded-lg max-w-xs w-full text-gray-500">
+            <ul className="menu srounded-lg max-w-xs w-full text-gray-500">
               {data.map((item: Menu, index: number) => (
                 <React.Fragment key={`menu-` + index}>
                   {item.submenu ? (
@@ -75,7 +75,7 @@ const Sidebar = () => {
                                   key={`subtitle-` + Index}
                                   className={`my-2 transition duration-200 rounded-md ${
                                     activeMenuItem === Item.url
-                                      ? "bg-green-100 text-green-600"
+                                      ? "bg-[#DBEAFE] text-[#3B86F6]"
                                       : ""
                                   }`}
                                   onClick={() => handleMenuItemClick(Item.url)}

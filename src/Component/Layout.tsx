@@ -1,12 +1,12 @@
 import React, { FC } from "react";
-import Navbar from "./NavbarAdmin";
+import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 
 interface Props {
   children?: React.ReactNode;
   name?: string;
 }
-const LayoutAdmin: FC<Props> = ({ children }) => {
+const Layout: FC<Props> = ({ children }) => {
   return (
     <>
       <div className="flex flex-col min-h-screen" data-theme="light">
@@ -26,4 +26,4 @@ const LayoutAdmin: FC<Props> = ({ children }) => {
   );
 };
 
-export default LayoutAdmin;
+export default Layout;

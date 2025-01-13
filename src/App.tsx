@@ -1,4 +1,4 @@
-import RootRoutes from "./router/RoutHome";
+import RootRoutes from "./router/Route";
 
 const App = () => {
   return <RootRoutes />;
