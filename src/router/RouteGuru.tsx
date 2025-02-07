@@ -1,5 +1,6 @@
 import { RouteObject } from "react-router-dom";
 import LesonPlan from "../pages/guru/LesonPlan";
+import Pengumuman from "../pages/guru/Pengumuman";
 
 const RouteGuru: RouteObject[] = [
   {
@@ -8,7 +9,7 @@ const RouteGuru: RouteObject[] = [
   },
   {
     path: "pengumuman",
-    element: <LesonPlan />,
+    element: <Pengumuman />,
   },
 ];
 
