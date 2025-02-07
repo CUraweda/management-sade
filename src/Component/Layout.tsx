@@ -19,7 +19,7 @@ const Layout: FC<Props> = () => {
             <div className="">
               <Navbar />
             </div>
-            <div className="">
+            <div className="max-w-7xl">
               <Outlet />
             </div>
           </div>

@@ -374,6 +374,17 @@ const PrestasiApi = {
     }),
 };
 
+const ClassApi = {
+  showAll: (
+    token: string | null,
+    params?: Record<string, any>
+  ): AxiosPromise<any> =>
+    instance.get("/classes", {
+      headers: { Authorization: `Bearer ${token}` },
+      params,
+    }),
+};
+
 export {
   Auth,
   BankSampah,
@@ -383,4 +394,5 @@ export {
   DashboardAdmin,
   PengumumanApi,
   PrestasiApi,
+  ClassApi,
 };

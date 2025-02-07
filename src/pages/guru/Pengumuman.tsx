@@ -8,11 +8,13 @@ import { formatTime } from "../../utils/Date";
 import Search from "../../Component/Form/Search";
 import DateRangePicker from "../../Component/DateRangePicker";
 import { FaDownload } from "react-icons/fa6";
+import ClassPicker from "../../Component/ClassPicker";
 
 const Pengumuman = () => {
   const { token } = Store();
   const [filter, setFilter] = useState<any>({
     search_query: "",
+    class_id: "",
     start_date: "",
     end_date: "",
     page: 0,
@@ -62,6 +64,11 @@ const Pengumuman = () => {
 
       <div className="flex flex-wrap gap-2 mx-6 mb-6">
         <Search onEnter={(v) => setFilter({ ...filter, search_query: v })} />
+
+        <ClassPicker
+          value={filter.class_id}
+          onChange={(id) => setFilter({ ...filter, class_id: id })}
+        />
 
         <DateRangePicker
           value={{ start: filter.start_date, end: filter.end_date }}
