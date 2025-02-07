@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { BsListNested } from "react-icons/bs";
-import { iconMapping } from "../component/IconMapping";
+import { iconMapping } from "../Component/IconMapping";
 import logo from "../assets/sade.png";
 import { Link } from "react-router-dom";
 import data from "../data/Sidebar.json";

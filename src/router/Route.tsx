@@ -1,23 +1,21 @@
-import { lazy, Suspense, ReactNode } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Layout from "../component/Layout";
-import LesonPlan from "../pages/guru/LesonPlan";
+import { createBrowserRouter } from "react-router-dom";
+import Layout from "../Component/Layout";
+import RouteGuru from "./RouteGuru";
 
-const RoutHome = () => {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <Layout>
-              <LesonPlan />
-            </Layout>
-          }
-        />
-      </Routes>
-    </BrowserRouter>
-  );
-};
+const Route: ReturnType<typeof createBrowserRouter> = createBrowserRouter([
+  {
+    element: <Layout />,
+    children: [
+      {
+        path: "",
+        element: <></>,
+      },
+      {
+        path: "guru",
+        children: RouteGuru,
+      },
+    ],
+  },
+]);
 
-export default RoutHome;
+export default Route;

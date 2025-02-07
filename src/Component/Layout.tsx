@@ -1,12 +1,13 @@
 import React, { FC } from "react";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
+import { Outlet } from "react-router-dom";
 
 interface Props {
   children?: React.ReactNode;
   name?: string;
 }
-const Layout: FC<Props> = ({ children }) => {
+const Layout: FC<Props> = () => {
   return (
     <>
       <div className="flex flex-col min-h-screen" data-theme="light">
@@ -18,7 +19,9 @@ const Layout: FC<Props> = ({ children }) => {
             <div className="">
               <Navbar />
             </div>
-            <div className="">{children}</div>
+            <div className="">
+              <Outlet />
+            </div>
           </div>
         </div>
       </div>
