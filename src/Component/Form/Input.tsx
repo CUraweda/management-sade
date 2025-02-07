@@ -1,14 +1,14 @@
 import React from "react";
-import { InputProps } from "./type";
+import { GeneralInputProps } from "./type";
 
-export interface Props
+export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement>,
-    InputProps {
+    GeneralInputProps {
   slotLeft?: React.ReactNode;
   slotRight?: React.ReactNode;
 }
 
-const Input = React.forwardRef<HTMLInputElement, Props>(
+const Input = React.forwardRef<HTMLInputElement, InputProps>(
   (
     {
       className,

@@ -341,4 +341,28 @@ const DashboardAdmin = {
     }),
 };
 
-export { Auth, BankSampah, ApiSiswa, Kelas, DaftarDataPetugas, DashboardAdmin };
+const PengumumanApi = {
+  showAll: (
+    token: string | null,
+    params?: Record<string, any>
+  ): AxiosPromise<any> =>
+    instance.get("/announcement", {
+      headers: { Authorization: `Bearer ${token}` },
+      params,
+    }),
+  downloadFile: (token: string | null, id: string): AxiosPromise<any> =>
+    instance.get("/announcement/download/" + id, {
+      headers: { Authorization: `Bearer ${token}` },
+      responseType: "blob",
+    }),
+};
+
+export {
+  Auth,
+  BankSampah,
+  ApiSiswa,
+  Kelas,
+  DaftarDataPetugas,
+  DashboardAdmin,
+  PengumumanApi,
+};
