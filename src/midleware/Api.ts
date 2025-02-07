@@ -357,6 +357,23 @@ const PengumumanApi = {
     }),
 };
 
+const PrestasiApi = {
+  showAll: (
+    token: string | null,
+    params?: Record<string, any>
+  ): AxiosPromise<any> =>
+    instance.get("/achievement", {
+      headers: { Authorization: `Bearer ${token}` },
+      params,
+    }),
+  downloadFile: (token: string | null, filepath: string): AxiosPromise<any> =>
+    instance.get("/achievement/download/", {
+      headers: { Authorization: `Bearer ${token}` },
+      responseType: "blob",
+      params: { filepath },
+    }),
+};
+
 export {
   Auth,
   BankSampah,
@@ -365,4 +382,5 @@ export {
   DaftarDataPetugas,
   DashboardAdmin,
   PengumumanApi,
+  PrestasiApi,
 };
