@@ -394,6 +394,23 @@ const BankSampahApi = {
       headers: { Authorization: `Bearer ${token}` },
       params,
     }),
+  getWasteTypesMinimal: (
+    token: string | null,
+    params?: Record<string, any>
+  ): AxiosPromise<any> =>
+    instance.get("/waste-type", {
+      headers: { Authorization: `Bearer ${token}` },
+      params,
+    }),
+
+  getCollections: (
+    token: string | null,
+    params?: Record<string, any>
+  ): AxiosPromise<any> =>
+    instance.get("/waste-collection/get-by-filter", {
+      headers: { Authorization: `Bearer ${token}` },
+      params,
+    }),
 };
 
 export {

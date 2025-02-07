@@ -27,6 +27,7 @@ const ClassPicker = ({ value, onChange }: Props) => {
   return (
     <div>
       <Select
+        placeholder="Kelas"
         keyValue="id"
         displayBuilder={(o) => `${o.level ?? ""} - ${o.class_name ?? ""}`}
         value={value}

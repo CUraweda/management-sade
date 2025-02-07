@@ -63,18 +63,18 @@ const Pengumuman = () => {
       <Header links={[{ l: "Guru" }]} title="Pengumuman" />
 
       <div className="flex flex-wrap gap-2 mx-4 mb-6">
-        <Search onEnter={(v) => setFilter({ ...filter, search_query: v })} />
-
-        <ClassPicker
-          value={filter.class_id}
-          onChange={(id) => setFilter({ ...filter, class_id: id })}
-        />
-
         <DateRangePicker
           value={{ start: filter.start_date, end: filter.end_date }}
           onChange={({ start, end }) =>
             setFilter({ ...filter, start_date: start, end_date: end })
           }
+        />
+
+        <Search onEnter={(v) => setFilter({ ...filter, search_query: v })} />
+
+        <ClassPicker
+          value={filter.class_id}
+          onChange={(id) => setFilter({ ...filter, class_id: id })}
         />
       </div>
 

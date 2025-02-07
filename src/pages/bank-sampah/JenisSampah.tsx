@@ -21,7 +21,7 @@ const JenisSampah = () => {
     } catch (error) {
       Swal.fire({
         icon: "error",
-        title: "Gagal mengambil daftar prestasi",
+        title: "Gagal mengambil daftar jenis sampah",
       });
     }
   };

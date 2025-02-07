@@ -40,7 +40,7 @@ const DateRangePicker = ({ value, onChange }: Props) => {
   }, [option]);
 
   return (
-    <div className="dropdown dropdown-end">
+    <div className="dropdown">
       <button
         tabIndex={0}
         role="button"
