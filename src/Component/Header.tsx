@@ -10,7 +10,7 @@ interface Props {
 const Header = ({ links, right, title }: Props) => {
   return (
     <div>
-      <div className=" flex items-center m-6">
+      <div className=" flex items-center m-4">
         <div className="grow">
           {links ? (
             <div className="breadcrumbs h-fit">

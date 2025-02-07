@@ -54,7 +54,7 @@ const DateRangePicker = ({ value, onChange }: Props) => {
       </button>
       <div
         tabIndex={0}
-        className="dropdown-content bg-base-100 rounded-box z-[1] w-52 p-4 pb-2 shadow-lg "
+        className="dropdown-content bg-base-100 rounded-box z-50 w-52 p-4 pb-2 shadow-lg "
       >
         <Select
           keyValue="value"
@@ -84,60 +84,6 @@ const DateRangePicker = ({ value, onChange }: Props) => {
             />
           </>
         )}
-        {/* <div role="tablist" className="tabs tabs-lifted">
-          <input
-            type="radio"
-            name="date_range_filter_type"
-            role="tab"
-            className="tab"
-            aria-label="Periode"
-            checked={mode == "period"}
-            onChange={() => setMode("period")}
-          />
-          <div role="tabpanel" className="tab-content !py-0">
-           
-          </div>
-
-          <input
-            type="radio"
-            name="date_range_filter_type"
-            role="tab"
-            className="tab"
-            aria-label="Rentang tanggal"
-            checked={mode == "range"}
-            onChange={() => setMode("range")}
-          />
-          <div role="tabpanel" className="tab-content !py-0">
-            <Input
-              label="Awal"
-              type="date"
-              value={value.start}
-              onChange={(e) => {
-                onChange({ start: e.target.value, end: value.end });
-              }}
-            />
-            <Input
-              label="Akhir"
-              type="date"
-              value={value.end}
-              onChange={(e) => {
-                onChange({ start: value.start, end: e.target.value });
-              }}
-            />
-          </div>
-        </div>
-        {value.start && value.end && (
-          <button
-            onClick={() => {
-              if (mode == "period") setPeriod("");
-              else onChange({ start: "", end: "" });
-            }}
-            type="button"
-            className="btn btn-error btn-sm mt-3 w-full"
-          >
-            Reset
-          </button>
-        )} */}
       </div>
     </div>
   );

@@ -62,7 +62,7 @@ const Pengumuman = () => {
     <>
       <Header links={[{ l: "Guru" }]} title="Pengumuman" />
 
-      <div className="flex flex-wrap gap-2 mx-6 mb-6">
+      <div className="flex flex-wrap gap-2 mx-4 mb-6">
         <Search onEnter={(v) => setFilter({ ...filter, search_query: v })} />
 
         <ClassPicker
@@ -78,7 +78,7 @@ const Pengumuman = () => {
         />
       </div>
 
-      <div className="overflow-x-auto mb-6 mx-6 bg-base-100 p-3 rounded-xl">
+      <div className="overflow-x-auto mb-6 mx-4 bg-base-100 p-3 rounded-xl">
         <table className="table">
           <thead>
             <tr>
@@ -115,7 +115,7 @@ const Pengumuman = () => {
         </table>
       </div>
 
-      <div className="mx-6 mb-6">
+      <div className="mx-4 mb-6">
         <PaginationBar
           meta={paginate}
           onNextClick={() => setFilter({ ...filter, page: filter.page + 1 })}

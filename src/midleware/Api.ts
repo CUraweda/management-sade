@@ -385,6 +385,17 @@ const ClassApi = {
     }),
 };
 
+const BankSampahApi = {
+  getWasteTypes: (
+    token: string | null,
+    params?: Record<string, any>
+  ): AxiosPromise<any> =>
+    instance.get("/waste-collection/show-recap-type", {
+      headers: { Authorization: `Bearer ${token}` },
+      params,
+    }),
+};
+
 export {
   Auth,
   BankSampah,
@@ -395,4 +406,5 @@ export {
   PengumumanApi,
   PrestasiApi,
   ClassApi,
+  BankSampahApi,
 };
