@@ -1,0 +1,21 @@
+import axios, { AxiosPromise } from "axios";
+const instance = axios.create({
+  baseURL: import.meta.env.VITE_REACT_API_HRD_URL,
+});
+
+const MagangApi = {
+  showAll: (
+    token: string | null,
+    params?: Record<string, any>
+  ): AxiosPromise<any> =>
+    instance.get("/employee", {
+      headers: { Authorization: `Bearer ${token}` },
+      params,
+    }),
+  recapByDivision: (token: string | null): AxiosPromise<any> =>
+    instance.get("/employee/show-recap-division", {
+      headers: { Authorization: `Bearer ${token}` },
+    }),
+};
+
+export { MagangApi };
