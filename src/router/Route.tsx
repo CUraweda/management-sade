@@ -4,6 +4,7 @@ import RouteGuru from "./RouteGuru";
 import Login from "../pages/Login";
 import RouteBankSampah from "./RouteBankSampah";
 import RouteKeuangan from "./RouteKeuangan";
+import RouteHrd from "./RouteHrd";
 
 const Route: ReturnType<typeof createBrowserRouter> = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ const Route: ReturnType<typeof createBrowserRouter> = createBrowserRouter([
       {
         path: "keuangan",
         children: RouteKeuangan,
+      },
+      {
+        path: "hrd",
+        children: RouteHrd,
       },
     ],
   },
