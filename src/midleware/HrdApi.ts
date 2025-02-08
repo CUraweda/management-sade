@@ -52,4 +52,19 @@ const TrainingApi = {
     }),
 };
 
-export { MagangApi, KaryawanApi, TrainingApi };
+const GajiApi = {
+  showAll: (
+    token: string | null,
+    params?: Record<string, any>
+  ): AxiosPromise<any> =>
+    instance.get("/employee-account", {
+      headers: { Authorization: `Bearer ${token}` },
+      params,
+    }),
+  recapByStatus: (token: string | null): AxiosPromise<any> =>
+    instance.get("/employee-account/recap-data", {
+      headers: { Authorization: `Bearer ${token}` },
+    }),
+};
+
+export { MagangApi, KaryawanApi, TrainingApi, GajiApi };
