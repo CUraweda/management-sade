@@ -413,6 +413,23 @@ const BankSampahApi = {
     }),
 };
 
+const KeuanganApi = {
+  getReports: (token: string | null, params?: Record<string, any>) =>
+    instance({
+      method: "GET",
+      url: `/student-payment-report`,
+      headers: { Authorization: `Bearer ${token}` },
+      params,
+    }),
+  exportReports: (token: string | null, params?: Record<string, any>) =>
+    instance({
+      method: "GET",
+      url: `/student-payment-report/export-all`,
+      headers: { Authorization: `Bearer ${token}` },
+      params,
+    }),
+};
+
 export {
   Auth,
   BankSampah,
@@ -424,4 +441,5 @@ export {
   PrestasiApi,
   ClassApi,
   BankSampahApi,
+  KeuanganApi,
 };
