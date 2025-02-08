@@ -37,4 +37,19 @@ const KaryawanApi = {
     }),
 };
 
-export { MagangApi, KaryawanApi };
+const TrainingApi = {
+  showAll: (
+    token: string | null,
+    params?: Record<string, any>
+  ): AxiosPromise<any> =>
+    instance.get("/training", {
+      headers: { Authorization: `Bearer ${token}` },
+      params,
+    }),
+  recapByStatus: (token: string | null): AxiosPromise<any> =>
+    instance.get("/training/show-recap-status", {
+      headers: { Authorization: `Bearer ${token}` },
+    }),
+};
+
+export { MagangApi, KaryawanApi, TrainingApi };
