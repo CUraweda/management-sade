@@ -70,7 +70,7 @@ const Gaji = () => {
         />
       </div>
 
-      <div className="flex flex-wrap gap-2 mx-4">
+      <div className="flex flex-wrap gap-2 mx-4 mb-6">
         <Search onEnter={(v) => setFilter({ ...filter, search: v })} />
       </div>
 

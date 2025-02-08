@@ -66,12 +66,14 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps<any>>(
             </option>
           ))}
         </select>
-        <div className={"label " + bottomLabelClassName}>
-          {hint && <span className="label-text-alt">{hint}</span>}
-          {errorMessage && (
+        {hint || errorMessage ? (
+          <div className={"label " + bottomLabelClassName}>
+            <span className="label-text-alt">{hint}</span>
             <span className="label-text-alt text-error">{errorMessage}</span>
-          )}
-        </div>
+          </div>
+        ) : (
+          ""
+        )}
       </label>
     );
   }

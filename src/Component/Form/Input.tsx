@@ -54,12 +54,14 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           />
           {slotRight ? <div className="pe-4">{slotRight}</div> : ""}
         </div>
-        <div className="label">
-          {hint && <span className="label-text-alt">{hint}</span>}
-          {errorMessage && (
+        {hint || errorMessage ? (
+          <div className="label">
+            <span className="label-text-alt">{hint}</span>
             <span className="label-text-alt text-error">{errorMessage}</span>
-          )}
-        </div>
+          </div>
+        ) : (
+          ""
+        )}
       </label>
     );
   }
