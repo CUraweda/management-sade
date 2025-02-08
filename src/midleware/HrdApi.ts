@@ -18,4 +18,23 @@ const MagangApi = {
     }),
 };
 
-export { MagangApi };
+const KaryawanApi = {
+  showAll: (
+    token: string | null,
+    params?: Record<string, any>
+  ): AxiosPromise<any> =>
+    instance.get("/employee", {
+      headers: { Authorization: `Bearer ${token}` },
+      params,
+    }),
+  recapStatus: (token: string | null): AxiosPromise<any> =>
+    instance.get("/employee/show-recap-status", {
+      headers: { Authorization: `Bearer ${token}` },
+    }),
+  recapByDivision: (token: string | null): AxiosPromise<any> =>
+    instance.get("/employee/show-recap-division", {
+      headers: { Authorization: `Bearer ${token}` },
+    }),
+};
+
+export { MagangApi, KaryawanApi };
