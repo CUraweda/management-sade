@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { BsListNested } from "react-icons/bs";
-import { iconMapping } from "../component/IconMapping";
+import { iconMapping } from "../Component/IconMapping";
 import logo from "../assets/sade.png";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import data from "../data/Sidebar.json";
 
 // import karywan from "../data/karyawan.json"
@@ -21,6 +21,7 @@ type subtitle = {
 };
 
 const Sidebar = () => {
+  const location = useLocation();
   const Side = sessionStorage.getItem("side") || "/";
 
   const [activeMenuItem, setActiveMenuItem] = useState<string>(Side);
@@ -42,7 +43,7 @@ const Sidebar = () => {
           />
           <ul className="menu p-4 w-80 bg-base-100 min-h-screen">
             <div className="w-full flex justify-between mb-10 items-center  pb-6">
-              <div className="flex justify-center items-center gap-1">
+              <div className="flex justify-center items-center gap-2">
                 <img src={logo} alt="logo" className="w-16" />
                 <p className="sm:text-lg text-lg font-semibold">
                   Sekolah Alam Depok
@@ -60,7 +61,11 @@ const Sidebar = () => {
                 <React.Fragment key={`menu-` + index}>
                   {item.submenu ? (
                     <li className="my-2">
-                      <details>
+                      <details
+                        open={item.subtitle?.some((s) =>
+                          location.pathname.includes(s.url)
+                        )}
+                      >
                         <summary>
                           <span className="text-2xl">
                             {iconMapping[item.icon]}
@@ -74,11 +79,10 @@ const Sidebar = () => {
                                 <li
                                   key={`subtitle-` + Index}
                                   className={`my-2 transition duration-200 rounded-md ${
-                                    activeMenuItem === Item.url
-                                      ? "bg-[#DBEAFE] text-[#3B86F6]"
+                                    location.pathname.includes(Item.url)
+                                      ? "text-primary bg-primary/20 font-semibold"
                                       : ""
                                   }`}
-                                  onClick={() => handleMenuItemClick(Item.url)}
                                 >
                                   <p>{Item.name}</p>
                                 </li>

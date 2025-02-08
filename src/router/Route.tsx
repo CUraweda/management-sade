@@ -1,23 +1,37 @@
-import { lazy, Suspense, ReactNode } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Layout from "../component/Layout";
-import LesonPlan from "../pages/guru/LesonPlan";
+import { createBrowserRouter } from "react-router-dom";
+import Layout from "../Component/Layout";
+import RouteGuru from "./RouteGuru";
+import Login from "../pages/Login";
+import RouteBankSampah from "./RouteBankSampah";
+import RouteKeuangan from "./RouteKeuangan";
+import RouteHrd from "./RouteHrd";
 
-const RoutHome = () => {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <Layout>
-              <LesonPlan />
-            </Layout>
-          }
-        />
-      </Routes>
-    </BrowserRouter>
-  );
-};
+const Route: ReturnType<typeof createBrowserRouter> = createBrowserRouter([
+  {
+    path: "",
+    element: <Login />,
+  },
+  {
+    element: <Layout />,
+    children: [
+      {
+        path: "guru",
+        children: RouteGuru,
+      },
+      {
+        path: "bank-sampah",
+        children: RouteBankSampah,
+      },
+      {
+        path: "keuangan",
+        children: RouteKeuangan,
+      },
+      {
+        path: "hrd",
+        children: RouteHrd,
+      },
+    ],
+  },
+]);
 
-export default RoutHome;
+export default Route;

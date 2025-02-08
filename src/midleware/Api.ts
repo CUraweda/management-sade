@@ -341,4 +341,105 @@ const DashboardAdmin = {
     }),
 };
 
-export { Auth, BankSampah, ApiSiswa, Kelas, DaftarDataPetugas, DashboardAdmin };
+const PengumumanApi = {
+  showAll: (
+    token: string | null,
+    params?: Record<string, any>
+  ): AxiosPromise<any> =>
+    instance.get("/announcement", {
+      headers: { Authorization: `Bearer ${token}` },
+      params,
+    }),
+  downloadFile: (token: string | null, id: string): AxiosPromise<any> =>
+    instance.get("/announcement/download/" + id, {
+      headers: { Authorization: `Bearer ${token}` },
+      responseType: "blob",
+    }),
+};
+
+const PrestasiApi = {
+  showAll: (
+    token: string | null,
+    params?: Record<string, any>
+  ): AxiosPromise<any> =>
+    instance.get("/achievement", {
+      headers: { Authorization: `Bearer ${token}` },
+      params,
+    }),
+  downloadFile: (token: string | null, filepath: string): AxiosPromise<any> =>
+    instance.get("/achievement/download/", {
+      headers: { Authorization: `Bearer ${token}` },
+      responseType: "blob",
+      params: { filepath },
+    }),
+};
+
+const ClassApi = {
+  showAll: (
+    token: string | null,
+    params?: Record<string, any>
+  ): AxiosPromise<any> =>
+    instance.get("/classes", {
+      headers: { Authorization: `Bearer ${token}` },
+      params,
+    }),
+};
+
+const BankSampahApi = {
+  getWasteTypes: (
+    token: string | null,
+    params?: Record<string, any>
+  ): AxiosPromise<any> =>
+    instance.get("/waste-collection/show-recap-type", {
+      headers: { Authorization: `Bearer ${token}` },
+      params,
+    }),
+  getWasteTypesMinimal: (
+    token: string | null,
+    params?: Record<string, any>
+  ): AxiosPromise<any> =>
+    instance.get("/waste-type", {
+      headers: { Authorization: `Bearer ${token}` },
+      params,
+    }),
+
+  getCollections: (
+    token: string | null,
+    params?: Record<string, any>
+  ): AxiosPromise<any> =>
+    instance.get("/waste-collection/get-by-filter", {
+      headers: { Authorization: `Bearer ${token}` },
+      params,
+    }),
+};
+
+const KeuanganApi = {
+  getReports: (token: string | null, params?: Record<string, any>) =>
+    instance({
+      method: "GET",
+      url: `/student-payment-report`,
+      headers: { Authorization: `Bearer ${token}` },
+      params,
+    }),
+  exportReports: (token: string | null, params?: Record<string, any>) =>
+    instance({
+      method: "GET",
+      url: `/student-payment-report/export-all`,
+      headers: { Authorization: `Bearer ${token}` },
+      params,
+    }),
+};
+
+export {
+  Auth,
+  BankSampah,
+  ApiSiswa,
+  Kelas,
+  DaftarDataPetugas,
+  DashboardAdmin,
+  PengumumanApi,
+  PrestasiApi,
+  ClassApi,
+  BankSampahApi,
+  KeuanganApi,
+};
