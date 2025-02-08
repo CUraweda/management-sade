@@ -91,10 +91,10 @@ const Prestasi = () => {
             {dataList.map((dat, i) => (
               <tr key={i}>
                 <td>
-                  <p className="font-bold max-w-lg">
+                  <p className="font-bold max-w-lg text-base">
                     {dat.achievement_desc ?? ""}
                   </p>
-                  <span className="text-base-content/70 text-sm">
+                  <span className="text-base-content/70">
                     {dat.student?.full_name ?? ""}
                   </span>
                 </td>

@@ -3,6 +3,7 @@ import Layout from "../Component/Layout";
 import RouteGuru from "./RouteGuru";
 import Login from "../pages/Login";
 import RouteBankSampah from "./RouteBankSampah";
+import RouteKeuangan from "./RouteKeuangan";
 
 const Route: ReturnType<typeof createBrowserRouter> = createBrowserRouter([
   {
@@ -19,6 +20,10 @@ const Route: ReturnType<typeof createBrowserRouter> = createBrowserRouter([
       {
         path: "bank-sampah",
         children: RouteBankSampah,
+      },
+      {
+        path: "keuangan",
+        children: RouteKeuangan,
       },
     ],
   },
