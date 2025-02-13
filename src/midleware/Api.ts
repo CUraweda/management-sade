@@ -428,6 +428,13 @@ const KeuanganApi = {
       headers: { Authorization: `Bearer ${token}` },
       params,
     }),
+  getPaymentPosts: (token: string | null, params?: Record<string, any>) =>
+    instance({
+      method: "GET",
+      url: `/payment-post`,
+      headers: { Authorization: `Bearer ${token}` },
+      params,
+    }),
 };
 
 export {
