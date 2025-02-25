@@ -5,21 +5,32 @@ export interface IpageMeta {
   totalPage?: number;
 }
 
+interface Props {
+  meta: IpageMeta;
+  useLimit?: boolean;
+  useTotal?: boolean;
+  initialPage?: number;
+  onPrevClick: () => void;
+  onNextClick: () => void;
+  onLimitChange?: (val: number) => void;
+}
+
+const pageAdjust: Record<string, number> = {
+  "-1": 2,
+  "0": 1,
+  "1": 0,
+  "2": -1,
+};
+
 const PaginationBar = ({
   meta,
   onPrevClick,
   onNextClick,
   useLimit = true,
   useTotal = true,
+  initialPage = 0,
   onLimitChange = () => {},
-}: {
-  meta: IpageMeta;
-  useLimit?: boolean;
-  useTotal?: boolean;
-  onPrevClick: () => void;
-  onNextClick: () => void;
-  onLimitChange?: (val: number) => void;
-}) => {
+}: Props) => {
   return (
     <div className="w-full items-center flex-wrap justify-end flex mt-3 gap-3">
       {useTotal && (
@@ -53,17 +64,19 @@ const PaginationBar = ({
         <button
           className="join-item btn"
           onClick={onPrevClick}
-          disabled={meta.page == 0}
+          disabled={meta.page == initialPage}
         >
           «
         </button>
         <button tabIndex={0} className="btn join-item ">
-          Halaman {meta.page + 1}{" "}
+          Halaman {meta.page + pageAdjust[initialPage.toString()]}
         </button>
         <button
           className="join-item btn"
           onClick={onNextClick}
-          disabled={meta.page + 1 == meta.totalPage}
+          disabled={
+            meta.page + pageAdjust[initialPage.toString()] == meta.totalPage
+          }
         >
           »
         </button>

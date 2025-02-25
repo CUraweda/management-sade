@@ -106,8 +106,12 @@
         "url": "ticketing/layanan"
       },
       {
-        "name": "Pendapatan Layanan",
-        "url": "ticketing/pendapatan-layanan"
+        "name": "Spesialis",
+        "url": "ticketing/spesialis"
+      },
+      {
+        "name": "Daycare",
+        "url": "ticketing/daycare"
       }
     ]
   },
