@@ -52,7 +52,7 @@ const Daycare = () => {
           onEnter={(v) =>
             setFilter({
               ...filter,
-              search: v ? `title:${v}+billing_cycle:${v}` : "",
+              search: v ? `title:${v}+invoice_cycle:${v}` : "",
             })
           }
         />
