@@ -13,6 +13,10 @@ const Options: Record<string, Option[]> = {
     { value: "P", label: "Perempuan" },
     { value: "L", label: "Laki-laki" },
   ],
+  timeCycle: [
+    { value: "daily", label: "Harian" },
+    { value: "monthly", label: "Bulanan" },
+  ],
 };
 
 export default Options;
