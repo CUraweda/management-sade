@@ -9,6 +9,10 @@ const Options: Record<string, Option[]> = {
     { value: "this_month", label: "Bulan ini" },
     { value: "this_day", label: "Hari ini" },
   ],
+  sexes: [
+    { value: "P", label: "Perempuan" },
+    { value: "L", label: "Laki-laki" },
+  ],
 };
 
 export default Options;
