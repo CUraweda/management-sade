@@ -22,6 +22,15 @@ const Options: Record<string, Option[]> = {
     { value: "1", label: "ABK Tidak Dengan Pendamping" },
     { value: "2", label: "ABK Dengan Pendamping" },
   ],
+  paymentType: [
+    { value: "bank_transfer", label: "Transfer bank" },
+    { value: "manual_transfer", label: "Transfer manual" },
+  ],
+  transactionStatus: [
+    { value: "canceled", label: "Dibatalkan" },
+    { value: "pending", label: "Tertunda" },
+    { value: "settlement", label: "Selesai" },
+  ],
 };
 
 export default Options;

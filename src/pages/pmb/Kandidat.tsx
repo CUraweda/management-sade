@@ -232,6 +232,7 @@ const Kandidat = () => {
 
         <div>
           <Select
+            placeholder="Semua"
             keyValue="value"
             keyDisplay="label"
             value={filter.approved}
@@ -242,9 +243,10 @@ const Kandidat = () => {
 
         <div>
           <Select
+            placeholder="Semua"
             keyValue="value"
             keyDisplay="label"
-            value={filter.approved}
+            value={filter.is_graduated}
             options={graduatedOptions}
             onChange={(e) =>
               setFilter({ ...filter, is_graduated: e.target.value })
