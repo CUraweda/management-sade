@@ -68,6 +68,8 @@ const PaymentApi = {
 const AttachmentApi = {
   showAllByCandidate: (candidateId: string): AxiosPromise<any> =>
     instance.get("/attachment/show-all/" + candidateId, {}),
+  getBuff: (path: string): AxiosPromise<any> =>
+    instance.post("/attachment/file-buff", { path }),
 };
 
 export { CandidateApi, PaymentApi, AttachmentApi };

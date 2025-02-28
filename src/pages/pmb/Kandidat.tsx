@@ -37,6 +37,7 @@ const Kandidat = () => {
   const { openDialog } = useDialog();
   const dialogListAttachments = "list-attacments";
   const dialogDetailCandidate = "detail-candidate";
+  const dialogViewAttachment = "view-attachment";
 
   const [filter, setFilter] = useState<any>({
     search_query: "",
@@ -89,9 +90,33 @@ const Kandidat = () => {
     if (data) getAttachments();
   }, [data]);
 
+  const [attachmentBuff, setAttachmentBuff] = useState<any>(null);
+  const getAttachmentBuff = async (path: string) => {
+    try {
+      const res = await AttachmentApi.getBuff(path);
+      setAttachmentBuff(res.data);
+
+      openDialog(dialogViewAttachment);
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Gagal mengambil lampiran kandidat",
+        target: document.getElementById(dialogListAttachments),
+      });
+    }
+  };
+
   return (
     <>
       <Header links={[{ l: "PMB" }]} title="Kandidat" />
+
+      <Dialog
+        title="Lihat lampiran"
+        id={dialogViewAttachment}
+        onClose={() => setAttachmentBuff(null)}
+      >
+        <img src={`data:image/png;base64,${attachmentBuff}`} alt="" />
+      </Dialog>
 
       <Dialog
         title={"Lampiran " + (data?.full_name ?? "")}
@@ -107,6 +132,7 @@ const Kandidat = () => {
               </span>
             </div>
             <div
+              onClick={() => getAttachmentBuff(dat.path)}
               className="btn  btn-square btn-sm join-item tooltip flex"
               data-tip="Lihat"
             >
