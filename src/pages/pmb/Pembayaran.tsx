@@ -9,6 +9,7 @@ import { FaCheckCircle } from "react-icons/fa";
 import { FaCircleXmark } from "react-icons/fa6";
 import { formatMoney } from "../../utils/String";
 import Select from "../../Component/Form/Select";
+import { Dialog, useDialog } from "../../Component/Dialog";
 
 const fullPaymentOptions: Option[] = [
   { value: "Y", label: "Pembayaran penuh" },
@@ -16,6 +17,9 @@ const fullPaymentOptions: Option[] = [
 ];
 
 const Pembayaran = () => {
+  const { openDialog } = useDialog();
+  const dialogViewProof = "dialog-view-proof";
+
   const [filter, setFilter] = useState<any>({
     search_query: "",
     payment_type: "",
@@ -48,9 +52,32 @@ const Pembayaran = () => {
     getDataList();
   }, [filter]);
 
+  const [proofBuffer, setProofBuffer] = useState<any>(null);
+  const getProofBuffer = async (path: string) => {
+    try {
+      const res = await PaymentApi.getBuff(path);
+      setProofBuffer(res.data);
+
+      openDialog(dialogViewProof);
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Gagal mengunduh bukti bayar",
+      });
+    }
+  };
+
   return (
     <>
       <Header links={[{ l: "PMB" }]} title="Pembayaran" />
+
+      <Dialog
+        title="Bukti bayar"
+        id={dialogViewProof}
+        onClose={() => setProofBuffer(null)}
+      >
+        <img src={`data:image/png;base64,${proofBuffer}`} alt="" />
+      </Dialog>
 
       <div className="flex flex-wrap gap-2 mx-4 mb-6">
         <Search onEnter={(v) => setFilter({ ...filter, search_query: v })} />
@@ -146,7 +173,12 @@ const Pembayaran = () => {
                     )?.label ?? ""}
                   </p>
                   {dat.payment_proof && (
-                    <button className="link text-primary">Bukti bayar</button>
+                    <button
+                      onClick={() => getProofBuffer(dat.payment_proof)}
+                      className="link text-primary"
+                    >
+                      Bukti bayar
+                    </button>
                   )}
                 </td>
               </tr>

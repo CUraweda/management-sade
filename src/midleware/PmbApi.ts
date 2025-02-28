@@ -61,6 +61,8 @@ const PaymentApi = {
     instance.get("/payment", {
       params,
     }),
+  getBuff: (path: string): AxiosPromise<any> =>
+    instance.post("/payment/file-buff", { path }),
 };
 
 const AttachmentApi = {
