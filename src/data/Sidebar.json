@@ -122,12 +122,12 @@
     "url": "",
     "subtitle": [
       {
-        "name": "Hasil Pendaftaran",
-        "url": "pmb/hasil-pendaftaran"
+        "name": "Pembayaran",
+        "url": "pmb/pembayaran"
       },
       {
-        "name": "Proses Daftar",
-        "url": "pmb/proses-daftar"
+        "name": "Kandidat",
+        "url": "pmb/kandidat"
       }
     ]
   }
