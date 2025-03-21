@@ -15,24 +15,24 @@ jobs:
     - name: Build
       run: npm run build
       env:
-        VITE_REACT_API_URL: ${{ secrets.VITE_REACT_API_URL }}
-        VITE_REACT_API_HRD_URL: ${{ secrets.VITE_REACT_API_HRD_URL }}
-        VITE_REACT_API_TICKETING_URL: ${{ secrets.VITE_REACT_API_TICKETING_URL }}
-        VITE_REACT_API_PMB_URL: ${{ secrets.VITE_REACT_API_PMB_URL }}
-        VITE_REACT_TICKETING_API_KEY: ${{ secrets.VITE_REACT_TICKETING_API_KEY }}
-        VITE_REACT_PMB_EMAIL: ${{ secrets.VITE_REACT_PMB_EMAIL }}
-        VITE_REACT_PMB_PASSWORD: ${{ secrets.VITE_REACT_PMB_PASSWORD }}
+        VITE_REACT_API_URL: ${{ secrets.secret.VITE_REACT_API_URL }}
+        VITE_REACT_API_HRD_URL: ${{ secrets.secret.VITE_REACT_API_HRD_URL }}
+        VITE_REACT_API_TICKETING_URL: ${{ secrets.secret.VITE_REACT_API_TICKETING_URL }}
+        VITE_REACT_API_PMB_URL: ${{ secrets.secret.VITE_REACT_API_PMB_URL }}
+        VITE_REACT_TICKETING_API_KEY: ${{ secrets.secret.VITE_REACT_TICKETING_API_KEY }}
+        VITE_REACT_PMB_EMAIL: ${{ secrets.secret.VITE_REACT_PMB_EMAIL }}
+        VITE_REACT_PMB_PASSWORD: ${{ secrets.secret.VITE_REACT_PMB_PASSWORD }}
     - name: Debug Secrets
       run: |
-        echo "FTP Server: ${{ secrets.FTP_HOSTNAME }}"
-        echo "Username: ${{ secrets.FTP_USERNAME }}"
+        echo "FTP Server: ${{ secrets.secret.FTP_HOSTNAME }}"
+        echo "Username: ${{ secrets.secret.FTP_USERNAME }}"
       
     - name: Upload to cPanel
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
-        server: ${{ secrets.FTP_HOSTNAME }}
-        username: ${{ secrets.FTP_USERNAME }}
-        password: ${{ secrets.FTP_PASSWORD }}
+        server: ${{ secrets.secret.FTP_HOSTNAME }}
+        username: ${{ secrets.secret.FTP_USERNAME }}
+        password: ${{ secrets.secret.FTP_PASSWORD }}
         local-dir: ./dist/
         server-dir: /public_html/management.curaweda.com/
 
