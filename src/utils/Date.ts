@@ -15,3 +15,7 @@ export const formatTime = (
   if (!time) return fb;
   return moment.parseZone(time).locale(locale).format(format);
 };
+
+export const getAge = (dob?: string) => {
+  return dob ? moment().diff(moment(dob), "years") + " tahun" : "- tahun";
+};
