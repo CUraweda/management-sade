@@ -22,6 +22,11 @@ jobs:
         VITE_REACT_TICKETING_API_KEY: ${{ secrets.VITE_REACT_TICKETING_API_KEY }}
         VITE_REACT_PMB_EMAIL: ${{ secrets.VITE_REACT_PMB_EMAIL }}
         VITE_REACT_PMB_PASSWORD: ${{ secrets.VITE_REACT_PMB_PASSWORD }}
+    - name: Debug Secrets
+      run: |
+        echo "FTP Server: ${{ secrets.FTP_HOSTNAME }}"
+        echo "Username: ${{ secrets.FTP_USERNAME }}"
+      
     - name: Upload to cPanel
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
@@ -29,4 +34,5 @@ jobs:
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         local-dir: ./dist/
-        server-dir: / # Ganti dengan path direktori di cPanel Anda
+        server-dir: /public_html/management.curaweda.com/
+
