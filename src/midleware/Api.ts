@@ -32,6 +32,67 @@ const Auth = {
     }),
 };
 
+const Guru = {
+  GetDataLesonPlan: (token: string | null): AxiosPromise<any> =>
+    instance({
+      method: `GET`,
+      url: `/lesson-plan/show-rekap-teacher`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+  GetFullDataOdfyc: (
+    token: string | null,
+    params?: Record<string, any>
+  ): AxiosPromise<any> =>
+    instance({
+      method: `GET`,
+      url: `/for-country-detail`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params,
+    }),
+  GetDataOdfyc: (token: string | null): AxiosPromise<any> =>
+    instance({
+      method: `GET`,
+      url: `/for-country-detail/show-total`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+  GetDataTablePresensi: (
+    token: string | null,
+    transport: string,
+    start_date: string,
+    end_date: string,
+    params?: Record<string, any>
+  ): AxiosPromise<any> =>
+    instance({
+      method: `GET`,
+      url: `/student-attendance?transport=${transport}&start_date=${start_date}&end_date=${end_date}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params,
+    }),
+  GetDataCardPresensi: (
+    token: string | null,
+    transport: string,
+    start_date: string,
+    end_date: string,
+    params?: Record<string, any>
+  ): AxiosPromise<any> =>
+    instance({
+      method: `GET`,
+      url: `/student-attendance/show-by-transport?transport=${transport}&start_date=${start_date}&end_date=${end_date}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params,
+    }),
+};
+
 const DaftarDataPetugas = {
   GetDataPetugas: (
     token: string | null,
@@ -439,6 +500,7 @@ const KeuanganApi = {
 
 export {
   Auth,
+  Guru,
   BankSampah,
   ApiSiswa,
   Kelas,
