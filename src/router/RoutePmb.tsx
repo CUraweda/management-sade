@@ -1,15 +1,15 @@
 import { RouteObject } from "react-router-dom";
-import HasilPendaftaran from "../pages/pmb/HasilPendaftaran";
-import ProsesPendaftaran from "../pages/pmb/ProsesPendaftaran";
+import Kandidat from "../pages/pmb/Kandidat";
+import Pembayaran from "../pages/pmb/Pembayaran";
 
 const RoutePmb: RouteObject[] = [
   {
-    path: "hasil-pendaftaran",
-    element: <HasilPendaftaran />,
+    path: "pembayaran",
+    element: <Pembayaran />,
   },
   {
-    path: "proses-daftar",
-    element: <ProsesPendaftaran />,
+    path: "kandidat",
+    element: <Kandidat />,
   },
 ];
 
