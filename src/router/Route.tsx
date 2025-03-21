@@ -5,6 +5,7 @@ import Login from "../pages/Login";
 import RouteBankSampah from "./RouteBankSampah";
 import RouteKeuangan from "./RouteKeuangan";
 import RouteHrd from "./RouteHrd";
+import RoutePmb from "./RoutePmb";
 
 const Route: ReturnType<typeof createBrowserRouter> = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ const Route: ReturnType<typeof createBrowserRouter> = createBrowserRouter([
       {
         path: "hrd",
         children: RouteHrd,
+      },
+      {
+        path: "pmb",
+        children: RoutePmb,
       },
     ],
   },
