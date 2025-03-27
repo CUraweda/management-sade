@@ -17,6 +17,11 @@ interface Props {
 
 const DateRangePicker = ({ value, onChange }: Props) => {
   const [option, setOption] = useState<string>("");
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
     let start = "",
@@ -33,10 +38,7 @@ const DateRangePicker = ({ value, onChange }: Props) => {
       end = moment().add(1, "day").format("YYYY-MM-DD");
     }
 
-    onChange({
-      start,
-      end,
-    });
+    if (isMounted) onChange({ start, end });
   }, [option]);
 
   return (

@@ -98,7 +98,7 @@ const Pengumuman = () => {
                   <p className="max-w-lg">{dat.announcement_desc ?? ""}</p>
                 </td>
                 <td>
-                  <p>{dat.class?.class_name ?? ""}</p>
+                  <p>{dat.class?.class_name ?? "Semua kelas"}</p>
                 </td>
                 <td>
                   <button
