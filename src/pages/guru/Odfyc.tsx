@@ -39,7 +39,7 @@ const ODFYC = () => {
   const renderSkeletonCard = () => (
     <div className="p-6">
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 bg-white rounded-lg shadow-lg p-6">
-        {Array.from({ length: 3 }).map((_, index) => (
+        {Array.from({ length: 3 })?.map((_, index) => (
           <div
             key={index}
             className="flex flex-col gap-4 border-r sm:border-r-2 last:border-none sm:last:border-none border-gray-200"
@@ -82,7 +82,7 @@ const ODFYC = () => {
           </tr>
         </thead>
         <tbody>
-          {Array.from({ length: 5 }).map((_, index) => (
+          {Array.from({ length: 5 })?.map((_, index) => (
             <tr key={index} className="bg-white">
               <td className="px-4 py-1 text-center">
                 <div className="h-4 bg-gray-300 rounded w-12 mx-auto"></div>
@@ -182,7 +182,7 @@ const ODFYC = () => {
               </tr>
             </thead>
             <tbody>
-              {fetchData.map((item, index) => (
+              {fetchData?.map((item, index) => (
                 <tr className="bg-white" key={index}>
                   <th className="px-4 py-1 text-center text-[#404040] font-light">
                     {filter.page * 10 + index + 1}
@@ -201,7 +201,7 @@ const ODFYC = () => {
                   </td>
                   <td className="px-6 py-4 text-[#404040] font-light text-center">
                     {item?.plan_date
-                      ? JSON.parse(item?.plan_date).map(
+                      ? JSON.parse(item?.plan_date)?.map(
                           (plan: any, index: number) => (
                             <div key={index}>
                               <span>{plan?.date}</span>
@@ -212,7 +212,7 @@ const ODFYC = () => {
                   </td>
                   <td className="px-6 py-4 text-[#404040] font-light text-center">
                     {item?.plan_date
-                      ? JSON.parse(item.plan_date).map(
+                      ? JSON.parse(item.plan_date)?.map(
                           (plan: any, index: number) => {
                             if (plan?.start && plan?.end) {
                               const startTime = plan.start.split(":");
